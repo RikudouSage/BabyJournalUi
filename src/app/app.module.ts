@@ -49,6 +49,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { SharingComponent } from './pages/settings/sharing/sharing.component';
 import { TypePipe } from './pipes/type.pipe';
 import { InviteComponent } from './pages/settings/invite/invite.component';
+import { ConfirmDialog } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -71,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharingComponent,
     TypePipe,
     InviteComponent,
+    ConfirmDialog,
   ],
   imports: [
     BrowserModule,

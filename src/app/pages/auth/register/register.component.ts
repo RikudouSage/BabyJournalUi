@@ -54,6 +54,10 @@ export class RegisterComponent implements OnInit {
       this.createForm.controls.parentalUnitId.value || null,
     );
 
+    if (this.createForm.controls.parentalUnitId.value) {
+      await this.api.refreshShareCode();
+    }
+
     await this.router.navigateByUrl('/');
   }
 

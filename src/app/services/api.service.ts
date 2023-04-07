@@ -32,7 +32,7 @@ export class ApiService {
   ) {
   }
 
-  public async register(name: string | null, familyName: string | null, parentalUnitId: string | null) {
+  public async register(name: string | null, familyName: string | null, parentalUnitId: string | null): Promise<void> {
     if (parentalUnitId === null) {
       await this.encryptor.createKey();
     }
@@ -54,5 +54,9 @@ export class ApiService {
     }));
 
     this.userManager.login(response.id);
+  }
+
+  public async refreshShareCode(): Promise<void> {
+    await lastValueFrom(this.httpClient.post<void>(`${this.apiUrl}/account/refresh-share-code`, {}));
   }
 }
