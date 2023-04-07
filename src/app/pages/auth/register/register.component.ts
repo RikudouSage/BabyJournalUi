@@ -4,7 +4,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {ApiService} from "../../../services/api.service";
 import {Router} from "@angular/router";
 
-type Step = 'create' | 'invitationCode' | 'migrate';
+type Step = 'create' | 'invitationCode' | 'migrate' | 'restore';
 
 @Component({
   selector: 'app-register',

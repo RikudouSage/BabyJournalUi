@@ -3,6 +3,7 @@
 <ng-template #content>
   <div class="buttons" *ngIf="step === null">
     <button mat-raised-button color="primary" (click)="step = 'create'">{{"Create new account" | translate}}</button>
+    <button mat-raised-button color="primary" (click)="step = 'restore'">{{"Restore account" | translate}}</button>
     <button mat-raised-button color="accent">{{"Use invitation code" | translate}}</button>
     <button mat-raised-button color="accent">{{"Advanced" | translate}}</button>
   </div>
