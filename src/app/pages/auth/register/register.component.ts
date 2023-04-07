@@ -4,13 +4,14 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ApiService} from "../../../services/api.service";
 import {Router} from "@angular/router";
 import {EncryptorService} from "../../../services/encryptor.service";
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {isUuid} from "../../../helper/uuid";
 import {UserManagerService} from "../../../services/user-manager.service";
 import {DatabaseService} from "../../../services/database.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
-type Step = 'create' | 'invitationCode' | 'migrate' | 'restore';
+type Step = 'create' | 'invitationCode' | 'advanced' | 'restore';
 
 @Component({
   selector: 'app-register',
@@ -27,6 +28,9 @@ export class RegisterComponent implements OnInit {
   public loginFromCodeForm = new FormGroup({
     code: new FormControl('', [Validators.required]),
   });
+  public advancedForm = new FormGroup({
+    apiUrl: new FormControl(this.api.apiUrl),
+  });
 
   public loading = false;
   public codeLoginError: Observable<string> | null = null;
@@ -39,6 +43,7 @@ export class RegisterComponent implements OnInit {
     private readonly translator: TranslateService,
     private readonly userManager: UserManagerService,
     private readonly database: DatabaseService,
+    private readonly snackBar: MatSnackBar,
   ) {
   }
 
@@ -105,5 +110,18 @@ export class RegisterComponent implements OnInit {
     await this.encryptor.restoreKey(parts[0], parts[1]);
 
     return parts[2];
+  }
+
+  public async saveAdvancedSettings() {
+    this.api.apiUrl = this.advancedForm.controls.apiUrl.value || null;
+    this.step = null;
+
+    this.snackBar.open(
+      await lastValueFrom(this.translator.get('Custom api URL has been set')),
+      await lastValueFrom(this.translator.get('Dismiss')),
+      {
+        duration: 10_000,
+      },
+    );
   }
 }
