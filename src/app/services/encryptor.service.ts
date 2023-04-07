@@ -58,7 +58,7 @@ export class EncryptorService {
     return entity;
   }
 
-  public async exportKey() {
+  public async exportKey(): Promise<string> {
     const key = await this.database.getCryptoKey();
     const privateKey = key.privateKey;
     const publicKey = key.publicKey;
@@ -67,5 +67,26 @@ export class EncryptorService {
     const exportedPublicKey = fromByteArray(new Uint8Array(await window.crypto.subtle.exportKey('spki', publicKey)));
 
     return `${exportedPrivateKey}:::${exportedPublicKey}`;
+  }
+
+  public async restoreKey(privateKey: string, publicKey: string): Promise<void> {
+    const privateKeyByteArray = toByteArray(privateKey);
+    const publicKeyByteArray = toByteArray(publicKey);
+
+    const privateKeyObj = await window.crypto.subtle.importKey('pkcs8', privateKeyByteArray, {
+      name: 'RSA-OAEP',
+      hash: 'SHA-512',
+    }, true, ['decrypt']);
+    const publicKeyObj = await window.crypto.subtle.importKey('spki', publicKeyByteArray, {
+      name: 'RSA-OAEP',
+      hash: 'SHA-512',
+    }, true, ['encrypt']);
+
+    const pair: CryptoKeyPair = {
+      publicKey: publicKeyObj,
+      privateKey: privateKeyObj,
+    };
+
+    await this.database.storeCryptoKey(pair);
   }
 }

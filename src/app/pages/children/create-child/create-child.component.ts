@@ -2,7 +2,7 @@ import {AfterContentInit, AfterViewInit, Component, OnInit, Type} from '@angular
 import {TitleService} from "../../../services/title.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Gender} from "../../../enum/gender.enum";
-import {AppValidators} from "../../../validator/app-validators";
+import {AppValidators} from "../../../helper/app-validators";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {Child, ChildRepository} from "../../../entity/child.entity";

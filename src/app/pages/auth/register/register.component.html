@@ -25,4 +25,24 @@
       <button class="submit" mat-raised-button color="primary">{{"Create account" | translate}}</button>
     </form>
   </div>
+
+  <div *ngIf="step === 'restore'">
+    <form [formGroup]="restoreForm" (submit)="restore()">
+      <p>{{"Please provide the account code you exported from the app earlier." | translate}}</p>
+
+      <mat-error *ngIf="restoreError !== null">
+        {{restoreError | async}}
+      </mat-error>
+
+      <mat-form-field>
+        <mat-label>{{"Account code" | translate}}</mat-label>
+        <textarea matInput formControlName="restoreCode"></textarea>
+        <mat-error *ngIf="true">
+          {{"This field is required." | translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <button class="submit" mat-raised-button color="primary">{{"Restore account" | translate}}</button>
+    </form>
+  </div>
 </ng-template>

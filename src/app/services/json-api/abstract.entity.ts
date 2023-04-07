@@ -1,12 +1,13 @@
 import {lastValueFrom, Observable} from 'rxjs';
 import {DocumentCollection} from './document-collection';
 import {EncryptedValue} from "../../dto/encrypted-value";
+import {isUuid} from "../../helper/uuid";
 
 export type ValueConverter = (value: any) => boolean;
 
 export const EncryptedString: ValueConverter = (value: string) => true;
 export const EncryptedNullableString: ValueConverter = (value: string | null) => typeof value === 'string';
-export const EncryptedStringOrUuid: ValueConverter = (value: string) => !/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi.test(value);
+export const EncryptedStringOrUuid: ValueConverter = (value: string) => !isUuid(value);
 
 export interface Relationships {
   [key: string]: Observable<DocumentCollection<any> | AbstractEntity | null>;

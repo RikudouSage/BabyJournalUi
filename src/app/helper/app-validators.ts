@@ -1,5 +1,4 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
-import {Validator} from "./validator";
 
 export class AppValidators {
   public static isEnum(enumType: any): ValidatorFn {
@@ -17,5 +16,4 @@ export class AppValidators {
       };
     }
   }
-
 }
