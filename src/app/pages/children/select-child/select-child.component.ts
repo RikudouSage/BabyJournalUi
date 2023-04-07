@@ -6,6 +6,8 @@ import {UserManagerService} from "../../../services/user-manager.service";
 import {lastValueFrom, of} from "rxjs";
 import {UserRepository} from "../../../entity/user.entity";
 import {TranslateService} from "@ngx-translate/core";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialog} from "../../../components/dialogs/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-select-child',
@@ -25,11 +27,16 @@ export class SelectChildComponent implements OnInit {
     private readonly userManager: UserManagerService,
     private readonly userRepository: UserRepository,
     private readonly translator: TranslateService,
+    private readonly dialog: MatDialog,
   ) {
   }
 
   async ngOnInit(): Promise<void> {
     this.titleService.title = this.translator.get('Your children');
+    await this.reloadData();
+  }
+
+  private async reloadData() {
     this.currentlySelected = await lastValueFrom((await this.userManager.getCurrentUser()).relationships.selectedChild);
 
     this.childRepository.collection().subscribe(async children => {
@@ -52,6 +59,26 @@ export class SelectChildComponent implements OnInit {
           this.currentlySelected = child;
         });
       });
+    });
+  }
+
+  public async confirmDelete(child: Child) {
+    const dialog = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: this.translator.get('Remove child'),
+        description: this.translator.get('Are you sure you want to remove child {{child}}? You cannot take this action back.', {
+          child: typeof child.attributes.displayName === 'string' ? child.attributes.displayName : child.attributes.displayName.decrypted,
+        }),
+      }
+    });
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.loading = true;
+        this.childRepository.delete(child).subscribe(async () => {
+          await this.reloadData();
+          this.loading = false;
+        });
+      }
     });
   }
 }
