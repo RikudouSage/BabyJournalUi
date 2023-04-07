@@ -37,6 +37,11 @@ export class UserManagerService {
     this.isLoggedIn();
   }
 
+  public logout() {
+    localStorage.removeItem(this.localStorageUserIdName);
+    this.isLoggedIn();
+  }
+
   public async getCurrentUser(): Promise<User> {
     return await lastValueFrom(this.userRepository.get('me', {
       include: ['selectedChild'],

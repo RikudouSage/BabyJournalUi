@@ -30,6 +30,17 @@ export class DatabaseService {
     return (await store.get('cryptoKey')).value;
   }
 
+  public async deleteAll() {
+    const stores = [this.storeNameSettings];
+    const db = await this.open();
+    for (const storeName of stores) {
+      const tx = db.transaction(storeName, 'readwrite');
+      const store = tx.objectStore(storeName);
+      await store.clear();
+      await tx.done;
+    }
+  }
+
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
       this.db = await openDB(this.databaseName, 1, {

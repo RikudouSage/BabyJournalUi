@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{"Warning" | translate}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>{{"If you haven't exported your account, you won't be able to log in again." | translate}}</strong></p>
+    <p [innerHTML]="'You can go to {{Settings}} to export your account.' | translate:{Settings: 'Settings' | translate}"></p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="warn" (click)="logout()">{{"Logout" | translate}}</button>
+    <a routerLink="/settings/export" mat-raised-button color="primary">{{"Go to settings" | translate}}</a>
+  </mat-card-actions>
+</mat-card>

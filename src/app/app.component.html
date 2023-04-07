@@ -11,6 +11,7 @@
       <ng-template #menu>
         <a mat-list-item routerLink="/" (click)="drawer.toggle(false)">{{"Activities" | translate}}</a>
         <a mat-list-item routerLink="/children/select-child" (click)="drawer.toggle(false)">{{"Your children" | translate}}</a>
+        <a mat-list-item routerLink="/auth/logout" (click)="drawer.toggle(false)">{{"Logout" | translate}}</a>
       </ng-template>
     </mat-nav-list>
   </mat-sidenav>

@@ -28,3 +28,13 @@ a.right-corner-fab, button.right-corner-fab {
   right: 25px;
   bottom: 25px;
 }
+
+mat-card-actions {
+  [mat-raised-button] {
+    margin-right: 1vw;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

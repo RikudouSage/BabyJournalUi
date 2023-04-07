@@ -38,6 +38,7 @@ import { FeedingComponent } from './pages/activities/feeding/feeding.component';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppMissingTranslationsHandler} from "./services/app-missing-translations-handler";
+import { LogoutComponent } from './pages/auth/logout/logout.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -52,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SelectChildComponent,
     EncryptedOrStringValuePipe,
     FeedingComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,

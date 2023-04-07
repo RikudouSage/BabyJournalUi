@@ -8,11 +8,17 @@ import {CreateChildComponent} from "./pages/children/create-child/create-child.c
 import {SelectChildComponent} from "./pages/children/select-child/select-child.component";
 import {FeedingComponent} from "./pages/activities/feeding/feeding.component";
 import {ChildIsSelectedGuard} from "./services/child-is-selected.guard";
+import {LogoutComponent} from "./pages/auth/logout/logout.component";
 
 const routes: Routes = [
   {
     path: 'auth/register',
     component: RegisterComponent,
+  },
+  {
+    path: 'auth/logout',
+    component: LogoutComponent,
+    canActivate: [IsLoggedInGuard],
   },
   {
     path: '',
