@@ -32,8 +32,10 @@ export class ApiService {
   ) {
   }
 
-  public async register(name: string | null, familyName: string | null) {
-    await this.encryptor.createKey();
+  public async register(name: string | null, familyName: string | null, parentalUnitId: string | null) {
+    if (parentalUnitId === null) {
+      await this.encryptor.createKey();
+    }
     if (name !== null) {
       name = await this.encryptor.encrypt(name);
     }
@@ -44,6 +46,7 @@ export class ApiService {
     const response = await lastValueFrom(this.httpClient.post<{id: string}>(`${this.apiUrl}/account/create`, {
       name: name,
       parentalUnitName: familyName,
+      parentalUnitId: parentalUnitId,
     }, {
       headers: {
         'X-No-User-Id': '1',

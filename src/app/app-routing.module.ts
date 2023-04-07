@@ -12,6 +12,8 @@ import {LogoutComponent} from "./pages/auth/logout/logout.component";
 import {SettingsComponent} from "./pages/settings/settings/settings.component";
 import {AccountSettingsComponent} from "./pages/settings/account/account-settings.component";
 import {ExportAccountComponent} from "./pages/settings/export-account/export-account.component";
+import {SharingComponent} from "./pages/settings/sharing/sharing.component";
+import {InviteComponent} from "./pages/settings/invite/invite.component";
 
 const routes: Routes = [
   {
@@ -63,6 +65,16 @@ const routes: Routes = [
     component: ExportAccountComponent,
     canActivate: [IsLoggedInGuard],
   },
+  {
+    path: 'settings/account/sharing',
+    component: SharingComponent,
+    canActivate: [IsLoggedInGuard],
+  },
+  {
+    path: 'settings/account/sharing/invite',
+    component: InviteComponent,
+    canActivate: [IsLoggedInGuard],
+  }
 ];
 
 @NgModule({

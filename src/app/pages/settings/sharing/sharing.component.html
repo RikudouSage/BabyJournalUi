@@ -1,0 +1,31 @@
+<mat-spinner *ngIf="loading else content"></mat-spinner>
+
+<ng-template #content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{"Users" | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list *ngIf="users !== null && currentUser !== null"> <!-- just to stop pointless type checks -->
+        <mat-list-item *ngFor="let user of users; let last = last" [lines]="1">
+          <div class="wrapper">
+            <div>
+              <strong>
+                {{(user.attributes.displayName | type) === 'string' ? user.attributes.displayName : $any(user.attributes.displayName).decrypted}}
+              </strong>
+              <small *ngIf="user.id === currentUser.id">{{"(this is you)" | translate}}</small>
+            </div>
+            <button mat-icon-button class="delete-button" [disabled]="user.id === currentUser.id" color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+        <mat-divider *ngIf="!last"></mat-divider>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <a class="right-corner-fab" mat-fab color="primary" routerLink="/settings/account/sharing/invite">
+    <mat-icon>person_add</mat-icon>
+  </a>
+</ng-template>

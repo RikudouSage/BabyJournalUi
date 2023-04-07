@@ -4,7 +4,7 @@
   <div class="buttons" *ngIf="step === null">
     <button mat-raised-button color="primary" (click)="step = 'create'">{{"Create new account" | translate}}</button>
     <button mat-raised-button color="primary" (click)="step = 'restore'">{{"Restore account" | translate}}</button>
-    <button mat-raised-button color="accent">{{"Use invitation code" | translate}}</button>
+    <button mat-raised-button color="accent" (click)="step = 'invitationCode'">{{"Use invitation code" | translate}}</button>
     <button mat-raised-button color="accent">{{"Advanced" | translate}}</button>
   </div>
 
@@ -16,7 +16,7 @@
         <mat-hint>{{"(optional)" | translate}}</mat-hint>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="!createForm.controls.parentalUnitId.value">
         <mat-label>{{"Family name" | translate}}</mat-label>
         <input matInput formControlName="familyName" />
         <mat-hint>{{"(optional)" | translate}}</mat-hint>
@@ -27,22 +27,42 @@
   </div>
 
   <div *ngIf="step === 'restore'">
-    <form [formGroup]="restoreForm" (submit)="restore()">
+    <form [formGroup]="loginFromCodeForm" (submit)="restore()">
       <p>{{"Please provide the account code you exported from the app earlier." | translate}}</p>
 
-      <mat-error *ngIf="restoreError !== null">
-        {{restoreError | async}}
+      <mat-error *ngIf="codeLoginError !== null">
+        {{codeLoginError | async}}
       </mat-error>
 
       <mat-form-field>
         <mat-label>{{"Account code" | translate}}</mat-label>
-        <textarea matInput formControlName="restoreCode"></textarea>
+        <textarea matInput formControlName="code"></textarea>
         <mat-error *ngIf="true">
           {{"This field is required." | translate}}
         </mat-error>
       </mat-form-field>
 
       <button class="submit" mat-raised-button color="primary">{{"Restore account" | translate}}</button>
+    </form>
+  </div>
+
+  <div *ngIf="step === 'invitationCode'">
+    <form [formGroup]="loginFromCodeForm" (submit)="loginFromInvite()">
+      <p>{{"Please provide the invitation code you received." | translate}}</p>
+
+      <mat-error *ngIf="codeLoginError !== null">
+        {{codeLoginError | async}}
+      </mat-error>
+
+      <mat-form-field>
+        <mat-label>{{"Invitation code" | translate}}</mat-label>
+        <textarea matInput formControlName="code"></textarea>
+        <mat-error *ngIf="true">
+          {{"This field is required." | translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <button class="submit" mat-raised-button color="primary">{{"Create account" | translate}}</button>
     </form>
   </div>
 </ng-template>

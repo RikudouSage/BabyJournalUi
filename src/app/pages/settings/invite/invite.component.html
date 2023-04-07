@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-content>
+    <p>{{"Here you can create an invite code for someone." | translate}}</p>
+    <p>{{"The person you invite will have the same rights as you do, including the option of removing you from the family." | translate}}</p>
+    <p>{{"The code contains encryption keys used to encrypt all data in this app, so make sure you're sending it in a secure way." | translate}}</p>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="copyInviteCode()">{{"Copy invite code" | translate}}</button>
+    </mat-card-actions>
+  </mat-card-footer>
+</mat-card>

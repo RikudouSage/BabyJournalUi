@@ -46,6 +46,9 @@ import { ChangeNameDialogComponent } from './components/dialogs/change-name-dial
 import {MatDialogModule} from "@angular/material/dialog";
 import { ExportAccountComponent } from './pages/settings/export-account/export-account.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { SharingComponent } from './pages/settings/sharing/sharing.component';
+import { TypePipe } from './pipes/type.pipe';
+import { InviteComponent } from './pages/settings/invite/invite.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -65,6 +68,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AccountSettingsComponent,
     ChangeNameDialogComponent,
     ExportAccountComponent,
+    SharingComponent,
+    TypePipe,
+    InviteComponent,
   ],
   imports: [
     BrowserModule,
