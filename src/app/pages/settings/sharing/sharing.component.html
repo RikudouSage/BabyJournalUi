@@ -7,7 +7,7 @@
     </mat-card-header>
     <mat-card-content>
       <mat-list *ngIf="users !== null && currentUser !== null"> <!-- just to stop pointless type checks -->
-        <mat-list-item *ngFor="let user of users; let last = last" [lines]="1">
+        <mat-list-item *ngFor="let user of users" [lines]="1">
           <div class="wrapper">
             <div>
               <strong>
@@ -20,7 +20,7 @@
             </button>
           </div>
         </mat-list-item>
-        <mat-divider *ngIf="!last"></mat-divider>
+        <mat-divider></mat-divider>
       </mat-list>
     </mat-card-content>
   </mat-card>

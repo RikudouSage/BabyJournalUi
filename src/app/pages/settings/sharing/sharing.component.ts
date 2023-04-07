@@ -33,6 +33,4 @@ export class SharingComponent implements OnInit {
       this.loading = false;
     });
   }
-
-  protected readonly last = last;
 }

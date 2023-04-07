@@ -30,7 +30,7 @@ export class InviteComponent implements OnInit {
     const user = await this.userManager.getCurrentUser();
     const parentalUnit = await lastValueFrom(user.relationships.parentalUnit);
     const keys = await this.encryptor.exportKey();
-    const inviteCode = `${keys}:::${parentalUnit.id}`;
+    const inviteCode = `${keys}:::${parentalUnit.attributes.shareCode}`;
 
     await navigator.clipboard.writeText(inviteCode);
 

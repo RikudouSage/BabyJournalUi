@@ -8,8 +8,10 @@ export class ParentalUnit extends AbstractEntity {
 
   override attributes: {
     name: EncryptedValue | null,
+    shareCode: string,
   } = {
     name: null,
+    shareCode: '',
   };
 
   override encryptedValueConvertors = {
