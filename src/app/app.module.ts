@@ -18,7 +18,7 @@ import {ActivityListComponent} from './pages/activities/activity-list/activity-l
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./services/auth-interceptor.service";
 import { CreateChildComponent } from './pages/children/create-child/create-child.component';
 import {MatRadioModule} from "@angular/material/radio";
@@ -35,6 +35,13 @@ import {LeisureActivity} from "./activity/leisure.activity";
 import {MedicalActivity} from "./activity/medical.activity";
 import {OtherActivity} from "./activity/other.activity";
 import { FeedingComponent } from './pages/activities/feeding/feeding.component';
+import {MissingTranslationHandler, TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {AppMissingTranslationsHandler} from "./services/app-missing-translations-handler";
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
+}
 
 @NgModule({
   declarations: [
@@ -67,6 +74,18 @@ import { FeedingComponent } from './pages/activities/feeding/feeding.component';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
+      missingTranslationHandler: {
+        provide: MissingTranslationHandler,
+        useClass: AppMissingTranslationsHandler,
+      },
+    }),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

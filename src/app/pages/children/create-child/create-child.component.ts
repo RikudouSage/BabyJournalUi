@@ -12,6 +12,7 @@ import {UserRepository} from "../../../entity/user.entity";
 import {UserManagerService} from "../../../services/user-manager.service";
 import {of} from "rxjs";
 import {Router} from "@angular/router";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-create-first',
@@ -44,11 +45,12 @@ export class CreateChildComponent implements OnInit {
     private readonly userRepository: UserRepository,
     private readonly userManager: UserManagerService,
     private readonly router: Router,
+    private readonly translator: TranslateService,
   ) {
   }
 
   public ngOnInit(): void {
-    this.titleService.title = 'Add child';
+    this.titleService.title = this.translator.get('Add child');
   }
 
   public async addChild() {

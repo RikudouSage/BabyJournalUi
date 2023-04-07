@@ -20,8 +20,6 @@ export class ActivityListComponent implements OnInit {
     private readonly userManager: UserManagerService,
     private readonly encryptor: EncryptorService,
     @Inject(ACTIVITIES) public readonly activities: Activity[],
-    public readonly router: Router,
-    public readonly childRepository: ChildRepository,
   ) {
   }
 

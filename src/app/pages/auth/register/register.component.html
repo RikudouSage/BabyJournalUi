@@ -2,26 +2,26 @@
 
 <ng-template #content>
   <div class="buttons" *ngIf="step === null">
-    <button mat-raised-button color="primary" (click)="step = 'create'">Create new account</button>
-    <button mat-raised-button color="accent">Use invitation code</button>
-    <button mat-raised-button color="accent">Advanced</button>
+    <button mat-raised-button color="primary" (click)="step = 'create'">{{"Create new account" | translate}}</button>
+    <button mat-raised-button color="accent">{{"Use invitation code" | translate}}</button>
+    <button mat-raised-button color="accent">{{"Advanced" | translate}}</button>
   </div>
 
   <div *ngIf="step === 'create'">
     <form [formGroup]="createForm" (submit)="register()">
       <mat-form-field>
-        <mat-label>Your name</mat-label>
+        <mat-label>{{"Your name" | translate}}</mat-label>
         <input matInput formControlName="name" />
-        <mat-hint>(optional)</mat-hint>
+        <mat-hint>{{"(optional)" | translate}}</mat-hint>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Family name</mat-label>
+        <mat-label>{{"Family name" | translate}}</mat-label>
         <input matInput formControlName="familyName" />
-        <mat-hint>(optional)</mat-hint>
+        <mat-hint>{{"(optional)" | translate}}</mat-hint>
       </mat-form-field>
 
-      <button class="submit" mat-raised-button color="primary">Create account</button>
+      <button class="submit" mat-raised-button color="primary">{{"Create account" | translate}}</button>
     </form>
   </div>
 </ng-template>

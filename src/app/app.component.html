@@ -6,11 +6,11 @@
   >
     <mat-nav-list>
       <ng-container *ngIf="!(isLoggedIn | async); else menu">
-        <p class="please-login">Please log in first</p>
+        <p class="please-login">{{"Please log in first" | translate}}</p>
       </ng-container>
       <ng-template #menu>
-        <a mat-list-item routerLink="/" (click)="drawer.toggle(false)">Activities</a>
-        <a mat-list-item routerLink="/children/select-child" (click)="drawer.toggle(false)">Your children</a>
+        <a mat-list-item routerLink="/" (click)="drawer.toggle(false)">{{"Activities" | translate}}</a>
+        <a mat-list-item routerLink="/children/select-child" (click)="drawer.toggle(false)">{{"Your children" | translate}}</a>
       </ng-template>
     </mat-nav-list>
   </mat-sidenav>

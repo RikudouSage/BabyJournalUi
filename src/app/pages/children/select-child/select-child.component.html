@@ -12,9 +12,9 @@
             mat-raised-button
             color="primary"
             (click)="setAsActive(child)"
-          >Select child</button>
+          >{{"Select child" | translate}}</button>
           <ng-template #activeChild>
-            <button mat-raised-button disabled>(currently selected)</button>
+            <button mat-raised-button disabled>{{"(currently selected)" | translate}}</button>
           </ng-template>
         </mat-card-content>
       </mat-card>

@@ -3,35 +3,35 @@
 <ng-template #content>
   <form [formGroup]="form" (submit)="addChild()">
     <mat-form-field>
-      <mat-label>Name</mat-label>
-      <mat-hint>(optional)</mat-hint>
+      <mat-label>{{"Name" | translate}}</mat-label>
+      <mat-hint>{{"(optional)" | translate}}</mat-hint>
       <input matInput formControlName="name"/>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Gender</mat-label>
-      <mat-hint>(optional)</mat-hint>
+      <mat-label>{{"Gender" | translate}}</mat-label>
+      <mat-hint>{{"(optional)" | translate}}</mat-hint>
       <mat-select formControlName="gender">
-        <mat-option>None</mat-option>
-        <mat-option [value]="Gender.Male">Boy</mat-option>
-        <mat-option [value]="Gender.Female">Girl</mat-option>
-        <mat-option [value]="Gender.Other">Other</mat-option>
+        <mat-option>{{"None" | translate}}</mat-option>
+        <mat-option [value]="Gender.Male">{{"Boy" | translate}}</mat-option>
+        <mat-option [value]="Gender.Female">{{"Girl" | translate}}</mat-option>
+        <mat-option [value]="Gender.Other">{{"Other" | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Birth date</mat-label>
-      <mat-hint>(optional)</mat-hint>
+      <mat-label>{{"Birth date" | translate}}</mat-label>
+      <mat-hint>{{"(optional)" | translate}}</mat-hint>
       <mat-datepicker #birthDatePicker [touchUi]="isMobile | async"></mat-datepicker>
       <mat-datepicker-toggle matIconSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
       <input matInput [matDatepicker]="birthDatePicker" readonly formControlName="birthDay" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Weight</mat-label>
-      <mat-hint>(optional)</mat-hint>
+      <mat-label>{{"Weight" | translate}}</mat-label>
+      <mat-hint>{{"(optional)" | translate}}</mat-hint>
       <input type="number" matInput min="0" formControlName="birthWeight" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Length</mat-label>
-      <mat-hint>(optional)</mat-hint>
+      <mat-label>{{"Length" | translate}}</mat-label>
+      <mat-hint>{{"(optional)" | translate}}</mat-hint>
       <input type="number" matInput min="0" formControlName="birthLength" />
     </mat-form-field>
 

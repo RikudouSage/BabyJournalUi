@@ -5,6 +5,7 @@ import {EncryptorService} from "../../../services/encryptor.service";
 import {UserManagerService} from "../../../services/user-manager.service";
 import {lastValueFrom, of} from "rxjs";
 import {UserRepository} from "../../../entity/user.entity";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-select-child',
@@ -23,11 +24,12 @@ export class SelectChildComponent implements OnInit {
     private readonly encryptor: EncryptorService,
     private readonly userManager: UserManagerService,
     private readonly userRepository: UserRepository,
+    private readonly translator: TranslateService,
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-    this.titleService.title = 'Select child';
+    this.titleService.title = this.translator.get('Your children');
     this.currentlySelected = await lastValueFrom((await this.userManager.getCurrentUser()).relationships.selectedChild);
 
     this.childRepository.collection().subscribe(async children => {
