@@ -1,0 +1,9 @@
+<mat-grid-list cols="2">
+  <a [routerLink]="activity.getLink()" *ngFor="let activity of activities" class="activity-tile">
+    <mat-grid-tile
+      [style.background-color]="activity.getColor()"
+    >
+      {{activity.getDisplayName()}}
+    </mat-grid-tile>
+  </a>
+</mat-grid-list>

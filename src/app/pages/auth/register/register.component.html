@@ -1,0 +1,27 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+
+<ng-template #content>
+  <div class="buttons" *ngIf="step === null">
+    <button mat-raised-button color="primary" (click)="step = 'create'">Create new account</button>
+    <button mat-raised-button color="accent">Use invitation code</button>
+    <button mat-raised-button color="accent">Advanced</button>
+  </div>
+
+  <div *ngIf="step === 'create'">
+    <form [formGroup]="createForm" (submit)="register()">
+      <mat-form-field>
+        <mat-label>Your name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-hint>(optional)</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Family name</mat-label>
+        <input matInput formControlName="familyName" />
+        <mat-hint>(optional)</mat-hint>
+      </mat-form-field>
+
+      <button class="submit" mat-raised-button color="primary">Create account</button>
+    </form>
+  </div>
+</ng-template>

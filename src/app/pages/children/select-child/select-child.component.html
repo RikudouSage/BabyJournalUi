@@ -1,0 +1,27 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+<ng-template #content>
+  <mat-grid-list cols="1">
+    <mat-grid-tile *ngFor="let child of children">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{child.attributes.displayName | encryptedOrStringValue}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <button
+            *ngIf="child.id !== currentlySelected?.id; else activeChild"
+            mat-raised-button
+            color="primary"
+            (click)="setAsActive(child)"
+          >Select child</button>
+          <ng-template #activeChild>
+            <button mat-raised-button disabled>(currently selected)</button>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <a class="right-corner-fab" mat-fab color="primary" routerLink="/children/add">
+    <mat-icon>add</mat-icon>
+  </a>
+</ng-template>
