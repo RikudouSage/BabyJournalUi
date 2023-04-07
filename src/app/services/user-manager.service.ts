@@ -44,7 +44,7 @@ export class UserManagerService {
 
   public async getCurrentUser(): Promise<User> {
     return await lastValueFrom(this.userRepository.get('me', {
-      include: ['selectedChild'],
+      include: ['selectedChild', 'parentalUnit'],
     }));
   }
   get isLoggedInChanged(): Observable<boolean> {

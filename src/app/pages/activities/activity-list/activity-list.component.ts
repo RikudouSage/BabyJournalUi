@@ -24,7 +24,6 @@ export class ActivityListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setDefault();
     this.userManager.getCurrentUser().then(user => {
       user.relationships.selectedChild.subscribe(async child => {
         if (child === null) {

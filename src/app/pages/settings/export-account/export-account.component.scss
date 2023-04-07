@@ -1,0 +1,19 @@
+mat-card {
+  margin-top: 1vh;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+mat-spinner {
+  margin: 1vh auto;
+}
+
+mat-card-footer {
+  min-height: 2vh;
+}
+
+mat-form-field {
+  width: 100%;
+}

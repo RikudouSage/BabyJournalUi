@@ -5,6 +5,7 @@ import {EncryptedValue} from "../dto/encrypted-value";
 import {DocumentCollection} from "../services/json-api/document-collection";
 import {Child} from "./child.entity";
 import {Observable, of} from "rxjs";
+import {ParentalUnit} from "./parental-unit.entity";
 
 export class User extends AbstractEntity {
   type: string = 'user';
@@ -19,8 +20,10 @@ export class User extends AbstractEntity {
 
   override relationships: {
     selectedChild: Observable<Child | null>;
+    parentalUnit: Observable<ParentalUnit>;
   } = {
     selectedChild: of(new Child(false)),
+    parentalUnit: of(new ParentalUnit(false)),
   }
 
   override encryptedValueConvertors = {

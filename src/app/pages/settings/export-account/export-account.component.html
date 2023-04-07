@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-content>
+    <p>{{"To login on other devices you must export your account, there's no other way to login." | translate}}</p>
+    <p>{{"That also means that if you don't export your account, you lose access to your data forever." | translate}}</p>
+    <p>{{"Treat the export as you would your password and don't share it with anyone." | translate}}</p>
+    <p>{{"If you want to add someone to your family, you should use sharing instead." | translate}}</p>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-spinner *ngIf="loading else actions"></mat-spinner>
+    <ng-template #actions>
+      <mat-card-actions *ngIf="exportString === null">
+        <button mat-raised-button color="primary" (click)="export()">{{"Export" | translate}}</button>
+        <a routerLink="/settings/account/sharing" mat-raised-button color="accent">{{"Go to sharing" | translate}}</a>
+      </mat-card-actions>
+    </ng-template>
+  </mat-card-footer>
+</mat-card>
+
+<mat-card *ngIf="exportString !== null">
+  <mat-card-header>
+    <mat-card-title>{{"Export result" | translate}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{"Done!" | translate}}</p>
+    <p>{{"Copy the text below and store it somewhere safe." | translate}}</p>
+    <mat-form-field>
+      <mat-label>{{"Exported account" | translate}}</mat-label>
+      <textarea matInput readonly>{{exportString}}</textarea>
+      <mat-icon matSuffix (click)="copyToClipboard()">content_copy</mat-icon>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>

@@ -1,8 +1,10 @@
 export class EncryptedValue {
-  private _decrypted: string | null = null;
+  private _decrypted: string | null;
   constructor(
     public readonly encrypted: string,
+    decrypted: string | null = null,
   ) {
+    this._decrypted = decrypted;
   }
 
   get isDecrypted() {

@@ -1,0 +1,24 @@
+<mat-spinner class="global" *ngIf="user === null || parentalUnit === null || loading; else content"></mat-spinner>
+
+<ng-template #content>
+  <!-- the ngif is there only for angular to shut up about being potentially undefined -->
+  <mat-list *ngIf="parentalUnit && user">
+    <mat-list-item (click)="openNameChangeDialog()">
+      <strong class="setting-item-title">{{"Name" | translate}}</strong>
+      <span>{{user.attributes.name ? user.attributes.name.decrypted : '--none--' | translate}}</span>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item (click)="openFamilyNameChangeDialog()">
+      <strong class="setting-item-title">{{"Family name" | translate}}</strong>
+      <span>{{parentalUnit.attributes.name ? parentalUnit.attributes.name.decrypted : '--none--' | translate}}</span>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <a routerLink="/settings/account/export">
+      <mat-list-item><strong>{{"Export account" | translate}}</strong></mat-list-item>
+    </a>
+    <mat-divider></mat-divider>
+    <a routerLink="/settings/account/sharing">
+      <mat-list-item><strong>{{"Sharing" | translate}}</strong></mat-list-item>
+    </a>
+  </mat-list>
+</ng-template>

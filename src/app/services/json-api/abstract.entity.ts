@@ -4,9 +4,9 @@ import {EncryptedValue} from "../../dto/encrypted-value";
 
 export type ValueConverter = (value: any) => boolean;
 
-export const EncryptedString = (value: string) => true;
-export const EncryptedNullableString = (value: string | null) => typeof value === 'string';
-export const EncryptedStringOrUuid = (value: string) => !/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi.test(value);
+export const EncryptedString: ValueConverter = (value: string) => true;
+export const EncryptedNullableString: ValueConverter = (value: string | null) => typeof value === 'string';
+export const EncryptedStringOrUuid: ValueConverter = (value: string) => !/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi.test(value);
 
 export interface Relationships {
   [key: string]: Observable<DocumentCollection<any> | AbstractEntity | null>;

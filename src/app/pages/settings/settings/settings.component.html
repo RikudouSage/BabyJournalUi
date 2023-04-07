@@ -1,0 +1,15 @@
+<mat-list>
+  <mat-list-item [lines]="3">
+    <a routerLink="/settings/account">
+      <h4 matListItemTitle>{{"Account" | translate}}</h4>
+      <p class="small">{{"Exporting account, inviting others etc." | translate}}</p>
+    </a>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item [lines]="3">
+    <a routerLink="/settings/advanced">
+      <h4 matListItemTitle>{{"Advanced" | translate}}</h4>
+      <p class="small">{{"Setting custom api url etc." | translate}}</p>
+    </a>
+  </mat-list-item>
+</mat-list>

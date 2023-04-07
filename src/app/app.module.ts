@@ -15,7 +15,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {RegisterComponent} from './pages/auth/register/register.component';
 import {ActivityListComponent} from './pages/activities/activity-list/activity-list.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
@@ -39,6 +39,13 @@ import {MissingTranslationHandler, TranslateLoader, TranslateModule} from "@ngx-
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppMissingTranslationsHandler} from "./services/app-missing-translations-handler";
 import { LogoutComponent } from './pages/auth/logout/logout.component';
+import { SettingsComponent } from './pages/settings/settings/settings.component';
+import {MatLegacyListModule} from "@angular/material/legacy-list";
+import { AccountSettingsComponent } from './pages/settings/account/account-settings.component';
+import { ChangeNameDialogComponent } from './components/dialogs/change-name-dialog/change-name-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { ExportAccountComponent } from './pages/settings/export-account/export-account.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -54,6 +61,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     EncryptedOrStringValuePipe,
     FeedingComponent,
     LogoutComponent,
+    SettingsComponent,
+    AccountSettingsComponent,
+    ChangeNameDialogComponent,
+    ExportAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +99,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         useClass: AppMissingTranslationsHandler,
       },
     }),
+    MatDialogModule,
+    FormsModule,
+    MatSnackBarModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

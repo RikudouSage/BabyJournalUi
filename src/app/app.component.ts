@@ -7,6 +7,7 @@ import {UserManagerService} from "./services/user-manager.service";
 import {JsonApiRegistry} from "./services/json-api/json-api-registry";
 import {UserRepository} from "./entity/user.entity";
 import {ChildRepository} from "./entity/child.entity";
+import {ParentalUnitRepository} from "./entity/parental-unit.entity";
 
 @Component({
   selector: 'app-root',
@@ -39,5 +40,6 @@ export class AppComponent implements OnInit {
 
     registry.registerRepository(this.injector.get(UserRepository));
     registry.registerRepository(this.injector.get(ChildRepository));
+    registry.registerRepository(this.injector.get(ParentalUnitRepository));
   }
 }

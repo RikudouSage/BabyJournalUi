@@ -57,4 +57,15 @@ export class EncryptorService {
 
     return entity;
   }
+
+  public async exportKey() {
+    const key = await this.database.getCryptoKey();
+    const privateKey = key.privateKey;
+    const publicKey = key.publicKey;
+
+    const exportedPrivateKey = fromByteArray(new Uint8Array(await window.crypto.subtle.exportKey('pkcs8', privateKey)));
+    const exportedPublicKey = fromByteArray(new Uint8Array(await window.crypto.subtle.exportKey('spki', publicKey)));
+
+    return `${exportedPrivateKey}:::${exportedPublicKey}`;
+  }
 }

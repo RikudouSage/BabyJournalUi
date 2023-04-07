@@ -9,6 +9,9 @@ import {SelectChildComponent} from "./pages/children/select-child/select-child.c
 import {FeedingComponent} from "./pages/activities/feeding/feeding.component";
 import {ChildIsSelectedGuard} from "./services/child-is-selected.guard";
 import {LogoutComponent} from "./pages/auth/logout/logout.component";
+import {SettingsComponent} from "./pages/settings/settings/settings.component";
+import {AccountSettingsComponent} from "./pages/settings/account/account-settings.component";
+import {ExportAccountComponent} from "./pages/settings/export-account/export-account.component";
 
 const routes: Routes = [
   {
@@ -44,7 +47,22 @@ const routes: Routes = [
     path: 'children/select-child',
     component: SelectChildComponent,
     canActivate: [IsLoggedInGuard, HasChildrenGuard],
-  }
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [IsLoggedInGuard],
+  },
+  {
+    path: 'settings/account',
+    component: AccountSettingsComponent,
+    canActivate: [IsLoggedInGuard],
+  },
+  {
+    path: 'settings/account/export',
+    component: ExportAccountComponent,
+    canActivate: [IsLoggedInGuard],
+  },
 ];
 
 @NgModule({
