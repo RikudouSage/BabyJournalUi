@@ -14,6 +14,8 @@ import {AccountSettingsComponent} from "./pages/settings/account/account-setting
 import {ExportAccountComponent} from "./pages/settings/export-account/export-account.component";
 import {SharingComponent} from "./pages/settings/sharing/sharing.component";
 import {InviteComponent} from "./pages/settings/invite/invite.component";
+import {BrowserUnsupportedComponent} from "./pages/general/browser-unsupported/browser-unsupported.component";
+import {BrowserSupportGuard} from "./services/browser-support.guard";
 
 const routes: Routes = [
   {
@@ -23,57 +25,61 @@ const routes: Routes = [
   {
     path: 'auth/logout',
     component: LogoutComponent,
-    canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
   },
   {
     path: '',
     component: ActivityListComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard],
+    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
   },
   {
     path: 'activities/feeding',
     component: FeedingComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard],
+    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
   },
   {
     path: 'children/create-first',
     component: CreateChildComponent,
-    canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
   },
   {
     path: 'children/add',
     component: CreateChildComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard],
+    canActivate: [IsLoggedInGuard, HasChildrenGuard, BrowserSupportGuard],
   },
   {
     path: 'children/select-child',
     component: SelectChildComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard],
+    canActivate: [IsLoggedInGuard, HasChildrenGuard, BrowserSupportGuard],
   },
   {
     path: 'settings',
     component: SettingsComponent,
-    canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
   },
   {
     path: 'settings/account',
     component: AccountSettingsComponent,
-    canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
   },
   {
     path: 'settings/account/export',
     component: ExportAccountComponent,
-    canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
   },
   {
     path: 'settings/account/sharing',
     component: SharingComponent,
-    canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
   },
   {
     path: 'settings/account/sharing/invite',
     component: InviteComponent,
-    canActivate: [IsLoggedInGuard],
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+  },
+  {
+    path: 'unsupported-browser',
+    component: BrowserUnsupportedComponent,
   }
 ];
 
