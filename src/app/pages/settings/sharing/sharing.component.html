@@ -11,7 +11,7 @@
           <div class="wrapper">
             <div>
               <strong>
-                {{(user.attributes.displayName | type) === 'string' ? user.attributes.displayName : $any(user.attributes.displayName).decrypted}}
+                {{user.attributes.displayName | potentiallyEncryptedValue}}
               </strong>
               <small *ngIf="user.id === currentUser.id">{{"(this is you)" | translate}}</small>
             </div>

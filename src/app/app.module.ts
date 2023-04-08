@@ -26,7 +26,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import { SelectChildComponent } from './pages/children/select-child/select-child.component';
-import { EncryptedOrStringValuePipe } from './pipes/encrypted-or-string-value.pipe';
+import { PotentiallyEncryptedValuePipe } from './pipes/potentially-encrypted-value.pipe';
 import {ACTIVITIES} from "./dependency-injection/injection-tokens";
 import {FeedingActivity} from "./activity/feeding.activity";
 import {DiaperingActivity} from "./activity/diapering.activity";
@@ -63,7 +63,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ActivityListComponent,
     CreateChildComponent,
     SelectChildComponent,
-    EncryptedOrStringValuePipe,
+    PotentiallyEncryptedValuePipe,
     FeedingComponent,
     LogoutComponent,
     SettingsComponent,

@@ -5,12 +5,12 @@
   <mat-list *ngIf="parentalUnit && user">
     <mat-list-item (click)="openNameChangeDialog()">
       <strong class="setting-item-title">{{"Name" | translate}}</strong>
-      <span>{{user.attributes.name ? user.attributes.name.decrypted : '--none--' | translate}}</span>
+      <span>{{user.attributes.name | potentiallyEncryptedValue:'--none--' | translate}}</span>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item (click)="openFamilyNameChangeDialog()">
       <strong class="setting-item-title">{{"Family name" | translate}}</strong>
-      <span>{{parentalUnit.attributes.name ? parentalUnit.attributes.name.decrypted : '--none--' | translate}}</span>
+      <span>{{parentalUnit.attributes.name | potentiallyEncryptedValue:'--none--' | translate}}</span>
     </mat-list-item>
     <mat-divider></mat-divider>
     <a routerLink="/settings/account/export">

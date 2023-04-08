@@ -4,7 +4,7 @@
     <mat-card>
       <mat-card-content>
         <div class="top-row">
-          <h2>{{child.attributes.displayName | encryptedOrStringValue}}</h2>
+          <h2>{{child.attributes.displayName | potentiallyEncryptedValue}}</h2>
           <button mat-icon-button color="warn" (click)="confirmDelete(child)">
             <mat-icon>delete</mat-icon>
           </button>
