@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, isDevMode} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -58,6 +58,7 @@ import { TimeOrNullPipe } from './pipes/time-or-null.pipe';
 import { ElapsedTimePipe } from './pipes/elapsed-time.pipe';
 import { TrackerComponent } from './components/tracker/tracker.component';
 import { DateOrNullPipe } from './pipes/date-or-null.pipe';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -126,6 +127,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatTabsModule,
     MtxDatetimepickerModule,
     MtxNativeDatetimeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
