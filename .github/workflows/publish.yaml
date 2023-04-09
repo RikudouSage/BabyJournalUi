@@ -29,7 +29,7 @@ jobs:
       - name: Copy files to S3
         env:
           STACK_NAME: BabyTrackerUi-prod
+          AWS_REGION: eu-central-1
         run: |
-          aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='Bucket'].OutputValue" --output=text
           BUCKET=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='Bucket'].OutputValue" --output=text)
           aws s3 sync dist/baby-tracker-ui s3://$BUCKET
