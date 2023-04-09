@@ -51,6 +51,13 @@ import { TypePipe } from './pipes/type.pipe';
 import { InviteComponent } from './pages/settings/invite/invite.component';
 import { ConfirmDialog } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { BrowserUnsupportedComponent } from './pages/general/browser-unsupported/browser-unsupported.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MtxDatetimepickerModule} from "@ng-matero/extensions/datetimepicker";
+import {MtxNativeDatetimeModule} from "@ng-matero/extensions/core";
+import { TimeOrNullPipe } from './pipes/time-or-null.pipe';
+import { ElapsedTimePipe } from './pipes/elapsed-time.pipe';
+import { TrackerComponent } from './components/tracker/tracker.component';
+import { DateOrNullPipe } from './pipes/date-or-null.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -75,6 +82,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     InviteComponent,
     ConfirmDialog,
     BrowserUnsupportedComponent,
+    TimeOrNullPipe,
+    ElapsedTimePipe,
+    TrackerComponent,
+    DateOrNullPipe,
   ],
   imports: [
     BrowserModule,
@@ -112,6 +123,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDialogModule,
     FormsModule,
     MatSnackBarModule,
+    MatTabsModule,
+    MtxDatetimepickerModule,
+    MtxNativeDatetimeModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

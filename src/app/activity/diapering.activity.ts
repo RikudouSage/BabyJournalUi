@@ -1,28 +1,20 @@
 import {Activity} from "./activity";
 import {TranslateService} from "@ngx-translate/core";
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class DiaperingActivity implements Activity {
 
+  readonly color = '#d500f9';
+  readonly displayName = this.translator.get('Diapering');
+  readonly link = '';
+  readonly isRunning = of(false);
+
   constructor(
     private readonly translator: TranslateService,
   ) {
   }
-
-  getColor(): string {
-    return "#d500f9";
-  }
-
-  getDisplayName(): Observable<string> {
-    return this.translator.get('Diapering');
-  }
-
-  getLink(): string {
-    return "";
-  }
-
 }

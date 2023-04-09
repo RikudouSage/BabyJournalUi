@@ -1,1 +1,46 @@
-<p>feeding works!</p>
+<mat-tab-group selectedIndex="{{feedingTypeIndex}}" (selectedTabChange)="saveSelectedTab($event)">
+  <mat-tab label="{{'Bottle' | translate}}">
+    <form [formGroup]="bottleForm" (submit)="saveBottleData(bottleTracker)">
+      <mat-card>
+        <mat-card-content>
+          <mat-error class="center" *ngIf="errorMessage | async">
+            {{errorMessage | async}}
+          </mat-error>
+
+          <app-tracker
+            [startTime]="bottleForm.controls.startTime.value"
+            [endTime]="bottleForm.controls.endTime.value"
+            (finished)="onBottleTrackingFinished($event)"
+            (started)="onBottleTrackingStarted($event)"
+            (startDateChanged)="onBottleTrackingStarted($event)"
+            #bottleTracker
+          ></app-tracker>
+
+          <mat-form-field class="notes">
+            <mat-label>{{"Notes" | translate}}</mat-label>
+            <input matInput formControlName="notes" />
+          </mat-form-field>
+
+          <div class="drinking-label">
+            {{"Drinking" | translate}}
+            <mat-form-field class="amount-input">
+              <input type="text" matInput formControlName="amount" inputmode="numeric" />
+            </mat-form-field>
+            <span [innerText]="' ' + ('{{unit}} of' | translate:{unit: 'ml'}) + ' '"></span>
+            <mat-form-field class="content-type-input">
+              <mat-select formControlName="contentType">
+                <mat-option [value]="BottleContentType.BreastMilk">{{"milk" | translate}}</mat-option>
+                <mat-option [value]="BottleContentType.Formula">{{"formula" | translate}}</mat-option>
+                <mat-option [value]="BottleContentType.Water">{{"water" | translate}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </mat-tab>
+  <mat-tab label="{{'Nursing' | translate}}"></mat-tab>
+  <mat-tab label="{{'Solid' | translate}}"></mat-tab>
+</mat-tab-group>

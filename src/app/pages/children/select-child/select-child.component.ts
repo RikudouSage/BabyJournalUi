@@ -8,6 +8,7 @@ import {UserRepository} from "../../../entity/user.entity";
 import {TranslateService} from "@ngx-translate/core";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialog} from "../../../components/dialogs/confirm-dialog/confirm-dialog.component";
+import {potentiallyEncryptedValue} from "../../../pipes/potentially-encrypted-value.pipe";
 
 @Component({
   selector: 'app-select-child',
@@ -66,8 +67,8 @@ export class SelectChildComponent implements OnInit {
     const dialog = this.dialog.open(ConfirmDialog, {
       data: {
         title: this.translator.get('Remove child'),
-        description: this.translator.get('Are you sure you want to remove child {{child}}? You cannot take this action back.', {
-          child: typeof child.attributes.displayName === 'string' ? child.attributes.displayName : child.attributes.displayName.decrypted,
+        description: this.translator.get('Are you sure you want to remove child {{childName}}? You cannot take this action back.', {
+          childName: potentiallyEncryptedValue(child.attributes.displayName),
         }),
       }
     });

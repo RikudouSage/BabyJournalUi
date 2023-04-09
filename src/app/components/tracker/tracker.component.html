@@ -1,0 +1,42 @@
+<div class="dates-row">
+  <input type="hidden" (dateChange)="startTimeSelected($any($event.value))" [mtxDatetimepicker]="startTimePicker" />
+  <input type="hidden" (dateChange)="endTime = $any($event.value)" [mtxDatetimepicker]="endTimePicker" />
+
+  <mtx-datetimepicker hidden #startTimePicker [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
+  <mtx-datetimepicker hidden #endTimePicker [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
+
+  <button type="button" mat-button color="accent" (click)="startTimePicker.open()">
+    {{"Started" | translate}}:
+    {{startTime | timeOrNull:'Not yet' | translate}}
+  </button>
+  <button type="button" mat-button color="accent" (click)="endTimePicker.open()">
+    {{"Until" | translate}}:
+    {{endTime | timeOrNull: 'Not set' | translate}}
+  </button>
+</div>
+<div class="elapsed-time">
+  {{elapsed | elapsedTime}}
+<!--  <small>({{"paused" | translate}}: {{elapsedPaused | elapsedTime}})</small>-->
+</div>
+
+<!--<div class="pause-stop-buttons" *ngIf="tracking">-->
+<!--  <button mat-raised-button color="accent" (click)="isPaused = !isPaused">-->
+<!--    <ng-container *ngIf="!isPaused">-->
+<!--      {{"Pause" | translate}}-->
+<!--    </ng-container>-->
+<!--    <ng-container *ngIf="isPaused">-->
+<!--      {{"Resume" | translate}}-->
+<!--    </ng-container>-->
+<!--  </button>-->
+  <button *ngIf="tracking" class="start-timer-button" mat-raised-button color="accent" (click)="finishTracking()">{{"Stop" | translate}}</button>
+<!--</div>-->
+
+<button
+  class="start-timer-button"
+  mat-raised-button
+  color="primary"
+  (click)="startTracking(true)"
+  *ngIf="!tracking"
+>
+  {{"Start tracking" | translate}}
+</button>

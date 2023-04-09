@@ -1,7 +1,8 @@
 import {Observable} from "rxjs";
 
 export interface Activity {
-  getDisplayName(): Observable<string> | Promise<string>;
-  getColor(): string;
-  getLink(): string;
+  isRunning: Observable<boolean> | Promise<boolean>;
+  displayName: Observable<boolean> | Promise<boolean>;
+  color: string;
+  link: string;
 }

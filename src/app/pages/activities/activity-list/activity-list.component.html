@@ -1,9 +1,38 @@
 <mat-grid-list cols="2" gutterSize="10">
-  <a [routerLink]="activity.getLink()" *ngFor="let activity of activities" class="activity-tile">
-    <mat-grid-tile
-      [style.background-color]="activity.getColor()"
-    >
-      {{activity.getDisplayName() | async}}
+  <a [routerLink]="activity.link" *ngFor="let activity of activities" class="activity-tile">
+    <mat-grid-tile [style.background-color]="activity.color">
+      {{activity.displayName | async}}
+      <mat-grid-tile-footer *ngIf="activity.isRunning | async">
+        <mat-icon color="accent">hourglass_top</mat-icon>
+      </mat-grid-tile-footer>
     </mat-grid-tile>
   </a>
 </mat-grid-list>
+
+<mat-card *ngIf="activityStream">
+  <mat-card-header>
+    <mat-card-title>{{"Activities" | translate}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngFor="let date of dates">
+      <strong class="center">{{date | dateOrNull}}</strong>
+      <div *ngFor="let activity of activityStream[date]">
+        <strong>{{activity.startTime | timeOrNull}}: </strong>
+        <span *ngIf="activity.activityType === ActivityType.Feeding">
+          <span
+            *ngIf="activity['type'] === 'bottle'"
+            [innerText]="'{{childName}} drank {{amount}} {{unit}} of {{foodType}} from bottle' | translate: {
+              childName: activity.childName,
+              amount: activity['amount'],
+              unit: 'ml',
+              foodType: bottleContentTypeToString($any(activity['bottleContentType'])) | async,
+            }"
+          ></span>
+          <span *ngIf="activity.note !== null">
+            ({{"note" | translate}}: {{activity.note}})
+          </span>
+        </span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

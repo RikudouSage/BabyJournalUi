@@ -2,3 +2,25 @@
   color: white;
   font-size: 1.3rem;
 }
+
+mat-grid-tile-footer {
+  display: flex;
+  justify-content: right;
+
+  mat-icon {
+    font-size: 1.5rem;
+  }
+}
+
+mat-grid-list {
+  margin-bottom: 2vh;
+}
+
+.center {
+  text-align: center;
+  display: block;
+}
+
+mat-card-header {
+  justify-content: center;
+}

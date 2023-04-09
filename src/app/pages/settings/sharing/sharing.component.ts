@@ -8,6 +8,7 @@ import {UserManagerService} from "../../../services/user-manager.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialog} from "../../../components/dialogs/confirm-dialog/confirm-dialog.component";
 import {ApiService} from "../../../services/api.service";
+import {potentiallyEncryptedValue} from "../../../pipes/potentially-encrypted-value.pipe";
 
 @Component({
   selector: 'app-sharing',
@@ -40,7 +41,7 @@ export class SharingComponent implements OnInit {
       data: {
         title: this.translator.get('Delete user?'),
         description: this.translator.get('Are you sure you want to delete user {{user}}?', {
-          user: typeof user.attributes.displayName === 'string' ? user.attributes.displayName : user.attributes.displayName.decrypted,
+          user: potentiallyEncryptedValue(user.attributes.displayName),
         }),
       }
     });

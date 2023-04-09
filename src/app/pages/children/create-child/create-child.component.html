@@ -25,12 +25,12 @@
       <input matInput [matDatepicker]="birthDatePicker" readonly formControlName="birthDay" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{"Weight" | translate}}</mat-label>
+      <mat-label>{{"Weight" | translate}} (g)</mat-label>
       <mat-hint>{{"(optional)" | translate}}</mat-hint>
       <input type="number" matInput min="0" formControlName="birthWeight" />
     </mat-form-field>
     <mat-form-field>
-      <mat-label>{{"Length" | translate}}</mat-label>
+      <mat-label>{{"Length" | translate}} (cm)</mat-label>
       <mat-hint>{{"(optional)" | translate}}</mat-hint>
       <input type="number" matInput min="0" formControlName="birthLength" />
     </mat-form-field>

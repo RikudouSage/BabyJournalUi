@@ -1,10 +1,29 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {EncryptorService} from "./encryptor.service";
-import {DatabaseService} from "./database.service";
 import {HttpClient} from "@angular/common/http";
-import {lastValueFrom} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {UserManagerService} from "./user-manager.service";
+import {ActivityType} from "../enum/activity-type.enum";
+import {map} from "rxjs/operators";
+
+interface ActivityStreamItem {
+  id: string;
+  startTime: string;
+  endTime: string;
+  note: string | null;
+  activityType: ActivityType;
+  childName: string | null;
+  [key: string]: string | null;
+}
+
+interface FeedingActivityStreamItem extends ActivityStreamItem {
+  type: string;
+  amount: string;
+  bottleContentType: string | null;
+}
+
+export type ActivityStream = ActivityStreamItem[];
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +77,34 @@ export class ApiService {
 
   public async refreshShareCode(): Promise<void> {
     await lastValueFrom(this.httpClient.post<void>(`${this.apiUrl}/account/refresh-share-code`, {}));
+  }
+
+  public getActivityStream(): Observable<Promise<ActivityStream>> {
+    return this.httpClient.get<ActivityStream>(`${this.apiUrl}/activities`).pipe(
+      map (async stream => {
+        return await Promise.all(stream.map(async item => {
+          for (const key of Object.keys(item)) {
+            if (key === 'id' || key === 'activityType' || item[key] === null) {
+              continue;
+            }
+
+            item[key] = await this.encryptor.decrypt(<string>item[key]);
+          }
+
+          return item;
+        }));
+      }),
+      map (async stream => {
+        return (await stream).sort((a, b): number => {
+          if (a.startTime === b.startTime) {
+            return 0;
+          }
+          const dateA = new Date(a.startTime);
+          const dateB = new Date(b.startTime);
+
+          return dateA.getTime() > dateB.getTime() ? -1 : 1;
+        });
+      }),
+    );
   }
 }
