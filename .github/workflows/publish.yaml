@@ -14,9 +14,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup prod dependencies
         run: yarn install
-      - name: Build
-        run: ng build
-      - name: Deploy
+      - name: Deploy infrastructure
         uses: serverless/github-action@v3
         with:
           args: deploy --stage prod --verbose
@@ -26,3 +24,11 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           APP_DOMAIN_HOSTED_ZONE: ${{ secrets.APP_DOMAIN_HOSTED_ZONE }}
           APP_DOMAIN: baby-journal.app
+      - name: Build
+        run: ./node_modules/.bin/ng build
+      - name: Copy files to S3
+        env:
+          STACK_NAME: BabyTrackerUi-prod
+        run: |
+          BUCKET=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='Bucket'].OutputValue" --output=text)
+          aws s3 sync dist/baby-tracker-ui s3://$BUCKET
