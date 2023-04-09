@@ -35,3 +35,12 @@ jobs:
         run: |
           BUCKET=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='Bucket'].OutputValue" --output=text)
           aws s3 sync dist/baby-tracker-ui s3://$BUCKET
+      - name: Create invalidation
+        env:
+          STACK_NAME: BabyTrackerUi-prod
+          AWS_REGION: eu-central-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          CDN_ID=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='Cdn'].OutputValue" --output=text)
+          aws cloudfront create-invalidation --distribution-id $CDN_ID  --paths "/*"
