@@ -24,11 +24,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           APP_DOMAIN_HOSTED_ZONE: ${{ secrets.APP_DOMAIN_HOSTED_ZONE }}
           APP_DOMAIN: baby-journal.app
-      - name: Build
+      - name: Build app
         run: ./node_modules/.bin/ng build
       - name: Copy files to S3
         env:
           STACK_NAME: BabyTrackerUi-prod
         run: |
+          aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='Bucket'].OutputValue" --output=text
           BUCKET=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='Bucket'].OutputValue" --output=text)
           aws s3 sync dist/baby-tracker-ui s3://$BUCKET
