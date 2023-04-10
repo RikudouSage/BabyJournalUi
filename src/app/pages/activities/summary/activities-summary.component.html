@@ -62,6 +62,10 @@
                 childName: childName | async,
               }"
             ></p>
+            <small
+              *ngIf="isDateBeforeChildBirth === true"
+              [innerText]="'(which is not that surprising given the fact that {{childName}} wasn\'t born yet)' | translate:{childName: childName | async}"
+            ></small>
           </ng-template>
           <mat-divider></mat-divider>
         </mat-card-content>

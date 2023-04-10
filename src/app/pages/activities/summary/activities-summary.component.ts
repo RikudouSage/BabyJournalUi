@@ -30,7 +30,6 @@ interface CategorySummary {
 })
 export class ActivitiesSummaryComponent implements OnInit {
   public readonly bottleContentTypeToString = this.enumToString.bottleContentTypeToString;
-  public readonly BottleContentType = BottleContentType;
 
   private fullActivityStream: ActivityStream | null = null;
   public changeDateForm = new FormGroup({
@@ -52,6 +51,8 @@ export class ActivitiesSummaryComponent implements OnInit {
   };
   public loading = true;
   public childName: Observable<string> = this.translator.get('your child');
+  public childBirthDate: Date | null = null;
+  public isDateBeforeChildBirth: boolean | null = null;
 
   isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -74,8 +75,14 @@ export class ActivitiesSummaryComponent implements OnInit {
     this.titleService.title = this.translator.get('Activities summary');
     const user = await this.userManager.getCurrentUser();
     const child = await lastValueFrom(user.relationships.selectedChild);
-    if (child !== null && child.attributes.name !== null) {
-      this.childName = of(await this.encryptor.decrypt(child.attributes.name.encrypted));
+    if (child !== null) {
+      if (child.attributes.name !== null) {
+        this.childName = of(await this.encryptor.decrypt(child.attributes.name.encrypted));
+      }
+      if (child.attributes.birthDay !== null) {
+        this.childBirthDate = new Date(await this.encryptor.decrypt(child.attributes.birthDay.encrypted));
+        this.isDateBeforeChildBirth = false;
+      }
     }
     this.apiService.getActivityStream().subscribe(async activityStream => {
       this.fullActivityStream = await activityStream;
@@ -121,6 +128,10 @@ export class ActivitiesSummaryComponent implements OnInit {
           this.summary.feeding.total.bottle += Number(typedActivity.amount);
         }
       }
+    }
+
+    if (this.childBirthDate !== null) {
+      this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();
     }
 
     this.loading = false;
