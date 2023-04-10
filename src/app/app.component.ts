@@ -1,5 +1,5 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {Observable, of} from "rxjs";
+import {Observable, of, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {TitleService} from "./services/title.service";
@@ -18,9 +18,12 @@ import {findRouteParent} from "./helper/route-hierarchy";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  public appLikeNavigation: boolean = true;
+
   isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
+      tap(result => this.appLikeNavigation = result),
       shareReplay()
     );
   title: Observable<string> = this.titleService.titleChanged;
@@ -34,6 +37,9 @@ export class AppComponent implements OnInit {
     router: Router,
   ) {
     router.events.subscribe(event => {
+      if (!this.appLikeNavigation) {
+        return;
+      }
       if (event instanceof NavigationStart) {
         if (event.navigationTrigger === 'popstate') {
           const currentUrl = router.routerState.snapshot.url;
