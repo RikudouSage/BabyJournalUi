@@ -29,10 +29,10 @@
             <span [innerText]="' ' + ('{{unit}} of' | translate:{unit: 'ml'}) + ' '"></span>
             <mat-form-field class="content-type-input">
               <mat-select formControlName="contentType">
-                <mat-option [value]="BottleContentType.BreastMilk">{{"milk" | translate}}</mat-option>
-                <mat-option [value]="BottleContentType.Formula">{{"formula" | translate}}</mat-option>
-                <mat-option [value]="BottleContentType.Water">{{"water" | translate}}</mat-option>
-                <mat-option [value]="BottleContentType.Juice">{{"juice" | translate}}</mat-option>
+                <mat-option [value]="BottleContentType.BreastMilk">{{bottleContentTypeToString(BottleContentType.BreastMilk) | async}}</mat-option>
+                <mat-option [value]="BottleContentType.Formula">{{bottleContentTypeToString(BottleContentType.Formula) | async}}</mat-option>
+                <mat-option [value]="BottleContentType.Water">{{bottleContentTypeToString(BottleContentType.Water) | async}}</mat-option>
+                <mat-option [value]="BottleContentType.Juice">{{bottleContentTypeToString(BottleContentType.Juice) | async}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

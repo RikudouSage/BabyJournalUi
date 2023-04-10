@@ -17,6 +17,7 @@ import {Router} from "@angular/router";
 import {ActivityType} from "../../../enum/activity-type.enum";
 import {FeedingType} from "../../../types/feeding-type.type";
 import {map} from "rxjs/operators";
+import {EnumToStringService} from "../../../services/enum-to-string.service";
 
 enum FeedingTypeIndex {
   Bottle,
@@ -43,9 +44,9 @@ export class FeedingComponent implements OnInit {
     trackingJustFinished: new FormControl(false),
   });
 
-  @ViewChild(TrackerComponent) tracker: TrackerComponent;
-
   public errorMessage: Observable<string> = of('');
+
+  public bottleContentTypeToString = this.enumToString.bottleContentTypeToString;
 
   constructor(
     private readonly userManager: UserManagerService,
@@ -55,6 +56,7 @@ export class FeedingComponent implements OnInit {
     private readonly database: DatabaseService,
     private readonly feedingActivityRepository: FeedingActivityRepository,
     private readonly router: Router,
+    private readonly enumToString: EnumToStringService,
   ) {
   }
 
