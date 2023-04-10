@@ -4,6 +4,7 @@ import {ActivityType} from "../../enum/activity-type.enum";
 import {BottleContentType} from "../../enum/bottle-content-type.enum";
 import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
+import {EnumToStringService} from "../../services/enum-to-string.service";
 
 @Component({
   selector: 'app-activity-event',
@@ -14,22 +15,11 @@ export class ActivityEventComponent {
   @Input() activity: ActivityStreamItem;
 
   protected readonly ActivityType = ActivityType;
+  public readonly bottleContentTypeToString = this.enumToString.bottleContentTypeToString;
 
   constructor(
     private readonly translator: TranslateService,
+    private readonly enumToString: EnumToStringService,
   ) {
-  }
-
-  public bottleContentTypeToString(foodType: BottleContentType): Observable<string> {
-    switch (foodType) {
-      case BottleContentType.BreastMilk:
-        return this.translator.get('breast milk');
-      case BottleContentType.Formula:
-        return this.translator.get('formula');
-      case BottleContentType.Water:
-        return this.translator.get('water');
-      case BottleContentType.Juice:
-        return this.translator.get('juice');
-    }
   }
 }

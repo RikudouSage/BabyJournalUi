@@ -6,6 +6,7 @@ import {lastValueFrom, Observable} from "rxjs";
 import {UserManagerService} from "./user-manager.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {map} from "rxjs/operators";
+import {FeedingType} from "../types/feeding-type.type";
 
 export interface ActivityStreamItem {
   id: string;
@@ -17,8 +18,8 @@ export interface ActivityStreamItem {
   [key: string]: string | null;
 }
 
-interface FeedingActivityStreamItem extends ActivityStreamItem {
-  type: string;
+export interface FeedingActivityStreamItem extends ActivityStreamItem {
+  type: FeedingType;
   amount: string;
   bottleContentType: string | null;
 }

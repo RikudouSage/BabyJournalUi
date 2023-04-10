@@ -6,7 +6,7 @@
       <mat-label>{{'Date' | translate}}</mat-label>
       <mat-datepicker #datePicker [touchUi]="isHandset | async"></mat-datepicker>
       <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
-      <input matInput formControlName="date" [matDatepicker]="datePicker" [matDatepickerFilter]="datePickerFilter" />
+      <input matInput formControlName="date" [matDatepicker]="datePicker" [matDatepickerFilter]="datePickerFilter"/>
     </mat-form-field>
   </form>
   <mat-tab-group>
@@ -23,6 +23,44 @@
         </mat-card-content>
       </mat-card>
     </mat-tab>
-    <mat-tab label="{{'By category' | translate}}"></mat-tab>
+    <mat-tab label="{{'By category' | translate}}">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{"Feeding" | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-divider></mat-divider>
+          <ng-container *ngIf="summary.feeding.total.bottle else noBottle">
+            <p
+              [innerHTML]="'{{dateDescription}} {{childName}} drank <strong>{{totalAmount}} {{unit}}</strong> from bottle.' | translate:{
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              totalAmount: summary.feeding.total.bottle,
+              unit: 'ml',
+            }"
+            ></p>
+            <ng-container *ngFor="let type of summary.feeding.bottle | keyvalue">
+              <p
+                *ngIf="type.value"
+                [innerHTML]="'<strong>{{amount}} {{unit}}</strong> of that was {{type}}.' | translate: {
+                amount: type.value,
+                unit: 'ml',
+                type: bottleContentTypeToString($any(type.key)) | async,
+              }"
+              ></p>
+            </ng-container>
+          </ng-container>
+          <ng-template #noBottle>
+            <p
+              [innerHTML]="'{{dateDescription}} {{childName}} didn\'t drink anything from bottle.' | translate:{
+                dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+                childName: childName | async,
+              }"
+            ></p>
+          </ng-template>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
   </mat-tab-group>
 </ng-template>

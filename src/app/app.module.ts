@@ -63,6 +63,7 @@ import { ActivitiesSummaryComponent } from './pages/activities/summary/activitie
 import { InternalErrorComponent } from './pages/general/internal-error/internal-error.component';
 import { ActivityEventComponent } from './components/activity-event/activity-event.component';
 import { PrivacyComponent } from './pages/general/privacy/privacy.component';
+import { RelativeDatePipe } from './pipes/relative-date.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -95,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InternalErrorComponent,
     ActivityEventComponent,
     PrivacyComponent,
+    RelativeDatePipe,
   ],
   imports: [
     BrowserModule,
