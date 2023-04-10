@@ -22,6 +22,7 @@ enum FeedingTypeIndex {
   Bottle,
   Nursing,
   Solid,
+  Juice,
 }
 
 @Component({
@@ -76,6 +77,9 @@ export class FeedingComponent implements OnInit {
       case "nursing":
         this.feedingTypeIndex = FeedingTypeIndex.Nursing;
         break;
+      case "juice":
+        this.feedingTypeIndex = FeedingTypeIndex.Juice;
+        break;
     }
 
     this.titleService.title = this.translator.get('Feeding {{childName}}', {
@@ -128,6 +132,9 @@ export class FeedingComponent implements OnInit {
         break;
       case FeedingTypeIndex.Solid:
         feedingType = 'solid';
+        break;
+      case FeedingTypeIndex.Juice:
+        feedingType = 'juice';
         break;
     }
 

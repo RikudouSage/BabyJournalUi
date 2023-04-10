@@ -28,6 +28,8 @@ export class ActivityEventComponent {
         return this.translator.get('formula');
       case BottleContentType.Water:
         return this.translator.get('water');
+      case BottleContentType.Juice:
+        return this.translator.get('juice');
     }
   }
 }

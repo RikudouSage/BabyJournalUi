@@ -22,8 +22,6 @@ interface DateSortedActivityStream {
   styleUrls: ['./activity-list.component.scss']
 })
 export class ActivityListComponent implements OnInit {
-  public ActivityType = ActivityType;
-
   private readonly limit = 100;
 
   public activities: Activity[] = [];
@@ -76,16 +74,5 @@ export class ActivityListComponent implements OnInit {
 
       this.activityStream = activities;
     });
-  }
-
-  public bottleContentTypeToString(foodType: BottleContentType): Observable<string> {
-    switch (foodType) {
-      case BottleContentType.BreastMilk:
-        return this.translator.get('breast milk');
-      case BottleContentType.Formula:
-        return this.translator.get('formula');
-      case BottleContentType.Water:
-        return this.translator.get('water');
-    }
   }
 }

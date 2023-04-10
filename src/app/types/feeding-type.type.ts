@@ -1,1 +1,1 @@
-export type FeedingType = 'bottle' | 'nursing' | 'solid';
+export type FeedingType = 'bottle' | 'nursing' | 'solid' | 'juice';
