@@ -2,7 +2,7 @@ import {AfterContentInit, AfterViewInit, Component, OnInit, ViewChild} from '@an
 import {UserManagerService} from "../../../services/user-manager.service";
 import {TitleService} from "../../../services/title.service";
 import {TranslateService} from "@ngx-translate/core";
-import {lastValueFrom, Observable, of} from "rxjs";
+import {filter, lastValueFrom, Observable, of, pairwise} from "rxjs";
 import {Child} from "../../../entity/child.entity";
 import {EncryptorService} from "../../../services/encryptor.service";
 import {potentiallyEncryptedValue} from "../../../pipes/potentially-encrypted-value.pipe";
@@ -16,6 +16,7 @@ import {EncryptedValue} from "../../../dto/encrypted-value";
 import {Router} from "@angular/router";
 import {ActivityType} from "../../../enum/activity-type.enum";
 import {FeedingType} from "../../../types/feeding-type.type";
+import {map} from "rxjs/operators";
 
 enum FeedingTypeIndex {
   Bottle,
@@ -139,11 +140,11 @@ export class FeedingComponent implements OnInit {
   }
 
   public async onBottleTrackingFinished(result: TrackerOutputData) {
+    await this.database.removeInProgress(ActivityType.Feeding);
     this.bottleForm.patchValue({
       startTime: result.startTime,
       endTime: result.endTime,
     });
-    await this.database.removeInProgress(ActivityType.Feeding);
   }
 
   public async onBottleTrackingStarted(startTime: Date) {
