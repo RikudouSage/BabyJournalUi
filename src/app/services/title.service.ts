@@ -7,7 +7,7 @@ import {TranslateService} from "@ngx-translate/core";
   providedIn: 'root'
 })
 export class TitleService {
-  private readonly defaultTitle = 'Baby Tracker';
+  private readonly defaultTitle = 'Baby Journal';
 
   private _titleChanged: BehaviorSubject<string> = new BehaviorSubject<string>(this.defaultTitle);
 
