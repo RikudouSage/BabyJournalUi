@@ -98,6 +98,21 @@ export class FeedingComponent implements OnInit {
         amount: existingBottleActivity.data.amount,
       });
     }
+
+    this.bottleForm.valueChanges.subscribe(async changes => {
+      const existingBottleActivity = await this.database.getInProgress(ActivityType.Feeding);
+      if (existingBottleActivity === null) {
+        return;
+      }
+      if (changes.startTime) {
+        existingBottleActivity.startTime = changes.startTime;
+      }
+      existingBottleActivity.data.amount = changes.amount;
+      existingBottleActivity.data.contentType = changes.contentType;
+      existingBottleActivity.data.notes = changes.notes;
+
+      await this.database.saveInProgress(existingBottleActivity);
+    });
   }
 
   public async saveSelectedTab(event: MatTabChangeEvent): Promise<void> {
