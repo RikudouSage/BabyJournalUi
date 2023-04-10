@@ -24,7 +24,7 @@ import { CreateChildComponent } from './pages/children/create-child/create-child
 import {MatRadioModule} from "@angular/material/radio";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SelectChildComponent } from './pages/children/select-child/select-child.component';
 import { PotentiallyEncryptedValuePipe } from './pipes/potentially-encrypted-value.pipe';
 import {ACTIVITIES} from "./dependency-injection/injection-tokens";
@@ -152,6 +152,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: ACTIVITIES, useClass: LeisureActivity, multi: true},
     {provide: ACTIVITIES, useClass: MedicalActivity, multi: true},
     {provide: ACTIVITIES, useClass: OtherActivity, multi: true},
+    {provide: MAT_DATE_LOCALE, useValue: navigator.languages},
   ],
   bootstrap: [AppComponent]
 })
