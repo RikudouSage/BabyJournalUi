@@ -1,0 +1,16 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+
+<ng-template #content>
+  <form [formGroup]="changeDateForm">
+    <mat-form-field>
+      <mat-label>{{'Date' | translate}}</mat-label>
+      <mat-datepicker #datePicker [touchUi]="isHandset | async"></mat-datepicker>
+      <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <input matInput formControlName="date" [matDatepicker]="datePicker" [matDatepickerFilter]="datePickerFilter" />
+    </mat-form-field>
+  </form>
+  <mat-tab-group>
+    <mat-tab label="{{'Event list' | translate}}"></mat-tab>
+    <mat-tab label="{{'By category' | translate}}"></mat-tab>
+  </mat-tab-group>
+</ng-template>
