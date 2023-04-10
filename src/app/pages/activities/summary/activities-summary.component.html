@@ -16,10 +16,15 @@
           <mat-card-title>{{changeDateForm.controls.date.value | dateOrNull}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <ng-container *ngFor="let activity of activityStream; let last = last">
-            <app-activity-event [activity]="activity"></app-activity-event>
-            <mat-divider *ngIf="!last"></mat-divider>
+          <ng-container *ngIf="activityStream.length else noActivities">
+            <ng-container *ngFor="let activity of activityStream; let last = last">
+              <app-activity-event [activity]="activity"></app-activity-event>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </ng-container>
           </ng-container>
+          <ng-template #noActivities>
+            <p>{{"There are no events." | translate}}</p>
+          </ng-template>
         </mat-card-content>
       </mat-card>
     </mat-tab>
