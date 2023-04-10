@@ -40,6 +40,7 @@ export class FeedingComponent implements OnInit {
     notes: <FormControl<string | null>>new FormControl(),
     contentType: <FormControl<BottleContentType | null>>new FormControl(null, [Validators.required]),
     amount: <FormControl<number | null>>new FormControl(null, [Validators.required, Validators.min(0)]),
+    trackingJustFinished: new FormControl(false),
   });
 
   @ViewChild(TrackerComponent) tracker: TrackerComponent;
@@ -102,7 +103,7 @@ export class FeedingComponent implements OnInit {
 
     this.bottleForm.valueChanges.subscribe(async changes => {
       const existingBottleActivity = await this.database.getInProgress(ActivityType.Feeding);
-      if (existingBottleActivity === null) {
+      if (existingBottleActivity === null || changes.trackingJustFinished) {
         return;
       }
       if (changes.startTime) {
@@ -140,11 +141,12 @@ export class FeedingComponent implements OnInit {
   }
 
   public async onBottleTrackingFinished(result: TrackerOutputData) {
-    await this.database.removeInProgress(ActivityType.Feeding);
     this.bottleForm.patchValue({
       startTime: result.startTime,
       endTime: result.endTime,
+      trackingJustFinished: true,
     });
+    await this.database.removeInProgress(ActivityType.Feeding);
   }
 
   public async onBottleTrackingStarted(startTime: Date) {
@@ -157,6 +159,9 @@ export class FeedingComponent implements OnInit {
         notes: this.bottleForm.controls.notes.value,
         contentType: this.bottleForm.controls.contentType.value,
       },
+    });
+    this.bottleForm.patchValue({
+      trackingJustFinished: false,
     });
   }
 
