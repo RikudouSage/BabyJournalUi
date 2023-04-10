@@ -9,6 +9,8 @@ import {UserRepository} from "./entity/user.entity";
 import {ChildRepository} from "./entity/child.entity";
 import {ParentalUnitRepository} from "./entity/parental-unit.entity";
 import {FeedingActivityRepository} from "./entity/feeding-activity.entity";
+import {NavigationStart, Router} from "@angular/router";
+import {findRouteParent} from "./helper/route-hierarchy";
 
 @Component({
   selector: 'app-root',
@@ -29,7 +31,17 @@ export class AppComponent implements OnInit {
     private readonly titleService: TitleService,
     private readonly userManager: UserManagerService,
     private readonly injector: Injector,
+    router: Router,
   ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        if (event.navigationTrigger === 'popstate') {
+          const currentUrl = router.routerState.snapshot.url;
+          const parent = findRouteParent(currentUrl);
+          router.navigateByUrl(parent);
+        }
+      }
+    })
   }
 
   ngOnInit(): void {

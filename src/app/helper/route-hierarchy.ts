@@ -20,6 +20,7 @@ const routeHierarchy: RouteHierarchy = {
       'children/add': {},
     },
     'auth/logout': {},
+    'activities/feeding': {},
   },
   'auth/register': {},
   'children/create-first': {},
@@ -34,12 +35,18 @@ function compileRouteHierarchy(hierarchy: RouteHierarchy, parent: string = ''): 
   }
   for (const routeName of Object.keys(hierarchy)) {
     const route = hierarchy[routeName];
+    if (typeof cachedRouteHierarchy[routeName] !== 'undefined') {
+      throw new Error(`Duplicate route in route hierarchy: '${routeName}'`);
+    }
     cachedRouteHierarchy[routeName] = parent;
     compileRouteHierarchy(route, routeName);
   }
 }
 
 export function findRouteParent(route: string): string {
+  if (route.startsWith('/')) {
+    route = route.substring(1);
+  }
   if (cachedRouteHierarchy === null) {
     compileRouteHierarchy(routeHierarchy);
   }
