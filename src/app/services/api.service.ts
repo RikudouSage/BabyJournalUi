@@ -7,7 +7,7 @@ import {UserManagerService} from "./user-manager.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {map} from "rxjs/operators";
 
-interface ActivityStreamItem {
+export interface ActivityStreamItem {
   id: string;
   startTime: string;
   endTime: string;

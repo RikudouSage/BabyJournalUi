@@ -64,7 +64,6 @@ export class ActivitiesSummaryComponent implements OnInit {
           && date.getMonth() === activityDate.getMonth()
           && date.getDate() === activityDate.getDate();
     });
-    console.log(this.activityStream);
     this.loading = false;
   }
 

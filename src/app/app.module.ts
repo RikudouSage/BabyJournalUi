@@ -61,6 +61,7 @@ import { DateOrNullPipe } from './pipes/date-or-null.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ActivitiesSummaryComponent } from './pages/activities/summary/activities-summary.component';
 import { InternalErrorComponent } from './pages/general/internal-error/internal-error.component';
+import { ActivityEventComponent } from './components/activity-event/activity-event.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -91,6 +92,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DateOrNullPipe,
     ActivitiesSummaryComponent,
     InternalErrorComponent,
+    ActivityEventComponent,
   ],
   imports: [
     BrowserModule,

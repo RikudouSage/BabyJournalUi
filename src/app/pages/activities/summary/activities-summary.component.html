@@ -10,7 +10,19 @@
     </mat-form-field>
   </form>
   <mat-tab-group>
-    <mat-tab label="{{'Event list' | translate}}"></mat-tab>
+    <mat-tab label="{{'Event list' | translate}}">
+      <mat-card>
+        <mat-card-header class="center">
+          <mat-card-title>{{changeDateForm.controls.date.value | dateOrNull}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container *ngFor="let activity of activityStream; let last = last">
+            <app-activity-event [activity]="activity"></app-activity-event>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
     <mat-tab label="{{'By category' | translate}}"></mat-tab>
   </mat-tab-group>
 </ng-template>

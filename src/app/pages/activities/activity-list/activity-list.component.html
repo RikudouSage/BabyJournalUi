@@ -19,23 +19,7 @@
     <mat-card-content>
       <div *ngFor="let date of dates">
         <strong class="center">{{date | dateOrNull}}</strong>
-        <div *ngFor="let activity of activityStream[date]">
-          <strong>{{activity.startTime | timeOrNull}}: </strong>
-          <span *ngIf="activity.activityType === ActivityType.Feeding">
-          <span
-            *ngIf="activity['type'] === 'bottle'"
-            [innerText]="'{{childName}} drank {{amount}} {{unit}} of {{foodType}} from bottle' | translate: {
-              childName: activity.childName,
-              amount: activity['amount'],
-              unit: 'ml',
-              foodType: bottleContentTypeToString($any(activity['bottleContentType'])) | async,
-            }"
-          ></span>
-          <span *ngIf="activity.note !== null">
-            ({{"note" | translate}}: {{activity.note}})
-          </span>
-        </span>
-        </div>
+        <app-activity-event *ngFor="let activity of activityStream[date]" [activity]="activity"></app-activity-event>
       </div>
     </mat-card-content>
   </mat-card>
