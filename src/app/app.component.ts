@@ -11,6 +11,7 @@ import {ParentalUnitRepository} from "./entity/parental-unit.entity";
 import {FeedingActivityRepository} from "./entity/feeding-activity.entity";
 import {NavigationStart, Router} from "@angular/router";
 import {findRouteParent} from "./helper/route-hierarchy";
+import {MatSidenav} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-root',
@@ -67,5 +68,11 @@ export class AppComponent implements OnInit {
     registry.registerRepository(this.injector.get(ChildRepository));
     registry.registerRepository(this.injector.get(ParentalUnitRepository));
     registry.registerRepository(this.injector.get(FeedingActivityRepository));
+  }
+
+  public async hideDrawer(drawer: MatSidenav) {
+    if (this.appLikeNavigation) {
+      await drawer.toggle(false);
+    }
   }
 }

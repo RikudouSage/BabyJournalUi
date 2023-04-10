@@ -6,15 +6,16 @@
   >
     <mat-nav-list>
       <ng-container *ngIf="!(isLoggedIn | async); else menu">
-        <a mat-list-item routerLink="/privacy" (click)="drawer.toggle(false)">{{"Privacy" | translate}}</a>
+        <a mat-list-item routerLink="/" (click)="hideDrawer(drawer)">{{"Home" | translate}}</a>
+        <a mat-list-item routerLink="/privacy" (click)="hideDrawer(drawer)">{{"Privacy" | translate}}</a>
       </ng-container>
       <ng-template #menu>
-        <a mat-list-item routerLink="/" (click)="drawer.toggle(false)">{{"Home" | translate}}</a>
-        <a mat-list-item routerLink="/activities/summary" (click)="drawer.toggle(false)">{{"Summary" | translate}}</a>
-        <a mat-list-item routerLink="/children/select-child" (click)="drawer.toggle(false)">{{"Your children" | translate}}</a>
-        <a mat-list-item routerLink="/settings" (click)="drawer.toggle(false)">{{"Settings" | translate}}</a>
-        <a mat-list-item routerLink="/privacy" (click)="drawer.toggle(false)">{{"Privacy" | translate}}</a>
-        <a mat-list-item routerLink="/auth/logout" (click)="drawer.toggle(false)">{{"Logout" | translate}}</a>
+        <a mat-list-item routerLink="/" (click)="hideDrawer(drawer)">{{"Home" | translate}}</a>
+        <a mat-list-item routerLink="/activities/summary" (click)="hideDrawer(drawer)">{{"Summary" | translate}}</a>
+        <a mat-list-item routerLink="/children/select-child" (click)="hideDrawer(drawer)">{{"Your children" | translate}}</a>
+        <a mat-list-item routerLink="/settings" (click)="hideDrawer(drawer)">{{"Settings" | translate}}</a>
+        <a mat-list-item routerLink="/privacy" (click)="hideDrawer(drawer)">{{"Privacy" | translate}}</a>
+        <a mat-list-item routerLink="/auth/logout" (click)="hideDrawer(drawer)">{{"Logout" | translate}}</a>
       </ng-template>
     </mat-nav-list>
   </mat-sidenav>
