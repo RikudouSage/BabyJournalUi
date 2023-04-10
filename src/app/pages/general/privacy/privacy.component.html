@@ -1,0 +1,28 @@
+<p>
+  {{"This app doesn't track any data about you and doesn't use any 3rd party tools that would track you." | translate}}
+</p>
+<p>
+  {{"The data you save in the app is all encrypted using a private/public key pair that is only stored on the devices of people connected to your family." | translate}}
+</p>
+<ng-container *ngIf="userName !== null">
+  <p>
+    {{"Seriously, we don't even know your name! This is what your name looks like in our database:" | translate}}
+  </p>
+  <p>
+    <code>{{userName.encrypted}}</code>
+  </p>
+</ng-container>
+<ng-container *ngIf="userName === null && childName !== null">
+  <p>
+    {{"Seriously, we don't even know your child's name! This is what it looks like in our database:" | translate}}
+  </p>
+  <p>
+    <code>{{childName.encrypted}}</code>
+  </p>
+</ng-container>
+<p *ngIf="userName !== null || childName !== null">
+  {{"If this looks unintelligible to you that's because it is. And it cannot be decrypted into anything intelligible without the private key that's stored on your device." | translate}}
+</p>
+<p>
+  {{"If you lose your private key there is no way to recover your account, so make sure your account is backed up." | translate}}
+</p>

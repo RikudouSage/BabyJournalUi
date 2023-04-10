@@ -26,6 +26,7 @@ const routeHierarchy: RouteHierarchy = {
   'auth/register': {},
   'children/create-first': {},
   'unsupported-browser': {},
+  'privacy': {},
 };
 
 let cachedRouteHierarchy: CachedRouteHierarchy | null = null;

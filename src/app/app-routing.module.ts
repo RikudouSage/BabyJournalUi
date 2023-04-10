@@ -18,6 +18,7 @@ import {BrowserUnsupportedComponent} from "./pages/general/browser-unsupported/b
 import {BrowserSupportGuard} from "./services/browser-support.guard";
 import {ActivitiesSummaryComponent} from "./pages/activities/summary/activities-summary.component";
 import {InternalErrorComponent} from "./pages/general/internal-error/internal-error.component";
+import {PrivacyComponent} from "./pages/general/privacy/privacy.component";
 
 const routes: Routes = [
   {
@@ -91,6 +92,10 @@ const routes: Routes = [
   {
     path: 'unsupported-browser',
     component: BrowserUnsupportedComponent,
+  },
+  {
+    path: 'privacy',
+    component: PrivacyComponent,
   }
 ];
 
