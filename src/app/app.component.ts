@@ -43,7 +43,13 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationStart) {
         if (event.navigationTrigger === 'popstate') {
           const currentUrl = router.routerState.snapshot.url;
-          const parent = findRouteParent(currentUrl);
+          let parent: string;
+          try {
+            parent = findRouteParent(currentUrl);
+          } catch (e) {
+            console.error(`There is no parent defined for route: '${currentUrl}'`);
+            parent = '/internal-error';
+          }
           router.navigateByUrl(parent);
         }
       }

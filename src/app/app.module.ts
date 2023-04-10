@@ -59,6 +59,8 @@ import { ElapsedTimePipe } from './pipes/elapsed-time.pipe';
 import { TrackerComponent } from './components/tracker/tracker.component';
 import { DateOrNullPipe } from './pipes/date-or-null.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ActivitiesSummaryComponent } from './pages/activities/summary/activities-summary.component';
+import { InternalErrorComponent } from './pages/general/internal-error/internal-error.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -87,6 +89,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ElapsedTimePipe,
     TrackerComponent,
     DateOrNullPipe,
+    ActivitiesSummaryComponent,
+    InternalErrorComponent,
   ],
   imports: [
     BrowserModule,

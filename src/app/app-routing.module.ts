@@ -16,6 +16,8 @@ import {SharingComponent} from "./pages/settings/sharing/sharing.component";
 import {InviteComponent} from "./pages/settings/invite/invite.component";
 import {BrowserUnsupportedComponent} from "./pages/general/browser-unsupported/browser-unsupported.component";
 import {BrowserSupportGuard} from "./services/browser-support.guard";
+import {ActivitiesSummaryComponent} from "./pages/activities/summary/activities-summary.component";
+import {InternalErrorComponent} from "./pages/general/internal-error/internal-error.component";
 
 const routes: Routes = [
   {
@@ -30,6 +32,11 @@ const routes: Routes = [
   {
     path: '',
     component: ActivityListComponent,
+    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
+  },
+  {
+    path: 'activities/summary',
+    component: ActivitiesSummaryComponent,
     canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
   },
   {
@@ -76,6 +83,10 @@ const routes: Routes = [
     path: 'settings/account/sharing/invite',
     component: InviteComponent,
     canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+  },
+  {
+    path: 'internal-error',
+    component: InternalErrorComponent,
   },
   {
     path: 'unsupported-browser',
