@@ -15,6 +15,7 @@ const routeHierarchy: RouteHierarchy = {
           'settings/account/sharing/invite': {},
         },
       },
+      'settings/general': {},
     },
     'children/select-child': {
       'children/add': {},

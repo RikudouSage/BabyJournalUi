@@ -1,5 +1,5 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {Observable, of, tap} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {TitleService} from "./services/title.service";
@@ -13,6 +13,8 @@ import {NavigationStart, Router} from "@angular/router";
 import {findRouteParent} from "./helper/route-hierarchy";
 import {MatSidenav} from "@angular/material/sidenav";
 import {TranslateService} from "@ngx-translate/core";
+import {DatabaseService} from "./services/database.service";
+import {AppLanguage} from "./types/app-language";
 
 @Component({
   selector: 'app-root',
@@ -38,8 +40,11 @@ export class AppComponent implements OnInit {
     private readonly injector: Injector,
     router: Router,
     translator: TranslateService,
+    database: DatabaseService,
   ) {
-    translator.use(navigator.languages[0]);
+    translator.use(
+      database.getLanguage() === AppLanguage.Default ? navigator.languages[0] : database.getLanguage()
+    );
     router.events.subscribe(event => {
       if (!this.appLikeNavigation) {
         return;

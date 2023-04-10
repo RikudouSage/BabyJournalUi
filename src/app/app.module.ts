@@ -64,6 +64,8 @@ import { InternalErrorComponent } from './pages/general/internal-error/internal-
 import { ActivityEventComponent } from './components/activity-event/activity-event.component';
 import { PrivacyComponent } from './pages/general/privacy/privacy.component';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
+import { GeneralSettingsComponent } from './pages/settings/general/general-settings.component';
+import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -97,6 +99,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ActivityEventComponent,
     PrivacyComponent,
     RelativeDatePipe,
+    GeneralSettingsComponent,
+    UppercaseFirstPipe,
   ],
   imports: [
     BrowserModule,

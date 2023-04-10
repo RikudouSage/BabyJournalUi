@@ -1,0 +1,14 @@
+<mat-list>
+  <form [formGroup]="settingsForm">
+    <mat-list-item [lines]="3">
+      <mat-form-field>
+        <mat-label matListItemTitle>{{"Language" | translate}}</mat-label>
+        <mat-select formControlName="language">
+          <mat-option *ngFor="let language of AppLanguage | keyvalue" [value]="language.value">
+            {{languageNames[language.value] | uppercaseFirst}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-list-item>
+  </form>
+</mat-list>

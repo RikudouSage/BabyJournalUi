@@ -19,6 +19,7 @@ import {BrowserSupportGuard} from "./services/browser-support.guard";
 import {ActivitiesSummaryComponent} from "./pages/activities/summary/activities-summary.component";
 import {InternalErrorComponent} from "./pages/general/internal-error/internal-error.component";
 import {PrivacyComponent} from "./pages/general/privacy/privacy.component";
+import {GeneralSettingsComponent} from "./pages/settings/general/general-settings.component";
 
 const routes: Routes = [
   {
@@ -83,6 +84,11 @@ const routes: Routes = [
   {
     path: 'settings/account/sharing/invite',
     component: InviteComponent,
+    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+  },
+  {
+    path: 'settings/general',
+    component: GeneralSettingsComponent,
     canActivate: [IsLoggedInGuard, BrowserSupportGuard],
   },
   {

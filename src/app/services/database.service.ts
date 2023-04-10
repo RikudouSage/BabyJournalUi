@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {IDBPDatabase, IDBPTransaction, openDB, StoreNames} from "idb";
 import {BottleContentType} from "../enum/bottle-content-type.enum";
 import {ActivityType} from "../enum/activity-type.enum";
 import {FeedingType} from "../types/feeding-type.type";
 import {ActivityInProgress} from "../types/activity-in-progress.type";
+import {AppLanguage} from "../types/app-language";
 
 @Injectable({
   providedIn: 'root'
@@ -104,6 +105,18 @@ export class DatabaseService {
       const store = tx.objectStore(storeName);
       await store.clear();
       await tx.done;
+    }
+  }
+
+  public getLanguage(): AppLanguage {
+    return <any>localStorage.getItem('language') ?? 'default';
+  }
+
+  public storeLanguage(language: AppLanguage): void {
+    if (language === AppLanguage.Default) {
+      localStorage.removeItem('language');
+    } else {
+      localStorage.setItem('language', language);
     }
   }
 

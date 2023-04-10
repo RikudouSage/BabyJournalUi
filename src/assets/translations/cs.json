@@ -124,5 +124,10 @@
   "Create an invite": "Vytvořit pozvánku",
   "Delete user?": "Smazat uživatele?",
   "Are you sure you want to delete user {{user}}?": "Určitě chcete smazat uživatele {{user}}?",
-  "(which is not that surprising given the fact that {{childName}} wasn't born yet)": "(což není až tak překvapující vzhledem k tomu, že se {{childName}} ještě nenarodil/a)"
+  "(which is not that surprising given the fact that {{childName}} wasn't born yet)": "(což není až tak překvapující vzhledem k tomu, že se {{childName}} ještě nenarodil/a)",
+  "General": "Obecné",
+  "Language and other general settings.": "Jazyk a další obecná nastavení.",
+  "General settings": "Obecná nastavení",
+  "Automatic detection": "Autodetekce",
+  "Language": "Jazyk"
 }
