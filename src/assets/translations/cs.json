@@ -1,1 +1,20 @@
-{}
+{
+  "There are no events.": "Nejsou žádné události.",
+  "By category": "Podle kategorie",
+  "Event list": "Seznam událostí",
+  "Date": "Datum",
+  "Feeding": "Krmení",
+  "{{dateDescription}} {{childName}} drank <strong>{{totalAmount}} {{unit}}</strong> from bottle.": "{{dateDescription}} {{childName}} vypil/a <strong>{{totalAmount}} {{unit}}</strong> z lahve.",
+  "today": "dnes",
+  "yesterday": "včera",
+  "on {{date}}": "{{date}}",
+  "<strong>{{amount}} {{unit}}</strong> of that was {{type}}.": "<strong>{{amount}} {{unit}}</strong> z toho bylo: {{type}}.",
+  "{{dateDescription}} {{childName}} didn't drink anything from bottle.": "{{dateDescription}} {{childName}} nevypil/a nic z lahve.",
+  "breast milk": "mateřské mléko",
+  "formula": "umělé mléko",
+  "water": "voda",
+  "juice": "džus",
+  "Activities summary": "Shrnutí aktivit",
+  "{{childName}} drank {{amount}} {{unit}} of {{foodType}} from bottle.": "{{childName}} vypil/a {{amount}} {{unit}} z lahve: {{foodType}}.",
+  "note": "poznámka"
+}

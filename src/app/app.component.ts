@@ -12,6 +12,7 @@ import {FeedingActivityRepository} from "./entity/feeding-activity.entity";
 import {NavigationStart, Router} from "@angular/router";
 import {findRouteParent} from "./helper/route-hierarchy";
 import {MatSidenav} from "@angular/material/sidenav";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -36,7 +37,9 @@ export class AppComponent implements OnInit {
     private readonly userManager: UserManagerService,
     private readonly injector: Injector,
     router: Router,
+    translator: TranslateService,
   ) {
+    translator.use(navigator.languages[0]);
     router.events.subscribe(event => {
       if (!this.appLikeNavigation) {
         return;
