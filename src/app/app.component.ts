@@ -1,5 +1,5 @@
-import {Component, Injector, OnInit} from '@angular/core';
-import {Observable, tap} from "rxjs";
+import {Component, HostListener, Injector, OnInit} from '@angular/core';
+import {lastValueFrom, Observable, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {TitleService} from "./services/title.service";
@@ -15,6 +15,7 @@ import {MatSidenav} from "@angular/material/sidenav";
 import {TranslateService} from "@ngx-translate/core";
 import {DatabaseService} from "./services/database.service";
 import {AppLanguage} from "./types/app-language";
+import {MatSnackBar, MatSnackBarRef, TextOnlySnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ import {AppLanguage} from "./types/app-language";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  private offlineSnackBar: MatSnackBarRef<TextOnlySnackBar>;
   public appLikeNavigation: boolean = true;
 
   isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -38,8 +40,9 @@ export class AppComponent implements OnInit {
     private readonly titleService: TitleService,
     private readonly userManager: UserManagerService,
     private readonly injector: Injector,
+    private readonly snackBar: MatSnackBar,
+    private readonly translator: TranslateService,
     router: Router,
-    translator: TranslateService,
     database: DatabaseService,
   ) {
     translator.use(
@@ -82,5 +85,19 @@ export class AppComponent implements OnInit {
     if (this.appLikeNavigation) {
       await drawer.toggle(false);
     }
+  }
+
+  @HostListener('window:offline')
+  public async onOffline() {
+    this.offlineSnackBar = this.snackBar.open(await lastValueFrom(this.translator.get('You are offline, you cannot save any data.')));
+  }
+
+  @HostListener('window:online')
+  public async onOnline() {
+    if (this.offlineSnackBar === undefined) {
+      return;
+    }
+
+    this.offlineSnackBar.dismiss();
   }
 }
