@@ -18,7 +18,7 @@
     </mat-card-header>
     <mat-card-content>
       <div *ngFor="let date of dates">
-        <strong class="center">{{date | dateOrNull}}</strong>
+        <strong class="center">{{date | relativeDate | async | uppercaseFirst}}</strong>
         <app-activity-event *ngFor="let activity of activityStream[date]" [activity]="activity"></app-activity-event>
       </div>
     </mat-card-content>

@@ -13,7 +13,7 @@
     <mat-tab label="{{'Event list' | translate}}">
       <mat-card>
         <mat-card-header class="center">
-          <mat-card-title>{{changeDateForm.controls.date.value | dateOrNull}}</mat-card-title>
+          <mat-card-title>{{changeDateForm.controls.date.value | relativeDate | async | uppercaseFirst}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <ng-container *ngIf="activityStream.length else noActivities">
