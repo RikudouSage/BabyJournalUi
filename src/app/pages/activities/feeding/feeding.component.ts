@@ -45,6 +45,7 @@ export class FeedingComponent implements OnInit {
   });
 
   public errorMessage: Observable<string> = of('');
+  public loading = true;
 
   public bottleContentTypeToString = this.enumToString.bottleContentTypeToString;
 
@@ -117,6 +118,8 @@ export class FeedingComponent implements OnInit {
 
       await this.database.saveInProgress(existingBottleActivity);
     });
+
+    this.loading = false;
   }
 
   public async saveSelectedTab(event: MatTabChangeEvent): Promise<void> {
