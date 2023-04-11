@@ -57,10 +57,17 @@ export class FeedingComponent implements OnInit {
     notes: <FormControl<string | null>>new FormControl(),
     trackingJustFinished: new FormControl(false),
   });
+  public solidFoodForm = new FormGroup({
+    startTime: <FormControl<Date | null>>new FormControl(null, [Validators.required]),
+    endTime: <FormControl<Date | null>>new FormControl(null, [Validators.required]),
+    notes: <FormControl<string | null>>new FormControl(),
+    trackingJustFinished: new FormControl(false),
+  });
 
   public bottleErrorMessage: Observable<string> = of('');
   public leftBreastNursingErrorMessage: Observable<string> = of('');
   public rightBreastNursingErrorMessage: Observable<string> = of('');
+  public solidErrorMessage: Observable<string> = of('');
 
   public loading = true;
 
@@ -88,8 +95,32 @@ export class FeedingComponent implements OnInit {
 
     await this.initializeBottle();
     await this.initializeNursing();
+    await this.initializeSolidFood();
 
     this.loading = false;
+  }
+
+  public async initializeSolidFood(): Promise<void> {
+    const existingActivity = await this.database.getInProgress(ActivityType.FeedingSolid);
+    if (existingActivity !== null) {
+      this.solidFoodForm.patchValue({
+        startTime: existingActivity.startTime,
+        notes: existingActivity.notes,
+      });
+    }
+
+    this.solidFoodForm.valueChanges.subscribe(async changes => {
+      const existingActivity = await this.database.getInProgress(ActivityType.FeedingSolid);
+      if (existingActivity === null || changes.trackingJustFinished) {
+        return;
+      }
+      if (changes.startTime) {
+        existingActivity.startTime = changes.startTime;
+      }
+      existingActivity.notes = changes.notes ?? null;
+
+      await this.database.saveInProgress(existingActivity);
+    });
   }
 
   public async initializeNursing(): Promise<void> {
@@ -199,12 +230,6 @@ export class FeedingComponent implements OnInit {
     await this.database.saveLastOpenedFeedingType(feedingType);
   }
 
-  public async onTimerReset(newDate: Date): Promise<void> {
-    this.bottleForm.patchValue({
-      startTime: newDate,
-    });
-  }
-
   public async onBottleTrackingFinished(result: TrackerOutputData) {
     this.bottleForm.patchValue({
       startTime: result.startTime,
@@ -311,5 +336,51 @@ export class FeedingComponent implements OnInit {
 
   public async saveSelectedBreast(event: MatTabChangeEvent) {
     await this.database.saveLastNursingBreast(event.index);
+  }
+
+  public async saveSolidFoodData(tracker: TrackerComponent): Promise<void> {
+    await tracker.finishTracking();
+    if (!this.solidFoodForm.valid) {
+      this.solidErrorMessage = this.translator.get('Some required fields are not filled.');
+      return;
+    }
+
+    const activity = new FeedingActivity();
+    activity.attributes = {
+      amount: null,
+      startTime: new EncryptedValue(await this.encryptor.encrypt((<Date>this.solidFoodForm.controls.startTime.value).toISOString())),
+      endTime: new EncryptedValue(await this.encryptor.encrypt((<Date>this.solidFoodForm.controls.endTime.value).toISOString())),
+      type: new EncryptedValue(await this.encryptor.encrypt(<FeedingType>'solid')),
+      note: this.solidFoodForm.controls.notes.value ? new EncryptedValue(await this.encryptor.encrypt(this.solidFoodForm.controls.notes.value)) : null,
+      breakDuration: null,
+      bottleContentType: null,
+      breast: null,
+    }
+
+    this.feedingActivityRepository.create(activity, false).subscribe(() => {
+      this.router.navigateByUrl('/');
+    });
+  }
+
+  public async onSolidFoodTrackingFinished(result: TrackerOutputData): Promise<void> {
+    this.solidFoodForm.patchValue({
+      startTime: result.startTime,
+      endTime: result.endTime,
+      trackingJustFinished: true,
+    });
+    await this.database.removeInProgress(ActivityType.FeedingSolid);
+  }
+
+  public async onSolidFoodTrackingStarted(startTime: Date) {
+    await this.database.saveInProgress({
+      startTime: startTime,
+      activity: ActivityType.FeedingSolid,
+      mode: 'running',
+      notes: this.solidFoodForm.controls.notes.value,
+      data: {},
+    });
+    this.solidFoodForm.patchValue({
+      trackingJustFinished: false,
+    });
   }
 }

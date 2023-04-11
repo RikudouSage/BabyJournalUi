@@ -94,6 +94,28 @@
         </mat-tab>
       </mat-tab-group>
     </mat-tab>
-    <mat-tab label="{{'Solid' | translate}}"></mat-tab>
+    <mat-tab label="{{'Solid' | translate}}">
+      <mat-card>
+        <mat-card-content>
+          <mat-error class="center" *ngIf="solidErrorMessage | async">
+            {{solidErrorMessage | async}}
+          </mat-error>
+          <form [formGroup]="solidFoodForm" (submit)="saveSolidFoodData(solidFoodTracker)">
+            <app-tracker
+              [startTime]="solidFoodForm.controls.startTime.value"
+              [endTime]="solidFoodForm.controls.endTime.value"
+              (finished)="onSolidFoodTrackingFinished($event)"
+              (started)="onSolidFoodTrackingStarted($event)"
+              (startDateChanged)="onSolidFoodTrackingStarted($event)"
+              #solidFoodTracker></app-tracker>
+            <mat-form-field class="notes">
+              <mat-label>{{"Notes" | translate}}</mat-label>
+              <input matInput formControlName="notes" />
+            </mat-form-field>
+            <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
   </mat-tab-group>
 </ng-template>

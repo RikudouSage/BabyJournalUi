@@ -30,6 +30,7 @@ interface CategorySummary {
     total: {
       bottle: number;
       nursing: number;
+      solid: number;
     }
   }
 }
@@ -58,6 +59,7 @@ export class ActivitiesSummaryComponent implements OnInit {
       total: {
         bottle: 0,
         nursing: 0,
+        solid: 0,
       }
     },
   };
@@ -146,6 +148,8 @@ export class ActivitiesSummaryComponent implements OnInit {
         const seconds = dateDiff(new Date(typedActivity.startTime), new Date(typedActivity.endTime));
         this.summary.feeding.nursing[breast] += seconds;
         this.summary.feeding.total.nursing += seconds;
+      } else if (activity.activityType === ActivityType.FeedingSolid) {
+        this.summary.feeding.total.solid += 1;
       }
     }
 

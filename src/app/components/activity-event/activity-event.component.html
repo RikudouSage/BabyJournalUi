@@ -25,4 +25,14 @@
       ({{"note" | translate}}: {{activity.note}})
     </span>
   </span>
+  <span *ngIf="activity.activityType === ActivityType.FeedingSolid">
+    <span
+      [innerText]="'{{childName}} ate solid food.' | translate: {
+        childName: activity.childName,
+      }"
+    ></span>
+    <span *ngIf="activity.note !== null">
+      ({{"note" | translate}}: {{activity.note}})
+    </span>
+  </span>
 </div>

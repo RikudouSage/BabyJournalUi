@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {forkJoin, from, interval, switchMap} from "rxjs";
 import {DatabaseService} from "../services/database.service";
-import {map, zip} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {ActivityType} from "../enum/activity-type.enum";
 
 @Injectable({
@@ -19,12 +19,13 @@ export class FeedingActivity implements Activity {
   // );
   isRunning = interval(1_000).pipe(
     switchMap(() => forkJoin(
-        from(this.database.getInProgress(ActivityType.FeedingBottle)),
-        from(this.database.getInProgress(ActivityType.FeedingBreast)),
+      from(this.database.getInProgress(ActivityType.FeedingBottle)),
+      from(this.database.getInProgress(ActivityType.FeedingBreast)),
+      from(this.database.getInProgress(ActivityType.FeedingSolid)),
     )),
     map(
-      ([bottle, nursing]) =>
-        bottle !== null || nursing !== null
+      ([bottle, nursing, solid]) =>
+        bottle !== null || nursing !== null || solid !== null
     ),
   );
 

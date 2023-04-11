@@ -95,6 +95,24 @@
             ></p>
           </ng-template>
           <mat-divider></mat-divider>
+          <ng-container *ngIf="summary.feeding.total.solid else noSolidFood">
+            <p
+              [innerHTML]="'{{dateDescription}} {{childName}} ate solid food {{count}} times.' | translate:{
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              count: summary.feeding.total.solid,
+            }"
+            ></p>
+          </ng-container>
+          <ng-template #noSolidFood>
+            <p
+              [innerHTML]="'{{dateDescription}} {{childName}} didn\'t eat any solid food.' | translate:{
+                dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+                childName: childName | async,
+              }"
+            ></p>
+          </ng-template>
+          <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
     </mat-tab>
