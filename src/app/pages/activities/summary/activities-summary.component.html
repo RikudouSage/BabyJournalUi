@@ -68,6 +68,33 @@
             ></small>
           </ng-template>
           <mat-divider></mat-divider>
+          <ng-container *ngIf="summary.feeding.total.nursing else noNursing">
+            <p
+              [innerHTML]="'{{dateDescription}} {{childName}} was nursed for <strong>{{howLong}}</strong> in total.' | translate:{
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              howLong: summary.feeding.total.nursing | secondsToDurationString | async,
+            }"
+            ></p>
+            <ng-container *ngFor="let type of summary.feeding.nursing | keyvalue">
+              <p
+                *ngIf="type.value"
+                [innerHTML]="'<strong>{{howLong}}</strong> of that was from {{sideBreast}}.' | translate: {
+                howLong: $any(type.value) | secondsToDurationString | async,
+                sideBreast: breastIndexToString(stringNumberToBreastIndex($any(type.key))) | async,
+              }"
+              ></p>
+            </ng-container>
+          </ng-container>
+          <ng-template #noNursing>
+            <p
+              [innerHTML]="'{{dateDescription}} {{childName}} wasn\'t nursed.' | translate:{
+                dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+                childName: childName | async,
+              }"
+            ></p>
+          </ng-template>
+          <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
     </mat-tab>

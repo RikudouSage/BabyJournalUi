@@ -18,10 +18,14 @@ export interface ActivityStreamItem {
   [key: string]: string | null;
 }
 
-export interface FeedingActivityStreamItem extends ActivityStreamItem {
+export interface BottleFeedingActivityStreamItem extends ActivityStreamItem {
   type: FeedingType;
   amount: string;
   bottleContentType: string | null;
+}
+
+export interface BreastFeedingActivityStreamItem extends ActivityStreamItem {
+  breast: string;
 }
 
 export type ActivityStream = ActivityStreamItem[];

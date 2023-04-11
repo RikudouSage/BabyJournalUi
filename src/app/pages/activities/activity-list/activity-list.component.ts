@@ -72,6 +72,7 @@ export class ActivityListComponent implements OnInit {
         ++i;
       }
 
+      console.log(activities);
       this.activityStream = activities;
     });
   }

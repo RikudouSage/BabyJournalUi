@@ -5,6 +5,7 @@ import {ActivityType} from "../enum/activity-type.enum";
 import {FeedingType} from "../types/feeding-type.type";
 import {ActivityInProgress} from "../types/activity-in-progress.type";
 import {AppLanguage} from "../types/app-language";
+import {BreastIndex} from "../enum/breast-index.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,14 @@ export class DatabaseService {
 
   public async saveLastOpenedFeedingType(type: FeedingType): Promise<void> {
     await this.saveSetting('lastFeedingType', type);
+  }
+
+  public async getLastNursingBreast(): Promise<BreastIndex> {
+    return await this.getSetting("lastBreastTab") ?? BreastIndex.Left;
+  }
+
+  public async saveLastNursingBreast(breast: BreastIndex): Promise<void> {
+    return await this.saveSetting("lastBreastTab", breast);
   }
 
   public async getLastBottleFeedingAmount(): Promise<number | null> {

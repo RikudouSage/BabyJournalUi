@@ -130,5 +130,16 @@
   "General settings": "Obecná nastavení",
   "Automatic detection": "Autodetekce",
   "Language": "Jazyk",
-  "You are offline, you cannot save any data.": "Jste offline, nemůžete ukládat žádná data."
+  "You are offline, you cannot save any data.": "Jste offline, nemůžete ukládat žádná data.",
+  "Left breast": "Levé prso",
+  "Right breast": "Pravé prso",
+  "{{childName}} drank from {{sideBreast}} for {{howLong}}.": "{{childName}} pil/a z {{sideBreast}} {{howLong}}.",
+  "left breast": "levého prsu",
+  "right breast": "pravého prsu",
+  "{{count}} hours": "{{count}} hodin",
+  "{{count}} minutes": "{{count}} minut",
+  "{{count}} seconds": "{{count}} sekund",
+  "{{dateDescription}} {{childName}} was nursed for <strong>{{howLong}}</strong> in total.": "{{dateDescription}} byl/a {{childName}} kojen/a celkem <strong>{{howLong}}</strong>.",
+  "<strong>{{howLong}}</strong> of that was from {{sideBreast}}.": "<strong>{{howLong}}</strong> z toho bylo z {{sideBreast}}.",
+  "{{dateDescription}} {{childName}} wasn't nursed.": "{{dateDescription}} {{childName}} nebyl/a kojen/a."
 }

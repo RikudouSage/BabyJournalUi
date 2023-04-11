@@ -5,4 +5,5 @@ export interface ActivityInProgress {
   activity: ActivityType;
   mode: 'running' | 'paused';
   data: any;
+  notes: string | null;
 }

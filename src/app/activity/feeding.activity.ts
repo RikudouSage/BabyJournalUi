@@ -1,9 +1,9 @@
 import {Activity} from "./activity";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
-import {from, interval, switchMap} from "rxjs";
+import {forkJoin, from, interval, switchMap} from "rxjs";
 import {DatabaseService} from "../services/database.service";
-import {map} from "rxjs/operators";
+import {map, zip} from "rxjs/operators";
 import {ActivityType} from "../enum/activity-type.enum";
 
 @Injectable({
@@ -18,8 +18,14 @@ export class FeedingActivity implements Activity {
   //   map(value => value !== null),
   // );
   isRunning = interval(1_000).pipe(
-    switchMap(() => from(this.database.getInProgress(ActivityType.Feeding))),
-    map(value => value !== null),
+    switchMap(() => forkJoin(
+        from(this.database.getInProgress(ActivityType.FeedingBottle)),
+        from(this.database.getInProgress(ActivityType.FeedingBreast)),
+    )),
+    map(
+      ([bottle, nursing]) =>
+        bottle !== null || nursing !== null
+    ),
   );
 
   constructor(

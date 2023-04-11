@@ -6,8 +6,8 @@
       <form [formGroup]="bottleForm" (submit)="saveBottleData(bottleTracker)">
         <mat-card>
           <mat-card-content>
-            <mat-error class="center" *ngIf="errorMessage | async">
-              {{errorMessage | async}}
+            <mat-error class="center" *ngIf="bottleErrorMessage | async">
+              {{bottleErrorMessage | async}}
             </mat-error>
 
             <app-tracker
@@ -39,13 +39,61 @@
                 </mat-select>
               </mat-form-field>
             </div>
-
             <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
           </mat-card-content>
         </mat-card>
       </form>
     </mat-tab>
-    <mat-tab label="{{'Nursing' | translate}}"></mat-tab>
+    <mat-tab label="{{'Nursing' | translate}}">
+      <mat-tab-group selectedIndex="{{breastIndex}}" (selectedTabChange)="saveSelectedBreast($event)">
+        <mat-tab label="{{'Left breast' | translate}}">
+          <mat-card>
+            <mat-card-content>
+              <mat-error class="center" *ngIf="leftBreastNursingErrorMessage | async">
+                {{leftBreastNursingErrorMessage | async}}
+              </mat-error>
+              <form [formGroup]="leftBreastForm" (submit)="saveBreastData(leftBreastTracker, BreastIndex.Left)">
+                <app-tracker
+                  [startTime]="leftBreastForm.controls.startTime.value"
+                  [endTime]="leftBreastForm.controls.endTime.value"
+                  (finished)="onBreastTrackingFinished($event, BreastIndex.Left)"
+                  (started)="onBreastTrackingStarted($event, BreastIndex.Left)"
+                  (startDateChanged)="onBreastTrackingStarted($event, BreastIndex.Left)"
+                  #leftBreastTracker></app-tracker>
+                <mat-form-field class="notes">
+                  <mat-label>{{"Notes" | translate}}</mat-label>
+                  <input matInput formControlName="notes" />
+                </mat-form-field>
+                <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="{{'Right breast' | translate}}">
+          <mat-card>
+            <mat-card-content>
+              <mat-error class="center" *ngIf="rightBreastNursingErrorMessage | async">
+                {{rightBreastNursingErrorMessage | async}}
+              </mat-error>
+              <form [formGroup]="rightBreastForm" (submit)="saveBreastData(rightBreastTracker, BreastIndex.Right)">
+                <app-tracker
+                  [startTime]="rightBreastForm.controls.startTime.value"
+                  [endTime]="rightBreastForm.controls.endTime.value"
+                  (finished)="onBreastTrackingFinished($event, BreastIndex.Right)"
+                  (started)="onBreastTrackingStarted($event, BreastIndex.Right)"
+                  (startDateChanged)="onBreastTrackingStarted($event, BreastIndex.Right)"
+                  #rightBreastTracker></app-tracker>
+                <mat-form-field class="notes">
+                  <mat-label>{{"Notes" | translate}}</mat-label>
+                  <input matInput formControlName="notes" />
+                </mat-form-field>
+                <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-tab>
     <mat-tab label="{{'Solid' | translate}}"></mat-tab>
   </mat-tab-group>
 </ng-template>

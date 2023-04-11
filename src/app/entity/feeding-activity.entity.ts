@@ -13,7 +13,8 @@ export class FeedingActivity extends AbstractEntity {
     note: EncryptedValue | null,
     type: EncryptedValue,
     bottleContentType: EncryptedValue | null,
-    amount: EncryptedValue,
+    amount: EncryptedValue | null,
+    breast: EncryptedValue | null,
   } = {
     startTime: new EncryptedValue(''),
     endTime: new EncryptedValue(''),
@@ -21,7 +22,8 @@ export class FeedingActivity extends AbstractEntity {
     note: null,
     type: new EncryptedValue(''),
     bottleContentType: null,
-    amount: new EncryptedValue(''),
+    amount: null,
+    breast: null,
   };
 
   override encryptedValueConvertors = {

@@ -1,17 +1,28 @@
 <div>
   <strong>{{activity.startTime | timeOrNull}}: </strong>
-  <span *ngIf="activity.activityType === ActivityType.Feeding">
-          <span
-            *ngIf="activity['type'] === 'bottle'"
-            [innerText]="'{{childName}} drank {{amount}} {{unit}} of {{foodType}} from bottle.' | translate: {
-              childName: activity.childName,
-              amount: activity['amount'],
-              unit: 'ml',
-              foodType: bottleContentTypeToString($any(activity['bottleContentType'])) | async,
-            }"
-          ></span>
-          <span *ngIf="activity.note !== null">
-            ({{"note" | translate}}: {{activity.note}})
-          </span>
-        </span>
+  <span *ngIf="activity.activityType === ActivityType.FeedingBottle">
+    <span
+      [innerText]="'{{childName}} drank {{amount}} {{unit}} of {{foodType}} from bottle.' | translate: {
+        childName: activity.childName,
+        amount: activity['amount'],
+        unit: 'ml',
+        foodType: bottleContentTypeToString($any(activity['bottleContentType'])) | async,
+      }"
+    ></span>
+    <span *ngIf="activity.note !== null">
+      ({{"note" | translate}}: {{activity.note}})
+    </span>
+  </span>
+  <span *ngIf="activity.activityType === ActivityType.FeedingBreast">
+    <span
+      [innerText]="'{{childName}} drank from {{sideBreast}} for {{howLong}}.' | translate: {
+        childName: activity.childName,
+        sideBreast: breastIndexToString(stringNumberToBreastIndex($any(activity['breast']))) | async,
+        howLong: activity.startTime | dateDiff:activity.endTime | secondsToDurationString | async,
+      }"
+    ></span>
+    <span *ngIf="activity.note !== null">
+      ({{"note" | translate}}: {{activity.note}})
+    </span>
+  </span>
 </div>

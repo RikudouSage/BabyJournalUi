@@ -11,3 +11,7 @@ export function dateToYmd(date: Date): string {
 
   return `${year}-${month}-${day}`;
 }
+
+export function dateDiff(start: Date, end: Date): number {
+  return Math.floor((end.getTime() - start.getTime()) / 1_000);
+}

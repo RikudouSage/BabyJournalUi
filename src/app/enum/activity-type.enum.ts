@@ -1,3 +1,4 @@
 export enum ActivityType {
-  Feeding = 'feeding',
+  FeedingBottle = 'feedingBottle',
+  FeedingBreast = 'feedingBreast',
 }

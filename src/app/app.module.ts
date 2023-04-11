@@ -66,6 +66,8 @@ import { PrivacyComponent } from './pages/general/privacy/privacy.component';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { GeneralSettingsComponent } from './pages/settings/general/general-settings.component';
 import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
+import { DateDiffPipe } from './pipes/date-diff.pipe';
+import { SecondsToDurationStringPipe } from './pipes/seconds-to-duration-string.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -101,6 +103,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     RelativeDatePipe,
     GeneralSettingsComponent,
     UppercaseFirstPipe,
+    DateDiffPipe,
+    SecondsToDurationStringPipe,
   ],
   imports: [
     BrowserModule,

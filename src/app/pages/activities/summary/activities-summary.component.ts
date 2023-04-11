@@ -1,7 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {TitleService} from "../../../services/title.service";
-import {ActivityStream, ApiService, FeedingActivityStreamItem} from "../../../services/api.service";
+import {
+  ActivityStream,
+  ApiService,
+  BottleFeedingActivityStreamItem,
+  BreastFeedingActivityStreamItem
+} from "../../../services/api.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {lastValueFrom, Observable, of} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
@@ -11,14 +16,20 @@ import {UserManagerService} from "../../../services/user-manager.service";
 import {EncryptorService} from "../../../services/encryptor.service";
 import {ActivityType} from "../../../enum/activity-type.enum";
 import {EnumToStringService} from "../../../services/enum-to-string.service";
+import {BreastIndex} from "../../../enum/breast-index.enum";
+import {dateDiff} from "../../../helper/date";
 
 interface CategorySummary {
   feeding: {
     bottle: {
       [type in BottleContentType]: number;
     },
+    nursing: {
+      [type in BreastIndex]: number;
+    }
     total: {
       bottle: number;
+      nursing: number;
     }
   }
 }
@@ -30,13 +41,9 @@ interface CategorySummary {
 })
 export class ActivitiesSummaryComponent implements OnInit {
   public readonly bottleContentTypeToString = this.enumToString.bottleContentTypeToString;
+  public readonly breastIndexToString = this.enumToString.breastIndexToString;
 
-  private fullActivityStream: ActivityStream | null = null;
-  public changeDateForm = new FormGroup({
-    date: <FormControl<Date>>new FormControl(new Date()),
-  })
-  public activityStream: ActivityStream = [];
-  public summary: CategorySummary = {
+  private readonly emptyCategorySummary: CategorySummary = {
     feeding: {
       bottle: {
         BreastMilk: 0,
@@ -44,11 +51,23 @@ export class ActivitiesSummaryComponent implements OnInit {
         Juice: 0,
         Water: 0,
       },
+      nursing: {
+        [BreastIndex.Left]: 0,
+        [BreastIndex.Right]: 0,
+      },
       total: {
         bottle: 0,
+        nursing: 0,
       }
     },
   };
+  private fullActivityStream: ActivityStream | null = null;
+
+  public changeDateForm = new FormGroup({
+    date: <FormControl<Date>>new FormControl(new Date()),
+  })
+  public activityStream: ActivityStream = [];
+  public summary: CategorySummary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
   public loading = true;
   public childName: Observable<string> = this.translator.get('your child');
   public childBirthDate: Date | null = null;
@@ -112,21 +131,21 @@ export class ActivitiesSummaryComponent implements OnInit {
         && date.getMonth() === activityDate.getMonth()
         && date.getDate() === activityDate.getDate();
     });
-    this.summary.feeding.bottle = {
-      BreastMilk: 0,
-      Formula: 0,
-      Juice: 0,
-      Water: 0,
-    };
-    this.summary.feeding.total.bottle = 0;
+    this.summary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
 
     for (const activity of this.activityStream) {
-      if (activity.activityType === ActivityType.Feeding) {
-        const typedActivity = <FeedingActivityStreamItem>activity;
+      if (activity.activityType === ActivityType.FeedingBottle) {
+        const typedActivity = <BottleFeedingActivityStreamItem>activity;
         if (typedActivity.type === "bottle") {
           this.summary.feeding.bottle[<BottleContentType>typedActivity.bottleContentType] += Number(typedActivity.amount);
           this.summary.feeding.total.bottle += Number(typedActivity.amount);
         }
+      } else if (activity.activityType === ActivityType.FeedingBreast) {
+        const typedActivity = <BreastFeedingActivityStreamItem>activity;
+        const breast = <BreastIndex>Number(typedActivity.breast);
+        const seconds = dateDiff(new Date(typedActivity.startTime), new Date(typedActivity.endTime));
+        this.summary.feeding.nursing[breast] += seconds;
+        this.summary.feeding.total.nursing += seconds;
       }
     }
 
@@ -135,5 +154,9 @@ export class ActivitiesSummaryComponent implements OnInit {
     }
 
     this.loading = false;
+  }
+
+  public stringNumberToBreastIndex(string: string): BreastIndex {
+    return <BreastIndex>Number(string);
   }
 }
