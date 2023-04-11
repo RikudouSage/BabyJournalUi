@@ -13,7 +13,7 @@ import {lastValueFrom} from "rxjs";
 })
 export class GeneralSettingsComponent implements OnInit {
   public readonly AppLanguage = AppLanguage;
-  public languageNames: {[key in AppLanguage]: string};
+  public languageNames: {[key in AppLanguage]: string} | null = null;
 
   public settingsForm = new FormGroup({
     language: <FormControl<AppLanguage>>new FormControl(this.database.getLanguage()),

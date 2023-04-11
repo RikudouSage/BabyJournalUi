@@ -1,6 +1,6 @@
 <mat-list>
   <form [formGroup]="settingsForm">
-    <mat-list-item [lines]="3">
+    <mat-list-item [lines]="3" *ngIf="languageNames !== null">
       <mat-form-field>
         <mat-label matListItemTitle>{{"Language" | translate}}</mat-label>
         <mat-select formControlName="language">

@@ -19,6 +19,9 @@ export class DatabaseService {
 
   public async storeCryptoKey(cryptoKey: CryptoKeyPair): Promise<void> {
     await this.saveSetting('cryptoKey', cryptoKey);
+    if (!await navigator.storage.persisted()) {
+      await navigator.storage.persist();
+    }
   }
 
   public async getCryptoKey(): Promise<CryptoKeyPair> {
