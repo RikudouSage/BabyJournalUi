@@ -68,7 +68,10 @@ export class AppComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
+    if (!navigator.onLine) {
+      await this.onOffline();
+    }
     this.registerRepositories();
   }
 
