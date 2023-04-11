@@ -1,10 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {interval, Observable, Subscription} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 
 export interface TrackingPausedEvent {
   elapsed: number;
+}
+
+interface WakeLockSentinel {
+  released: boolean;
+  type: 'screen';
+  release(): Promise<undefined>;
 }
 
 export interface TrackerOutputData {
@@ -19,6 +25,8 @@ export interface TrackerOutputData {
   styleUrls: ['./tracker.component.scss']
 })
 export class TrackerComponent implements OnInit {
+
+  private wakeLock: WakeLockSentinel | null = null;
 
   private _startTime: Date | null = null;
   private _endTime: Date | null = null;
@@ -146,7 +154,8 @@ export class TrackerComponent implements OnInit {
     this.subscriptions.tracking?.unsubscribe();
     this.subscriptions.tracking = interval(1_000).subscribe(() => {
       this.elapsed += 1;
-    })
+    });
+    await this.requestWakeLock();
   }
 
   public async finishTracking() {
@@ -168,6 +177,7 @@ export class TrackerComponent implements OnInit {
     this._isPaused = false;
     this.subscriptions.paused?.unsubscribe();
     this.subscriptions.tracking?.unsubscribe();
+    await this.wakeLock?.release();
 
     this._finished.next(result);
     this.initialized = true;
@@ -176,5 +186,22 @@ export class TrackerComponent implements OnInit {
   public async startTimeSelected(date: Date) {
     this.startTime = date;
     this._startDateChanged.next(date);
+  }
+
+  private async requestWakeLock(): Promise<void> {
+    if (typeof (<any>navigator).wakeLock === 'undefined') {
+      return;
+    }
+    if (this.wakeLock !== null && !this.wakeLock.released) {
+      return;
+    }
+    this.wakeLock = await (<any>navigator).wakeLock.request('screen');
+  }
+
+  @HostListener('window:visibilitychange')
+  public async onVisibilityChange(): Promise<void> {
+    if (this.tracking && document.visibilityState === 'visible') {
+      await this.requestWakeLock();
+    }
   }
 }
