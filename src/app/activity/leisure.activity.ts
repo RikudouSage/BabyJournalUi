@@ -11,6 +11,7 @@ export class LeisureActivity implements Activity {
   readonly displayName = this.translator.get('Leisure');
   readonly link = '';
   readonly isRunning = of(false);
+  readonly lastActivityAt: Observable<Date | null> = of(null);
 
   constructor(
     private readonly translator: TranslateService,

@@ -5,4 +5,5 @@ export interface Activity {
   displayName: Observable<boolean> | Promise<boolean>;
   color: string;
   link: string;
+  lastActivityAt: Observable<Date | null>;
 }

@@ -12,6 +12,7 @@ export class SleepingActivity implements Activity {
   readonly displayName = this.translator.get('Sleeping');
   readonly link = '';
   readonly isRunning = of(false);
+  readonly lastActivityAt: Observable<Date | null> = of(null);
 
   constructor(
     private readonly translator: TranslateService,

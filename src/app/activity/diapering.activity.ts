@@ -12,9 +12,11 @@ export class DiaperingActivity implements Activity {
   readonly displayName = this.translator.get('Diapering');
   readonly link = '';
   readonly isRunning = of(false);
+  readonly lastActivityAt: Observable<Date | null> = of(null);
 
   constructor(
     private readonly translator: TranslateService,
   ) {
   }
+
 }

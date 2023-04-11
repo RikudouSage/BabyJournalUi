@@ -1,10 +1,11 @@
 import {Activity} from "./activity";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
-import {forkJoin, from, interval, switchMap} from "rxjs";
+import {filter, forkJoin, from, interval, mergeMap, Observable, of, reduce, retry, switchMap} from "rxjs";
 import {DatabaseService} from "../services/database.service";
 import {map} from "rxjs/operators";
 import {ActivityType} from "../enum/activity-type.enum";
+import {ActivityStreamItem, ApiService} from "../services/api.service";
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +29,25 @@ export class FeedingActivity implements Activity {
         bottle !== null || nursing !== null || solid !== null
     ),
   );
+  lastActivityAt: Observable<Date | null> = this.api.getActivityStream().pipe(
+    switchMap(value => from(value)),
+    map(stream => {
+      return stream
+        .filter(item => [ActivityType.FeedingSolid, ActivityType.FeedingBreast, ActivityType.FeedingBottle].indexOf(item.activityType) > -1)
+        .reduce((previousValue, currentValue): ActivityStreamItem => {
+          const previousDate = new Date(previousValue.startTime);
+          const currentDate = new Date(currentValue.activityType)
+
+          return previousDate.getTime() > currentDate.getTime() ? previousValue : currentValue;
+        });
+    }),
+    map(value => new Date(value.startTime)),
+  );
 
   constructor(
     private readonly translator: TranslateService,
     private readonly database: DatabaseService,
+    private readonly api: ApiService,
   ) {
   }
 }

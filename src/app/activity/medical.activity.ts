@@ -11,6 +11,7 @@ export class MedicalActivity implements Activity {
   readonly displayName = this.translator.get('Medical');
   readonly link = '';
   readonly isRunning = of(false);
+  readonly lastActivityAt: Observable<Date | null> = of(null);
 
   constructor(
     private readonly translator: TranslateService,
