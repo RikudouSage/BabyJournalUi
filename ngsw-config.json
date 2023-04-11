@@ -40,6 +40,19 @@
         "timeout": "10s",
         "strategy": "freshness"
       }
+    },
+    {
+      "name": "google_fonts",
+      "urls": [
+        "https://fonts.gstatic.com/**"
+      ],
+      "version": 1,
+      "cacheConfig": {
+        "maxSize": 10,
+        "maxAge": "7d",
+        "timeout": "0u",
+        "strategy": "freshness"
+      }
     }
   ]
 }
