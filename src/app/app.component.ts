@@ -69,7 +69,6 @@ export class AppComponent implements OnInit {
   }
 
   public async ngOnInit(): Promise<void> {
-    console.log(navigator.onLine)
     if (!navigator.onLine) {
       await this.onOffline();
     }
