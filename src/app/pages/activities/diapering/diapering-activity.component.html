@@ -5,7 +5,7 @@
         {{message}}
       </mat-error>
 
-      <input type="hidden" [mtxDatetimepicker]="datePicker" />
+      <input type="hidden" formControlName="startTime" [mtxDatetimepicker]="datePicker" />
       <mtx-datetimepicker [touchUi]="isHandset | async" hidden startView="clock" #datePicker></mtx-datetimepicker>
       <button type="button" class="time-button" mat-button color="accent" (click)="datePicker.open()">
         {{"Time" | translate}}:
