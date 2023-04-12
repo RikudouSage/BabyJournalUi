@@ -27,10 +27,10 @@ enum FeedingTypeIndex {
 
 @Component({
   selector: 'app-feeding',
-  templateUrl: './feeding.component.html',
-  styleUrls: ['./feeding.component.scss']
+  templateUrl: './feeding-activity.component.html',
+  styleUrls: ['./feeding-activity.component.scss']
 })
-export class FeedingComponent implements OnInit {
+export class FeedingActivityComponent implements OnInit {
   public BottleContentType = BottleContentType;
   protected readonly BreastIndex = BreastIndex;
 

@@ -6,7 +6,7 @@ import {IsLoggedInGuard} from "./services/is-logged-in.guard";
 import {HasChildrenGuard} from "./services/has-children.guard";
 import {CreateChildComponent} from "./pages/children/create-child/create-child.component";
 import {SelectChildComponent} from "./pages/children/select-child/select-child.component";
-import {FeedingComponent} from "./pages/activities/feeding/feeding.component";
+import {FeedingActivityComponent} from "./pages/activities/feeding/feeding-activity.component";
 import {ChildIsSelectedGuard} from "./services/child-is-selected.guard";
 import {LogoutComponent} from "./pages/auth/logout/logout.component";
 import {SettingsComponent} from "./pages/settings/settings/settings.component";
@@ -43,7 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'activities/feeding',
-    component: FeedingComponent,
+    component: FeedingActivityComponent,
     canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
   },
   {

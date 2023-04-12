@@ -34,7 +34,7 @@ import {SleepingActivity} from "./activity/sleeping.activity";
 import {LeisureActivity} from "./activity/leisure.activity";
 import {MedicalActivity} from "./activity/medical.activity";
 import {OtherActivity} from "./activity/other.activity";
-import { FeedingComponent } from './pages/activities/feeding/feeding.component';
+import { FeedingActivityComponent } from './pages/activities/feeding/feeding-activity.component';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {AppMissingTranslationsHandler} from "./services/app-missing-translations-handler";
@@ -81,7 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CreateChildComponent,
     SelectChildComponent,
     PotentiallyEncryptedValuePipe,
-    FeedingComponent,
+    FeedingActivityComponent,
     LogoutComponent,
     SettingsComponent,
     AccountSettingsComponent,
