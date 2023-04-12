@@ -181,8 +181,6 @@ export class ActivitiesSummaryComponent implements OnInit {
       this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();
     }
 
-    console.log(this.summary);
-
     this.loading = false;
   }
 
