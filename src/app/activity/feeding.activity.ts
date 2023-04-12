@@ -30,10 +30,11 @@ export class FeedingActivity implements Activity {
         bottle !== null || nursing !== null || solid !== null
     ),
   );
-  lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(
-    this.api.getActivityStream(),
-    [ActivityType.FeedingSolid, ActivityType.FeedingBreast, ActivityType.FeedingBottle],
-  );
+  // lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(
+  //   this.api.getActivityStream(),
+  //   [ActivityType.FeedingSolid, ActivityType.FeedingBreast, ActivityType.FeedingBottle],
+  // );
+  lastActivityAt = of(null);
 
   constructor(
     private readonly translator: TranslateService,

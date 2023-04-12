@@ -14,7 +14,8 @@ export class DiaperingActivity implements Activity {
   displayName = this.translator.get('Diapering');
   link = '/activities/diapering';
   isRunning = of(false);
-  lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(this.api.getActivityStream(), [ActivityType.Diapering]);
+  // lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(this.api.getActivityStream(), [ActivityType.Diapering]);
+  lastActivityAt = of(null);
 
   constructor(
     private readonly translator: TranslateService,
