@@ -24,7 +24,7 @@ export class SecondsToDurationStringPipe implements PipeTransform {
 
     if (!hours && !minutes) {
       return format === 'short'
-        ? this.translator.get('{{count}}s', {count: seconds})
+        ? this.translator.get('{{count}}m', {count: 0})
         : this.translator.get('{{count}} seconds', {count: seconds});
     }
 
