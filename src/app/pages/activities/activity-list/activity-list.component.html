@@ -5,8 +5,13 @@
     <a [routerLink]="activity.link" *ngFor="let activity of activities" class="activity-tile">
       <mat-grid-tile [style.background-color]="activity.color">
         {{activity.displayName | async}}
-        <mat-grid-tile-footer *ngIf="activity.isRunning | async">
-          <mat-icon color="accent">hourglass_top</mat-icon>
+        <mat-grid-tile-footer *ngIf="(activity.isRunning | async) || (activity.lastActivityAt | async | dateDiff)">
+          <span>
+            <ng-container *ngIf="activity.lastActivityAt | async | dateDiff; let dateDiff">
+              {{dateDiff | secondsToDurationString:'short' | async}}
+            </ng-container>
+          </span>
+          <mat-icon color="accent" *ngIf="activity.isRunning | async">hourglass_top</mat-icon>
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </a>

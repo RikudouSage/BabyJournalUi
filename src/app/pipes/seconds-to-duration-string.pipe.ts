@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Observable, zip} from "rxjs";
+import {forkJoin, Observable, of, zip} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {map} from "rxjs/operators";
 
@@ -12,7 +12,7 @@ export class SecondsToDurationStringPipe implements PipeTransform {
   ) {
   }
 
-  transform(value: number): Observable<string> {
+  transform(value: number, format: 'short' | 'long' = 'long'): Observable<string> {
     const hourToSeconds = 60 * 60;
     const minuteToSeconds = 60;
 
@@ -23,23 +23,40 @@ export class SecondsToDurationStringPipe implements PipeTransform {
     const seconds = remainder;
 
     if (!hours && !minutes) {
-      return this.translator.get('{{count}} seconds', {count: seconds});
+      return format === 'short'
+        ? this.translator.get('{{count}}s', {count: seconds})
+        : this.translator.get('{{count}} seconds', {count: seconds});
     }
 
     const strings: Observable<string>[] = [];
     if (hours) {
-      strings.push(this.translator.get('{{count}} hours', {count: hours}));
+
+      strings.push(
+        format === 'short'
+          ? this.translator.get('{{count}}h', {count: hours})
+          : this.translator.get('{{count}} hours', {count: hours})
+      );
     }
     if (minutes) {
-      strings.push(this.translator.get('{{count}} minutes', {count: minutes}));
+      strings.push(
+        format === 'short'
+          ? this.translator.get('{{count}}m', {count: minutes})
+          : this.translator.get('{{count}} minutes', {count: minutes})
+      );
     }
-    strings.push(this.translator.get('and'));
+    strings.push(
+      format === 'short'
+        ? of('')
+        : this.translator.get('and').pipe(
+          map(value => ` ${value} `),
+        )
+    );
 
     return zip(...strings)
       .pipe(
         map(values => {
           const joinString = values.pop();
-          return values.join(` ${joinString} `);
+          return values.join(`${joinString}`);
         })
       )
   }
