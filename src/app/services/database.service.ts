@@ -104,7 +104,7 @@ export class DatabaseService {
     return result.date;
   }
 
-  public async saveLastActivityDate(type: ActivityType, date: Date): Promise<void> {
+  public async saveLastActivityDate(type: ActivityType, date: Date | null): Promise<void> {
     const db = await this.open();
     const transaction = db.transaction(this.storeNameCachedLastDates, 'readwrite');
     const store = transaction.objectStore(this.storeNameCachedLastDates);
