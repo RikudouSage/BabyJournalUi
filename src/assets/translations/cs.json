@@ -171,6 +171,6 @@
   "It was poopy.": "Byla pokakaná.",
   "It was dry.": "Byla suchá.",
   "{{dateDescription}} {{childName}} haven't had diaper changed.": "{{dateDescription}} {{childName}} neměl/a žádnou výměnu plíny.",
-  "{{dateDescription}} {{childName}} had a diaper changed {{count}} times.": "{{dateDescription}} měl/a {{childName}} plínu vyměněnu {{count}}x.",
-  "{{countWet}} of those were wet, {{countPoopy}} were pooped and {{countDry}} were dry.": "{{countWet}}x z toho byla počůraná, {{countPoopy}}x pokaděná a {{countDry}}x suchá."
+  "{{dateDescription}} {{childName}} had a diaper changed <strong>{{count}} times</strong>.": "{{dateDescription}} měl/a {{childName}} plínu vyměněnu <strong>{{count}}x</strong>.",
+  "<strong>{{countWet}}</strong> of those were wet, <strong>{{countPoopy}}</strong> were pooped and <strong>{{countDry}}</strong> were dry.": "<strong>{{countWet}}x</strong> z toho byla počůraná, <strong>{{countPoopy}}x</strong> pokaděná a <strong>{{countDry}}x</strong> suchá."
 }

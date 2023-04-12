@@ -129,12 +129,12 @@
             }"
           ></p>
           <ng-container *ngIf="summary.diapering.changes">
-            <p [innerText]="'{{dateDescription}} {{childName}} had a diaper changed {{count}} times.' | translate:{
+            <p [innerHTML]="'{{dateDescription}} {{childName}} had a diaper changed <strong>{{count}} times</strong>.' | translate:{
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
               count: summary.diapering.changes,
             }"></p>
-            <p [innerText]="'{{countWet}} of those were wet, {{countPoopy}} were pooped and {{countDry}} were dry.' | translate:{
+            <p [innerHTML]="'<strong>{{countWet}}</strong> of those were wet, <strong>{{countPoopy}}</strong> were pooped and <strong>{{countDry}}</strong> were dry.' | translate:{
               countWet: summary.diapering.wet,
               countPoopy: summary.diapering.poopy,
               countDry: summary.diapering.dry,
