@@ -1,0 +1,63 @@
+@use '@angular/material' as mat;
+
+.save-button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1vh;
+}
+
+.time-button {
+  @extend .save-button;
+  margin-top: -1vh;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.soil-type {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vh;
+
+  & > button {
+    display: block;
+    width: 18vw;
+    height: 18vw;
+    border: 1px solid var(--mdc-outlined-button-outline-color, rgba(255, 255, 255, 0.12));
+    margin-left: 1vw;
+    margin-right: 1vw;
+
+    &.selected {
+      background: mat.get-color-from-palette(mat.$pink-palette, 500);
+      color: mat.get-contrast-color-from-palette(mat.$pink-palette, 500);
+    }
+
+    & > span {
+      font-size: 0.8rem;
+      position: relative;
+      top: -2vh;
+      text-align: center;
+      display: block;
+    }
+  }
+}
+
+:host ::ng-deep .icon {
+  width: 11vw;
+  height: 12vw;
+  position: relative;
+  top: -0.5vh;
+
+  svg {
+    width: 11vw;
+    height: 11vw;
+  }
+}
+
+.section {
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  text-align: center;
+}

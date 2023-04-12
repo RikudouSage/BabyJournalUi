@@ -28,6 +28,13 @@ export interface BreastFeedingActivityStreamItem extends ActivityStreamItem {
   breast: string;
 }
 
+export interface DiaperingActivityStreamItem extends ActivityStreamItem {
+  wet: string;
+  poopy: string;
+  quantity: string | null;
+  poopColor: string | null;
+}
+
 export type ActivityStream = ActivityStreamItem[];
 
 @Injectable({

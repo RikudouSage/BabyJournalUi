@@ -35,4 +35,26 @@
       ({{"note" | translate}}: {{activity.note}})
     </span>
   </span>
+  <span *ngIf="activity.activityType === ActivityType.Diapering">
+    <span
+      [innerText]="'{{childName}} had a diaper changed.' | translate: {
+        childName: activity.childName,
+      }"
+    ></span>
+    <span *ngIf="wetPoopyToBool(activity['wet']) && wetPoopyToBool(activity['poopy'])">
+      {{"It was both wet and pooped." | translate}}
+    </span>
+    <span *ngIf="wetPoopyToBool(activity['wet']) && !wetPoopyToBool(activity['poopy'])">
+      {{"It was wet." | translate}}
+    </span>
+    <span *ngIf="!wetPoopyToBool(activity['wet']) && wetPoopyToBool(activity['poopy'])">
+      {{"It was poopy." | translate}}
+    </span>
+    <span *ngIf="!wetPoopyToBool(activity['wet']) && !wetPoopyToBool(activity['poopy'])">
+      {{"It was dry." | translate}}
+    </span>
+    <span *ngIf="activity.note !== null">
+      ({{"note" | translate}}: {{activity.note}})
+    </span>
+  </span>
 </div>

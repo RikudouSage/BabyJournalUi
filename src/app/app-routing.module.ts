@@ -20,6 +20,7 @@ import {ActivitiesSummaryComponent} from "./pages/activities/summary/activities-
 import {InternalErrorComponent} from "./pages/general/internal-error/internal-error.component";
 import {PrivacyComponent} from "./pages/general/privacy/privacy.component";
 import {GeneralSettingsComponent} from "./pages/settings/general/general-settings.component";
+import {DiaperingActivityComponent} from "./pages/activities/diapering/diapering-activity.component";
 
 const routes: Routes = [
   {
@@ -44,6 +45,11 @@ const routes: Routes = [
   {
     path: 'activities/feeding',
     component: FeedingActivityComponent,
+    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
+  },
+  {
+    path: 'activities/diapering',
+    component: DiaperingActivityComponent,
     canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
   },
   {

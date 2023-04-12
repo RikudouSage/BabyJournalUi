@@ -1,4 +1,4 @@
-import {Activity} from "./activity";
+import {Activity, getDefaultLastActivityAt} from "./activity";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {filter, forkJoin, from, interval, mergeMap, Observable, of, reduce, retry, startWith, switchMap} from "rxjs";
@@ -30,25 +30,10 @@ export class FeedingActivity implements Activity {
         bottle !== null || nursing !== null || solid !== null
     ),
   );
-  lastActivityAt: Observable<Date | null> = interval(60_000).pipe(
-    startWith(0),
-    switchMap(() => this.api.getActivityStream()),
-    switchMap(value => from(value)),
-    map(stream => {
-      if (!stream.length) {
-        return null;
-      }
-      return stream
-        .filter(item => [ActivityType.FeedingSolid, ActivityType.FeedingBreast, ActivityType.FeedingBottle].indexOf(item.activityType) > -1)
-        .reduce((previousValue, currentValue): ActivityStreamItem => {
-          const previousDate = new Date(previousValue.startTime);
-          const currentDate = new Date(currentValue.activityType)
-
-          return previousDate.getTime() > currentDate.getTime() ? currentValue : previousValue;
-        });
-    }),
-    map(value => value !== null ? new Date(value.startTime) : null),
-  )
+  lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(
+    this.api.getActivityStream(),
+    [ActivityType.FeedingSolid, ActivityType.FeedingBreast, ActivityType.FeedingBottle],
+  );
 
   constructor(
     private readonly translator: TranslateService,

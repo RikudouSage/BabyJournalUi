@@ -1,21 +1,24 @@
-import {Activity} from "./activity";
+import {Activity, getDefaultLastActivityAt} from "./activity";
 import {TranslateService} from "@ngx-translate/core";
 import {Injectable} from "@angular/core";
 import {Observable, of} from "rxjs";
+import {ApiService} from "../services/api.service";
+import {ActivityType} from "../enum/activity-type.enum";
 
 @Injectable({
   providedIn: 'root',
 })
 export class DiaperingActivity implements Activity {
 
-  readonly color = '#d500f9';
-  readonly displayName = this.translator.get('Diapering');
-  readonly link = '';
-  readonly isRunning = of(false);
-  readonly lastActivityAt: Observable<Date | null> = of(null);
+  color = '#d500f9';
+  displayName = this.translator.get('Diapering');
+  link = '/activities/diapering';
+  isRunning = of(false);
+  lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(this.api.getActivityStream(), [ActivityType.Diapering]);
 
   constructor(
     private readonly translator: TranslateService,
+    private readonly api: ApiService,
   ) {
   }
 

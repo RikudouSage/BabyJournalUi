@@ -115,6 +115,34 @@
           <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{"Diapering" | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-divider></mat-divider>
+          <p
+            *ngIf="!summary.diapering.changes"
+            [innerText]="'{{dateDescription}} {{childName}} haven\'t had diaper changed.' | translate: {
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+            }"
+          ></p>
+          <ng-container *ngIf="summary.diapering.changes">
+            <p [innerText]="'{{dateDescription}} {{childName}} had a diaper changed {{count}} times.' | translate:{
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              count: summary.diapering.changes,
+            }"></p>
+            <p [innerText]="'{{countWet}} of those were wet, {{countPoopy}} were pooped and {{countDry}} were dry.' | translate:{
+              countWet: summary.diapering.wet,
+              countPoopy: summary.diapering.poopy,
+              countDry: summary.diapering.dry,
+            }"></p>
+          </ng-container>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
     </mat-tab>
   </mat-tab-group>
 </ng-template>

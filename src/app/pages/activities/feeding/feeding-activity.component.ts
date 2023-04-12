@@ -269,7 +269,6 @@ export class FeedingActivityComponent implements OnInit {
       endTime: new EncryptedValue(await this.encryptor.encrypt((<Date>this.bottleForm.controls.endTime.value).toISOString())),
       type: new EncryptedValue(await this.encryptor.encrypt(<FeedingType>'bottle')),
       note: this.bottleForm.controls.notes.value ? new EncryptedValue(await this.encryptor.encrypt(this.bottleForm.controls.notes.value)) : null,
-      breakDuration: null,
       bottleContentType: new EncryptedValue(await this.encryptor.encrypt(<string>this.bottleForm.controls.contentType.value)),
       breast: null,
     }
@@ -324,7 +323,6 @@ export class FeedingActivityComponent implements OnInit {
       endTime: new EncryptedValue(await this.encryptor.encrypt((<Date>form.controls.endTime.value).toISOString())),
       type: new EncryptedValue(await this.encryptor.encrypt(<FeedingType>'nursing')),
       note: form.controls.notes.value ? new EncryptedValue(await this.encryptor.encrypt(form.controls.notes.value)) : null,
-      breakDuration: null,
       bottleContentType: null,
       breast: new EncryptedValue(await this.encryptor.encrypt(String(breast))),
     }
@@ -352,7 +350,6 @@ export class FeedingActivityComponent implements OnInit {
       endTime: new EncryptedValue(await this.encryptor.encrypt((<Date>this.solidFoodForm.controls.endTime.value).toISOString())),
       type: new EncryptedValue(await this.encryptor.encrypt(<FeedingType>'solid')),
       note: this.solidFoodForm.controls.notes.value ? new EncryptedValue(await this.encryptor.encrypt(this.solidFoodForm.controls.notes.value)) : null,
-      breakDuration: null,
       bottleContentType: null,
       breast: null,
     }

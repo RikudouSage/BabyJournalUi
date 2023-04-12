@@ -28,4 +28,8 @@ export class ActivityEventComponent {
   public stringNumberToBreastIndex(string: string): BreastIndex {
     return <BreastIndex>Number(string);
   }
+
+  public wetPoopyToBool(stringValue: string | null): boolean {
+    return Boolean(Number(stringValue));
+  }
 }

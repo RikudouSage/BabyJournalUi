@@ -1,0 +1,63 @@
+<form [formGroup]="diaperingForm" (submit)="saveDiaperingData()">
+  <mat-card>
+    <mat-card-content>
+      <mat-error class="center" *ngIf="errorMessage | async; let message">
+        {{message}}
+      </mat-error>
+
+      <input type="hidden" [mtxDatetimepicker]="datePicker" />
+      <mtx-datetimepicker [touchUi]="isHandset | async" hidden startView="clock" #datePicker></mtx-datetimepicker>
+      <button type="button" class="time-button" mat-button color="accent" (click)="datePicker.open()">
+        {{"Time" | translate}}:
+        {{diaperingForm.controls.startTime.value | timeOrNull:'Not selected' | translate}}
+      </button>
+
+      <mat-form-field class="notes">
+        <mat-label>{{"Notes" | translate}}</mat-label>
+        <input matInput formControlName="notes" />
+      </mat-form-field>
+
+      <div class="soil-type">
+        <button type="button" mat-icon-button [class.selected]="diaperingForm.controls.poopy.value" (click)="togglePoopy()">
+          <mat-icon class="icon" svgIcon="poop"></mat-icon>
+          <span>{{"Poopy" | translate}}</span>
+        </button>
+        <button type="button" mat-icon-button [class.selected]="diaperingForm.controls.wet.value" (click)="toggleWet()">
+          <mat-icon class="icon" svgIcon="water-alert"></mat-icon>
+          <span>{{"Wet" | translate}}</span>
+        </button>
+        <button type="button" mat-icon-button [class.selected]="!diaperingForm.controls.wet.value && !diaperingForm.controls.poopy.value" (click)="toggleDry()">
+          <mat-icon class="icon" svgIcon="water-off"></mat-icon>
+          <span>{{"Dry" | translate}}</span>
+        </button>
+      </div>
+
+      <div *ngIf="diaperingForm.controls.wet.value" class="section">
+        <p>
+          <strong>{{"Quantity" | translate}}</strong>
+        </p>
+        <mat-button-toggle-group formControlName="quantity">
+          <mat-button-toggle value="small">{{"Small" | translate}}</mat-button-toggle>
+          <mat-button-toggle value="medium">{{"Medium" | translate}}</mat-button-toggle>
+          <mat-button-toggle value="large">{{"Large" | translate}}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div *ngIf="diaperingForm.controls.poopy.value" class="section">
+        <p>
+          <strong>{{"Poop color" | translate}}</strong>
+        </p>
+        <mat-form-field>
+          <mat-select formControlName="poopColor">
+            <mat-option *ngFor="let color of poopColors" [value]="color">
+              <mat-icon [style.color]="color.color">circle</mat-icon>
+              {{color.name | async}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+    </mat-card-content>
+  </mat-card>
+</form>

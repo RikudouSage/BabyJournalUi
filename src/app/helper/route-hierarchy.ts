@@ -22,6 +22,7 @@ const routeHierarchy: RouteHierarchy = {
     },
     'auth/logout': {},
     'activities/feeding': {},
+    'activities/diapering': {},
     'activities/summary': {},
   },
   'auth/register': {},

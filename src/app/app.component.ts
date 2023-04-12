@@ -16,6 +16,9 @@ import {TranslateService} from "@ngx-translate/core";
 import {DatabaseService} from "./services/database.service";
 import {AppLanguage} from "./types/app-language";
 import {MatSnackBar, MatSnackBarRef, TextOnlySnackBar} from "@angular/material/snack-bar";
+import {DiaperingActivityRepository} from "./entity/diapering-activity.entity";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -42,6 +45,8 @@ export class AppComponent implements OnInit {
     private readonly injector: Injector,
     private readonly snackBar: MatSnackBar,
     private readonly translator: TranslateService,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly domSanitizer: DomSanitizer,
     router: Router,
     database: DatabaseService,
   ) {
@@ -72,6 +77,7 @@ export class AppComponent implements OnInit {
     if (!navigator.onLine) {
       await this.onOffline();
     }
+    this.registerCustomIcons();
     this.registerRepositories();
   }
 
@@ -82,6 +88,7 @@ export class AppComponent implements OnInit {
     registry.registerRepository(this.injector.get(ChildRepository));
     registry.registerRepository(this.injector.get(ParentalUnitRepository));
     registry.registerRepository(this.injector.get(FeedingActivityRepository));
+    registry.registerRepository(this.injector.get(DiaperingActivityRepository));
   }
 
   public async hideDrawer(drawer: MatSidenav) {
@@ -102,5 +109,16 @@ export class AppComponent implements OnInit {
     }
 
     this.offlineSnackBar.dismiss();
+  }
+
+  private registerCustomIcons() {
+    const icons = [
+      'poop',
+      'water-off',
+      'water-alert',
+    ];
+    for (const icon of icons) {
+      this.iconRegistry.addSvgIcon(icon, this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/svg/${icon}.svg`));
+    }
   }
 }

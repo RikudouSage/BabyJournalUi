@@ -5,7 +5,7 @@ import {
   ActivityStream,
   ApiService,
   BottleFeedingActivityStreamItem,
-  BreastFeedingActivityStreamItem
+  BreastFeedingActivityStreamItem, DiaperingActivityStreamItem
 } from "../../../services/api.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {lastValueFrom, Observable, of} from "rxjs";
@@ -23,15 +23,21 @@ interface CategorySummary {
   feeding: {
     bottle: {
       [type in BottleContentType]: number;
-    },
+    };
     nursing: {
       [type in BreastIndex]: number;
-    }
+    };
     total: {
       bottle: number;
       nursing: number;
       solid: number;
-    }
+    };
+  };
+  diapering: {
+    wet: number;
+    poopy: number;
+    dry: number;
+    changes: number;
   }
 }
 
@@ -60,7 +66,13 @@ export class ActivitiesSummaryComponent implements OnInit {
         bottle: 0,
         nursing: 0,
         solid: 0,
-      }
+      },
+    },
+    diapering: {
+      wet: 0,
+      dry: 0,
+      changes: 0,
+      poopy: 0,
     },
   };
   private fullActivityStream: ActivityStream | null = null;
@@ -150,12 +162,26 @@ export class ActivitiesSummaryComponent implements OnInit {
         this.summary.feeding.total.nursing += seconds;
       } else if (activity.activityType === ActivityType.FeedingSolid) {
         this.summary.feeding.total.solid += 1;
+      } else if (activity.activityType === ActivityType.Diapering) {
+        const typedActivity = <DiaperingActivityStreamItem>activity;
+        if (Boolean(Number(typedActivity.wet))) {
+          this.summary.diapering.wet += 1;
+        }
+        if (Boolean(Number(typedActivity.poopy))) {
+          this.summary.diapering.poopy += 1;
+        }
+        if (!Boolean(Number(typedActivity.wet)) && !Boolean(Number(typedActivity.poopy))) {
+          this.summary.diapering.dry += 1;
+        }
+        this.summary.diapering.changes += 1;
       }
     }
 
     if (this.childBirthDate !== null) {
       this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();
     }
+
+    console.log(this.summary);
 
     this.loading = false;
   }

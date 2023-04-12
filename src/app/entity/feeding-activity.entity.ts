@@ -9,7 +9,6 @@ export class FeedingActivity extends AbstractEntity {
   override attributes: {
     startTime: EncryptedValue,
     endTime: EncryptedValue,
-    breakDuration: EncryptedValue | null,
     note: EncryptedValue | null,
     type: EncryptedValue,
     bottleContentType: EncryptedValue | null,
@@ -18,7 +17,6 @@ export class FeedingActivity extends AbstractEntity {
   } = {
     startTime: new EncryptedValue(''),
     endTime: new EncryptedValue(''),
-    breakDuration: null,
     note: null,
     type: new EncryptedValue(''),
     bottleContentType: null,
@@ -29,7 +27,6 @@ export class FeedingActivity extends AbstractEntity {
   override encryptedValueConvertors = {
     startTime: EncryptedString,
     endTime: EncryptedNullableString,
-    breakDuration: EncryptedNullableString,
     note: EncryptedNullableString,
     type: EncryptedString,
     amount: EncryptedString,

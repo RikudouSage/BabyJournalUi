@@ -68,6 +68,8 @@ import { GeneralSettingsComponent } from './pages/settings/general/general-setti
 import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
 import { DateDiffPipe } from './pipes/date-diff.pipe';
 import { SecondsToDurationStringPipe } from './pipes/seconds-to-duration-string.pipe';
+import { DiaperingActivityComponent } from './pages/activities/diapering/diapering-activity.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -105,6 +107,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UppercaseFirstPipe,
     DateDiffPipe,
     SecondsToDurationStringPipe,
+    DiaperingActivityComponent,
   ],
   imports: [
     BrowserModule,
@@ -151,15 +154,16 @@ export function HttpLoaderFactory(http: HttpClient) {
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    MatButtonToggleModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: ACTIVITIES, useClass: FeedingActivity, multi: true},
     {provide: ACTIVITIES, useClass: DiaperingActivity, multi: true},
-    {provide: ACTIVITIES, useClass: SleepingActivity, multi: true},
-    {provide: ACTIVITIES, useClass: LeisureActivity, multi: true},
-    {provide: ACTIVITIES, useClass: MedicalActivity, multi: true},
-    {provide: ACTIVITIES, useClass: OtherActivity, multi: true},
+    // {provide: ACTIVITIES, useClass: SleepingActivity, multi: true},
+    // {provide: ACTIVITIES, useClass: LeisureActivity, multi: true},
+    // {provide: ACTIVITIES, useClass: MedicalActivity, multi: true},
+    // {provide: ACTIVITIES, useClass: OtherActivity, multi: true},
     {provide: MAT_DATE_LOCALE, useValue: navigator.languages},
   ],
   bootstrap: [AppComponent]
