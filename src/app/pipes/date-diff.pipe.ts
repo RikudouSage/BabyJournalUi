@@ -14,7 +14,6 @@ export class DateDiffPipe implements PipeTransform {
     if (typeof end === 'string') {
       end = new Date(end);
     }
-    console.log(start, end);
     return dateDiff(start, end);
   }
 
