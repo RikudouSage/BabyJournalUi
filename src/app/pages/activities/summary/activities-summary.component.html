@@ -97,7 +97,7 @@
           <mat-divider></mat-divider>
           <ng-container *ngIf="summary.feeding.total.solid else noSolidFood">
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} ate solid food {{count}} times.' | translate:{
+              [innerHTML]="'{{dateDescription}} {{childName}} ate solid food <strong>{{count}}</strong> times.' | translate:{
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
               count: summary.feeding.total.solid,
