@@ -15,6 +15,7 @@ export class DatabaseService {
 
   private readonly storeNameSettings = 'settings';
   private readonly storeNameInProgress = 'in_progress';
+  private readonly storeNameCachedLastDates = 'last_dates';
 
   private db: IDBPDatabase | null = null;
 
@@ -90,6 +91,30 @@ export class DatabaseService {
     await transaction.done;
   }
 
+  public async getLastActivityDate(type: ActivityType): Promise<Date | null> {
+    const db = await this.open();
+    const tx = db.transaction(this.storeNameCachedLastDates, 'readonly');
+    const store = tx.objectStore(this.storeNameCachedLastDates);
+
+    const result = await store.get(type);
+    if (result === undefined) {
+      return null;
+    }
+
+    return result.date;
+  }
+
+  public async saveLastActivityDate(type: ActivityType, date: Date): Promise<void> {
+    const db = await this.open();
+    const transaction = db.transaction(this.storeNameCachedLastDates, 'readwrite');
+    const store = transaction.objectStore(this.storeNameCachedLastDates);
+    await store.put({
+      activity: type,
+      date: date,
+    });
+    await transaction.done;
+  }
+
   private async getSetting<T>(settingName: string): Promise<T | undefined> {
     const db = await this.open();
     const tx = db.transaction(this.storeNameSettings, 'readonly');
@@ -134,7 +159,7 @@ export class DatabaseService {
 
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
-      this.db = await openDB(this.databaseName, 1, {
+      this.db = await openDB(this.databaseName, 2, {
         upgrade: (
           database: IDBPDatabase,
           oldVersion: number,
@@ -142,7 +167,7 @@ export class DatabaseService {
           transaction: IDBPTransaction<unknown, StoreNames<unknown>[], "versionchange">,
           event: IDBVersionChangeEvent
         ) => {
-          for (let version = oldVersion; version < (newVersion ?? 0); ++version) {
+          for (let version = oldVersion; version <= (newVersion ?? 0); ++version) {
             switch (version) {
               case 0:
                 database.createObjectStore(this.storeNameSettings, {
@@ -150,6 +175,12 @@ export class DatabaseService {
                   autoIncrement: false,
                 });
                 database.createObjectStore(this.storeNameInProgress, {
+                  keyPath: 'activity',
+                  autoIncrement: false,
+                });
+                break;
+              case 2:
+                database.createObjectStore(this.storeNameCachedLastDates, {
                   keyPath: 'activity',
                   autoIncrement: false,
                 });

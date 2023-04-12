@@ -1,11 +1,11 @@
 import {Activity, getDefaultLastActivityAt} from "./activity";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
-import {filter, forkJoin, from, interval, mergeMap, Observable, of, reduce, retry, startWith, switchMap} from "rxjs";
+import {forkJoin, from, iif, interval, of, startWith, switchMap, tap} from "rxjs";
 import {DatabaseService} from "../services/database.service";
 import {map} from "rxjs/operators";
 import {ActivityType} from "../enum/activity-type.enum";
-import {ActivityStreamItem, ApiService} from "../services/api.service";
+import {ApiService} from "../services/api.service";
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +30,40 @@ export class FeedingActivity implements Activity {
         bottle !== null || nursing !== null || solid !== null
     ),
   );
-  // lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(
-  //   this.api.getActivityStream(),
-  //   [ActivityType.FeedingSolid, ActivityType.FeedingBreast, ActivityType.FeedingBottle],
-  // );
-  lastActivityAt = of(null);
+  lastActivityAt = interval(60_000).pipe(
+    startWith(0),
+    switchMap(() => from(this.database.getLastActivityDate(ActivityType.FeedingBottle))),
+    switchMap(value => iif(
+      () => value === null,
+      getDefaultLastActivityAt(this.api.getActivityStream(), [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast]),
+      of(value),
+    )),
+    tap(value => {
+      let subscription = getDefaultLastActivityAt(
+        this.api.getActivityStream(),
+        [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast],
+      ).subscribe(value => {
+        subscription.unsubscribe();
+        if (value === null) {
+          return;
+        }
+        this.database.saveLastActivityDate(ActivityType.FeedingBreast, value);
+        this.database.saveLastActivityDate(ActivityType.FeedingBottle, value);
+        this.database.saveLastActivityDate(ActivityType.FeedingSolid, value);
+      });
+    }),
+  );
+  // from(this.database.getLastActivityDate(ActivityType.FeedingBottle))
+  // .pipe(
+  //   tap(() => {
+  //     let subscription = getDefaultLastActivityAt(
+  //       this.api.getActivityStream(),
+  //       [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast],
+  //       1_000,
+  //     ).subscribe(value => {
+  //     })
+  //   }),
+  // )
 
   constructor(
     private readonly translator: TranslateService,
