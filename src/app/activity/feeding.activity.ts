@@ -53,17 +53,6 @@ export class FeedingActivity implements Activity {
       });
     }),
   );
-  // from(this.database.getLastActivityDate(ActivityType.FeedingBottle))
-  // .pipe(
-  //   tap(() => {
-  //     let subscription = getDefaultLastActivityAt(
-  //       this.api.getActivityStream(),
-  //       [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast],
-  //       1_000,
-  //     ).subscribe(value => {
-  //     })
-  //   }),
-  // )
 
   constructor(
     private readonly translator: TranslateService,
