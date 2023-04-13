@@ -3,8 +3,8 @@ import {TitleService} from "../../../services/title.service";
 import {UserManagerService} from "../../../services/user-manager.service";
 import {EncryptorService} from "../../../services/encryptor.service";
 import {EncryptedValue} from "../../../dto/encrypted-value";
-import {Activity} from "../../../activity/activity";
-import {ACTIVITIES} from "../../../dependency-injection/injection-tokens";
+import {ActivityConfiguration} from "../../../activity/activity-configuration";
+import {ACTIVITY_CONFIGURATIONS} from "../../../dependency-injection/injection-tokens";
 import {TranslateService} from "@ngx-translate/core";
 import {dateToYmd} from "../../../helper/date";
 import {ActivityStream, ActivityStreamService} from "../../../services/activity-stream.service";
@@ -21,7 +21,7 @@ interface DateSortedActivityStream {
 export class ActivityListComponent implements OnInit {
   private readonly limit = 100;
 
-  public activities: Activity[] = [];
+  public activities: ActivityConfiguration[] = [];
   public activityStream: DateSortedActivityStream;
   public dates: string[] = [];
   public activitiesLoaded = false;
@@ -32,7 +32,7 @@ export class ActivityListComponent implements OnInit {
     private readonly encryptor: EncryptorService,
     private readonly activityStreamService: ActivityStreamService,
     private readonly translator: TranslateService,
-    @Inject(ACTIVITIES) private readonly activityObjects: Activity[],
+    @Inject(ACTIVITY_CONFIGURATIONS) private readonly activityObjects: ActivityConfiguration[],
   ) {
   }
 

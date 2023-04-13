@@ -1,4 +1,4 @@
-import {Activity, getDefaultLastActivityAt} from "./activity";
+import {ActivityConfiguration, getDefaultLastActivityAt} from "./activity-configuration";
 import {TranslateService} from "@ngx-translate/core";
 import {Injectable} from "@angular/core";
 import {from, iif, interval, of, startWith, switchMap, tap} from "rxjs";
@@ -9,7 +9,7 @@ import {ActivityStreamService} from "../services/activity-stream.service";
 @Injectable({
   providedIn: 'root',
 })
-export class DiaperingActivity implements Activity {
+export class DiaperingActivityConfiguration implements ActivityConfiguration {
 
   color = '#d500f9';
   displayName = this.translator.get('Diapering');
@@ -41,6 +41,9 @@ export class DiaperingActivity implements Activity {
     private readonly database: DatabaseService,
     private readonly activityStreamService: ActivityStreamService,
   ) {
+  }
+
+  reloadStatus(): void {
   }
 
 }

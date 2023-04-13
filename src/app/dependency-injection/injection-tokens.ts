@@ -1,3 +1,3 @@
 import {InjectionToken} from "@angular/core";
 
-export const ACTIVITIES = new InjectionToken('Activity');
+export const ACTIVITY_CONFIGURATIONS = new InjectionToken('ActivityConfiguration');

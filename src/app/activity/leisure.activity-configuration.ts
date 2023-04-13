@@ -1,4 +1,4 @@
-import {Activity} from "./activity";
+import {ActivityConfiguration} from "./activity-configuration";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {Observable, of} from "rxjs";
@@ -6,9 +6,9 @@ import {Observable, of} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class MedicalActivity implements Activity {
-  readonly color = '#d32f2f';
-  readonly displayName = this.translator.get('Medical');
+export class LeisureActivityConfiguration implements ActivityConfiguration {
+  readonly color = '#00bcd4';
+  readonly displayName = this.translator.get('Leisure');
   readonly link = '';
   readonly isRunning = of(false);
   readonly lastActivityAt: Observable<Date | null> = of(null);
@@ -16,5 +16,8 @@ export class MedicalActivity implements Activity {
   constructor(
     private readonly translator: TranslateService,
   ) {
+  }
+
+  reloadStatus(): void {
   }
 }

@@ -27,13 +27,13 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SelectChildComponent } from './pages/children/select-child/select-child.component';
 import { PotentiallyEncryptedValuePipe } from './pipes/potentially-encrypted-value.pipe';
-import {ACTIVITIES} from "./dependency-injection/injection-tokens";
-import {FeedingActivity} from "./activity/feeding.activity";
-import {DiaperingActivity} from "./activity/diapering.activity";
-import {SleepingActivity} from "./activity/sleeping.activity";
-import {LeisureActivity} from "./activity/leisure.activity";
-import {MedicalActivity} from "./activity/medical.activity";
-import {OtherActivity} from "./activity/other.activity";
+import {ACTIVITY_CONFIGURATIONS} from "./dependency-injection/injection-tokens";
+import {FeedingActivityConfiguration} from "./activity/feeding.activity-configuration";
+import {DiaperingActivityConfiguration} from "./activity/diapering.activity-configuration";
+import {SleepingActivityConfiguration} from "./activity/sleeping.activity-configuration";
+import {LeisureActivityConfiguration} from "./activity/leisure.activity-configuration";
+import {MedicalActivityConfiguration} from "./activity/medical.activity-configuration";
+import {OtherActivityConfiguration} from "./activity/other.activity-configuration";
 import { FeedingActivityComponent } from './pages/activities/feeding/feeding-activity.component';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
@@ -160,8 +160,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: ACTIVITIES, useClass: FeedingActivity, multi: true},
-    {provide: ACTIVITIES, useClass: DiaperingActivity, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: FeedingActivityConfiguration, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: DiaperingActivityConfiguration, multi: true},
     // {provide: ACTIVITIES, useClass: SleepingActivity, multi: true},
     // {provide: ACTIVITIES, useClass: LeisureActivity, multi: true},
     // {provide: ACTIVITIES, useClass: MedicalActivity, multi: true},

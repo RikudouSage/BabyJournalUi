@@ -1,4 +1,4 @@
-import {Activity} from "./activity";
+import {ActivityConfiguration} from "./activity-configuration";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {Observable, of} from "rxjs";
@@ -6,7 +6,7 @@ import {Observable, of} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class OtherActivity implements Activity {
+export class OtherActivityConfiguration implements ActivityConfiguration {
   readonly color = '#616161';
   readonly displayName = this.translator.get('Other');
   readonly link = '';
@@ -16,5 +16,8 @@ export class OtherActivity implements Activity {
   constructor(
     private readonly translator: TranslateService,
   ) {
+  }
+
+  reloadStatus(): void {
   }
 }
