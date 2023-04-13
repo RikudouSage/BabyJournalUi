@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, Type} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TitleService} from "../../../services/title.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Gender} from "../../../enum/gender.enum";

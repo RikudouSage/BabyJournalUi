@@ -10,7 +10,6 @@ import {isUuid} from "../../../helper/uuid";
 import {UserManagerService} from "../../../services/user-manager.service";
 import {DatabaseService} from "../../../services/database.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ActivityStreamService} from "../../../services/activity-stream.service";
 
 type Step = 'create' | 'invitationCode' | 'advanced' | 'restore';
 

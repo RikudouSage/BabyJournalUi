@@ -2,7 +2,6 @@ import {ActivityConfiguration} from "./activity-configuration";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {Observable, of} from "rxjs";
-import {DatabaseService} from "../services/database.service";
 
 @Injectable({
   providedIn: 'root',

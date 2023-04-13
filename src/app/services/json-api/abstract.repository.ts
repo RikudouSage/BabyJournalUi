@@ -7,7 +7,6 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {JsonApiRegistry} from './json-api-registry';
 import {DocumentCollection} from './document-collection';
 import {EncryptedValue} from "../../dto/encrypted-value";
-import {EncryptorService} from "../encryptor.service";
 
 type Seconds = number;
 

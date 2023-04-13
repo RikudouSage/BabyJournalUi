@@ -4,7 +4,6 @@ import {TranslateService} from "@ngx-translate/core";
 import {DatabaseService} from "../services/database.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {ActivityStreamService} from "../services/activity-stream.service";
-import {tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root',

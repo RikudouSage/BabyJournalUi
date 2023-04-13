@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {TitleService} from "../../../services/title.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Observable, of, tap} from "rxjs";
+import {Observable, of} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {PoopColor} from "../../../types/poop-color";

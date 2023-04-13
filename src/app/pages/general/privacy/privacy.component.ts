@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {TitleService} from "../../../services/title.service";
 import {UserManagerService} from "../../../services/user-manager.service";
-import {User} from "../../../entity/user.entity";
 import {EncryptedValue} from "../../../dto/encrypted-value";
 import {lastValueFrom} from "rxjs";
 

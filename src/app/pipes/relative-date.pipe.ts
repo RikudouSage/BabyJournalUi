@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {map} from "rxjs/operators";

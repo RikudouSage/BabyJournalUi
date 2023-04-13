@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {EncryptorService} from "./encryptor.service";
 import {HttpClient} from "@angular/common/http";
-import {lastValueFrom, Observable} from "rxjs";
+import {lastValueFrom} from "rxjs";
 import {UserManagerService} from "./user-manager.service";
 
 @Injectable({

@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {RegisterComponent} from "./pages/auth/register/register.component";
 import {ActivityListComponent} from "./pages/activities/activity-list/activity-list.component";
 import {CreateChildComponent} from "./pages/children/create-child/create-child.component";

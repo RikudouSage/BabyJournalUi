@@ -15,7 +15,9 @@ import {dateDiff} from "../../../helper/date";
 import {
   ActivityStream,
   ActivityStreamService,
-  BottleFeedingActivityStreamItem, BreastFeedingActivityStreamItem, DiaperingActivityStreamItem
+  BottleFeedingActivityStreamItem,
+  BreastFeedingActivityStreamItem,
+  DiaperingActivityStreamItem
 } from "../../../services/activity-stream.service";
 
 interface CategorySummary {

@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import {forkJoin, Observable, of, zip} from "rxjs";
+import {Pipe, PipeTransform} from '@angular/core';
+import {Observable, of, zip} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {map} from "rxjs/operators";
 

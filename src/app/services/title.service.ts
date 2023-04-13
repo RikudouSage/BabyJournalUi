@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, from, Observable, of} from "rxjs";
 import {Title} from "@angular/platform-browser";
 import {TranslateService} from "@ngx-translate/core";

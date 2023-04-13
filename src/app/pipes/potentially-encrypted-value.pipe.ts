@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {EncryptedValue} from "../dto/encrypted-value";
 
 export function potentiallyEncryptedValue(value: EncryptedValue | string | null, defaultValue: string | null = null): string {

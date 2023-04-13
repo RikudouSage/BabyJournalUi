@@ -2,7 +2,6 @@ import {AbstractEntity, EncryptedNullableString, EncryptedStringOrUuid} from "..
 import {AbstractRepository} from "../services/json-api/abstract.repository";
 import {Injectable} from "@angular/core";
 import {EncryptedValue} from "../dto/encrypted-value";
-import {DocumentCollection} from "../services/json-api/document-collection";
 import {Child} from "./child.entity";
 import {Observable, of} from "rxjs";
 import {ParentalUnit} from "./parental-unit.entity";

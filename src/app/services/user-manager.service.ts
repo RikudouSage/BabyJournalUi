@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, lastValueFrom, Observable} from "rxjs";
 import {User, UserRepository} from "../entity/user.entity";
 

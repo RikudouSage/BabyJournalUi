@@ -1,7 +1,7 @@
-import {forkJoin, from, interval, Observable, startWith, switchMap, takeWhile} from "rxjs";
+import {forkJoin, from, interval, Observable, startWith, switchMap} from "rxjs";
 import {ActivityType} from "../enum/activity-type.enum";
 import {map} from "rxjs/operators";
-import {ActivityStream, ActivityStreamItem, ActivityStreamService} from "../services/activity-stream.service";
+import {ActivityStreamItem, ActivityStreamService} from "../services/activity-stream.service";
 import {DatabaseService} from "../services/database.service";
 
 export function getDefaultIsRunning(

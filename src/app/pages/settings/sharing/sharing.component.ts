@@ -3,7 +3,6 @@ import {TitleService} from "../../../services/title.service";
 import {TranslateService} from "@ngx-translate/core";
 import {User, UserRepository} from "../../../entity/user.entity";
 import {EncryptorService} from "../../../services/encryptor.service";
-import {last} from "rxjs";
 import {UserManagerService} from "../../../services/user-manager.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialog} from "../../../components/dialogs/confirm-dialog/confirm-dialog.component";

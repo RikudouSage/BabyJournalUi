@@ -2,7 +2,6 @@ import {AbstractEntity, EncryptedNullableString, EncryptedStringOrUuid} from "..
 import {AbstractRepository} from "../services/json-api/abstract.repository";
 import {EncryptedValue} from "../dto/encrypted-value";
 import {Injectable} from "@angular/core";
-import {Gender} from "../enum/gender.enum";
 
 export class Child extends AbstractEntity {
   type: string = 'child';
