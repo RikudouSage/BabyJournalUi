@@ -17,8 +17,6 @@ export class FeedingActivityConfiguration implements ActivityConfiguration {
   isRunning = getDefaultIsRunning(
     this.database,
     [ActivityType.FeedingBreast, ActivityType.FeedingBottle, ActivityType.FeedingSolid],
-  ).pipe(
-    tap(value => console.log(value))
   );
   lastActivityAt = getDefaultLastActivityAt(
     this.activityStreamService,
