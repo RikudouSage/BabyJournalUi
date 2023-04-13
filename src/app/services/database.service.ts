@@ -189,6 +189,19 @@ export class DatabaseService {
     }
   }
 
+  public fullActivityStreamLastFetched(): Date | null {
+    const result = localStorage.getItem('fullActivityStreamLastFetched');
+    if (result === null) {
+      return null;
+    }
+
+    return new Date(result);
+  }
+
+  public setFullActivityStreamLastFetched(date: Date = new Date()) {
+    localStorage.setItem('fullActivityStreamLastFetched', date.toISOString());
+  }
+
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
       this.db = await openDB(this.databaseName, 3, {

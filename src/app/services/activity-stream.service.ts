@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from "./api.service";
 import {DatabaseService} from "./database.service";
-import {forkJoin, from, lastValueFrom, Observable, Subject, switchMap, tap} from "rxjs";
+import {forkJoin, iif, Observable, of, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {EncryptorService} from "./encryptor.service";
@@ -43,6 +43,11 @@ export type ActivityStream = ActivityStreamItem[];
   providedIn: 'root'
 })
 export class ActivityStreamService {
+  private cache: ActivityStream = [];
+  private cacheUntil: number | null = null;
+
+  private maxTimeUntilFullFetch = 2 * 60 * 60 * 1_000; // in milliseconds
+
   constructor(
     private readonly api: ApiService,
     private readonly database: DatabaseService,
@@ -52,12 +57,27 @@ export class ActivityStreamService {
   }
 
   public getActivityStream(): Observable<ActivityStream> {
-    return forkJoin(
-      this.getCachedActivityStream(),
-      this.getChangedActivityStream(),
+    return iif(
+      () => new Date().getTime() < (this.cacheUntil ?? 0),
+      of(this.cache),
+      iif(
+        () => new Date().getTime() - (this.database.fullActivityStreamLastFetched()?.getTime() ?? 0) > this.maxTimeUntilFullFetch,
+        this.getFullActivityStream().pipe(
+          tap(() => this.database.setFullActivityStreamLastFetched()),
+        ),
+        forkJoin(
+          this.getCachedActivityStream(),
+          this.getChangedActivityStream(),
+        ).pipe(
+          map(([cached, changes]) => {
+            return cached.concat(changes);
+          }),
+        ),
+      ),
     ).pipe(
-      map(([cached, changes]) => {
-        return cached.concat(changes);
+      tap(stream => {
+        this.cache = stream;
+        this.cacheUntil = new Date().getTime() + 1_000;
       }),
       map (async stream => {
         return (await stream).sort((a, b): number => {
