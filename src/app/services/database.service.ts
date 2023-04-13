@@ -146,6 +146,14 @@ export class DatabaseService {
     return (await store.getAll()) ?? [];
   }
 
+  public async initialActivityStreamLoadFinished(): Promise<boolean> {
+    return await this.getSetting('initial_loading_finished') ?? false;
+  }
+
+  public async setInitialActivityStreamLoadFinished(finished: boolean = true): Promise<void> {
+    await this.saveSetting('initial_loading_finished', finished);
+  }
+
   private async getSetting<T>(settingName: string): Promise<T | undefined> {
     const db = await this.open();
     const tx = db.transaction(this.storeNameSettings, 'readonly');

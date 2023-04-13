@@ -2,12 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {RegisterComponent} from "./pages/auth/register/register.component";
 import {ActivityListComponent} from "./pages/activities/activity-list/activity-list.component";
-import {IsLoggedInGuard} from "./services/is-logged-in.guard";
-import {HasChildrenGuard} from "./services/has-children.guard";
 import {CreateChildComponent} from "./pages/children/create-child/create-child.component";
 import {SelectChildComponent} from "./pages/children/select-child/select-child.component";
 import {FeedingActivityComponent} from "./pages/activities/feeding/feeding-activity.component";
-import {ChildIsSelectedGuard} from "./services/child-is-selected.guard";
 import {LogoutComponent} from "./pages/auth/logout/logout.component";
 import {SettingsComponent} from "./pages/settings/settings/settings.component";
 import {AccountSettingsComponent} from "./pages/settings/account/account-settings.component";
@@ -15,87 +12,151 @@ import {ExportAccountComponent} from "./pages/settings/export-account/export-acc
 import {SharingComponent} from "./pages/settings/sharing/sharing.component";
 import {InviteComponent} from "./pages/settings/invite/invite.component";
 import {BrowserUnsupportedComponent} from "./pages/general/browser-unsupported/browser-unsupported.component";
-import {BrowserSupportGuard} from "./services/browser-support.guard";
 import {ActivitiesSummaryComponent} from "./pages/activities/summary/activities-summary.component";
 import {InternalErrorComponent} from "./pages/general/internal-error/internal-error.component";
 import {PrivacyComponent} from "./pages/general/privacy/privacy.component";
 import {GeneralSettingsComponent} from "./pages/settings/general/general-settings.component";
 import {DiaperingActivityComponent} from "./pages/activities/diapering/diapering-activity.component";
+import {FullDataRefreshComponent} from "./pages/general/full-data-refresh/full-data-refresh.component";
+import {IsLoggedInGuard} from "./guards/is-logged-in.guard";
+import {BrowserSupportGuard} from "./guards/browser-support.guard";
+import {ChildIsSelectedGuard} from "./guards/child-is-selected.guard";
+import {HasChildrenGuard} from "./guards/has-children.guard";
+import {InitialLoadFinishedGuard} from "./guards/initial-load-finished.guard";
 
 const routes: Routes = [
   {
     path: 'auth/register',
     component: RegisterComponent,
+    canActivate: [
+      BrowserSupportGuard,
+    ],
   },
   {
     path: 'auth/logout',
     component: LogoutComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: '',
     component: ActivityListComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
   },
   {
     path: 'activities/summary',
     component: ActivitiesSummaryComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
   },
   {
     path: 'activities/feeding',
     component: FeedingActivityComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
   },
   {
     path: 'activities/diapering',
     component: DiaperingActivityComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, ChildIsSelectedGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
   },
   {
     path: 'children/create-first',
     component: CreateChildComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: 'children/add',
     component: CreateChildComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+    ],
   },
   {
     path: 'children/select-child',
     component: SelectChildComponent,
-    canActivate: [IsLoggedInGuard, HasChildrenGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+    ],
   },
   {
     path: 'settings',
     component: SettingsComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: 'settings/account',
     component: AccountSettingsComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: 'settings/account/export',
     component: ExportAccountComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: 'settings/account/sharing',
     component: SharingComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: 'settings/account/sharing/invite',
     component: InviteComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: 'settings/general',
     component: GeneralSettingsComponent,
-    canActivate: [IsLoggedInGuard, BrowserSupportGuard],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
   },
   {
     path: 'internal-error',
@@ -108,6 +169,19 @@ const routes: Routes = [
   {
     path: 'privacy',
     component: PrivacyComponent,
+    canActivate: [
+      BrowserSupportGuard,
+    ],
+  },
+  {
+    path: 'full-data-refresh',
+    component: FullDataRefreshComponent,
+    canActivate: [
+      IsLoggedInGuard,
+      BrowserSupportGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
   }
 ];
 

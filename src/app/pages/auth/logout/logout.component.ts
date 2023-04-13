@@ -27,6 +27,6 @@ export class LogoutComponent implements OnInit {
   public async logout() {
     this.userManager.logout();
     this.database.deleteAll();
-    await this.router.navigateByUrl('/');
+    window.location.reload();
   }
 }

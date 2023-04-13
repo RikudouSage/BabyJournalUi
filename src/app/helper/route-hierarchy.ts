@@ -29,6 +29,7 @@ const routeHierarchy: RouteHierarchy = {
   'children/create-first': {},
   'unsupported-browser': {},
   'privacy': {},
+  'full-data-refresh': {},
 };
 
 let cachedRouteHierarchy: CachedRouteHierarchy | null = null;

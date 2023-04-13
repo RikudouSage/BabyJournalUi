@@ -70,6 +70,7 @@ import { DateDiffPipe } from './pipes/date-diff.pipe';
 import { SecondsToDurationStringPipe } from './pipes/seconds-to-duration-string.pipe';
 import { DiaperingActivityComponent } from './pages/activities/diapering/diapering-activity.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { FullDataRefreshComponent } from './pages/general/full-data-refresh/full-data-refresh.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -108,6 +109,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DateDiffPipe,
     SecondsToDurationStringPipe,
     DiaperingActivityComponent,
+    FullDataRefreshComponent,
   ],
   imports: [
     BrowserModule,

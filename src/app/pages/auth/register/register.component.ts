@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TitleService} from "../../../services/title.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ApiService} from "../../../services/api.service";
@@ -11,7 +11,6 @@ import {UserManagerService} from "../../../services/user-manager.service";
 import {DatabaseService} from "../../../services/database.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivityStreamService} from "../../../services/activity-stream.service";
-import {toPromise} from "../../../helper/observables";
 
 type Step = 'create' | 'invitationCode' | 'advanced' | 'restore';
 
@@ -46,7 +45,6 @@ export class RegisterComponent implements OnInit {
     private readonly userManager: UserManagerService,
     private readonly database: DatabaseService,
     private readonly snackBar: MatSnackBar,
-    private readonly activityStreamService: ActivityStreamService,
   ) {
   }
 
@@ -66,7 +64,6 @@ export class RegisterComponent implements OnInit {
       await this.api.refreshShareCode();
     }
 
-    await this.doFullActivityStreamRefresh();
     await this.router.navigateByUrl('/');
   }
 
@@ -81,7 +78,6 @@ export class RegisterComponent implements OnInit {
     try {
       await this.userManager.getCurrentUser();
       await this.router.navigateByUrl('/');
-      await this.doFullActivityStreamRefresh();
     } catch (e) {
       this.userManager.logout();
       await this.database.deleteAll();
@@ -130,9 +126,5 @@ export class RegisterComponent implements OnInit {
         duration: 10_000,
       },
     );
-  }
-
-  private async doFullActivityStreamRefresh(): Promise<void> {
-    await toPromise(this.activityStreamService.getFullActivityStream());
   }
 }
