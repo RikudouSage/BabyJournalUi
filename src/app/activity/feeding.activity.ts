@@ -5,7 +5,7 @@ import {forkJoin, from, iif, interval, of, startWith, switchMap, tap} from "rxjs
 import {DatabaseService} from "../services/database.service";
 import {map} from "rxjs/operators";
 import {ActivityType} from "../enum/activity-type.enum";
-import {ApiService} from "../services/api.service";
+import {ActivityStreamService} from "../services/activity-stream.service";
 
 @Injectable({
   providedIn: 'root',
@@ -35,12 +35,12 @@ export class FeedingActivity implements Activity {
     switchMap(() => from(this.database.getLastActivityDate(ActivityType.FeedingBottle))),
     switchMap(value => iif(
       () => value === null,
-      getDefaultLastActivityAt(this.api.getActivityStream(), [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast]),
+      getDefaultLastActivityAt(this.activityStreamService.getActivityStream(), [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast]),
       of(value),
     )),
     tap(value => {
       let subscription = getDefaultLastActivityAt(
-        this.api.getActivityStream(),
+        this.activityStreamService.getActivityStream(),
         [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast],
       ).subscribe(value => {
         subscription.unsubscribe();
@@ -57,7 +57,7 @@ export class FeedingActivity implements Activity {
   constructor(
     private readonly translator: TranslateService,
     private readonly database: DatabaseService,
-    private readonly api: ApiService,
+    private readonly activityStreamService: ActivityStreamService,
   ) {
   }
 }

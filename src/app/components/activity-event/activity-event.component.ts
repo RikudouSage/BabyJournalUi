@@ -1,11 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {ActivityStreamItem} from "../../services/api.service";
 import {ActivityType} from "../../enum/activity-type.enum";
-import {BottleContentType} from "../../enum/bottle-content-type.enum";
-import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {EnumToStringService} from "../../services/enum-to-string.service";
 import {BreastIndex} from "../../enum/breast-index.enum";
+import {ActivityStreamItem} from "../../services/activity-stream.service";
 
 @Component({
   selector: 'app-activity-event',

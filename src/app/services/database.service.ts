@@ -16,6 +16,7 @@ export class DatabaseService {
   private readonly storeNameSettings = 'settings';
   private readonly storeNameInProgress = 'in_progress';
   private readonly storeNameCachedLastDates = 'last_dates';
+  private readonly storeNameActivityStreamCache = 'activity_stream';
 
   private db: IDBPDatabase | null = null;
 
@@ -159,7 +160,7 @@ export class DatabaseService {
 
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
-      this.db = await openDB(this.databaseName, 2, {
+      this.db = await openDB(this.databaseName, 3, {
         upgrade: (
           database: IDBPDatabase,
           oldVersion: number,
@@ -182,6 +183,12 @@ export class DatabaseService {
               case 2:
                 database.createObjectStore(this.storeNameCachedLastDates, {
                   keyPath: 'activity',
+                  autoIncrement: false,
+                });
+                break;
+              case 3:
+                database.createObjectStore(this.storeNameActivityStreamCache, {
+                  keyPath: 'id',
                   autoIncrement: false,
                 });
                 break;

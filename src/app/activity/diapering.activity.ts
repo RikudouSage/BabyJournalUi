@@ -2,9 +2,9 @@ import {Activity, getDefaultLastActivityAt} from "./activity";
 import {TranslateService} from "@ngx-translate/core";
 import {Injectable} from "@angular/core";
 import {from, iif, interval, of, startWith, switchMap, tap} from "rxjs";
-import {ApiService} from "../services/api.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {DatabaseService} from "../services/database.service";
+import {ActivityStreamService} from "../services/activity-stream.service";
 
 @Injectable({
   providedIn: 'root',
@@ -20,12 +20,12 @@ export class DiaperingActivity implements Activity {
     switchMap(() => from(this.database.getLastActivityDate(ActivityType.Diapering))),
     switchMap(value => iif(
       () => value === null,
-      getDefaultLastActivityAt(this.api.getActivityStream(), [ActivityType.Diapering]),
+      getDefaultLastActivityAt(this.activityStreamService.getActivityStream(), [ActivityType.Diapering]),
       of(value),
     )),
     tap(value => {
       let subscription = getDefaultLastActivityAt(
-        this.api.getActivityStream(),
+        this.activityStreamService.getActivityStream(),
         [ActivityType.Diapering],
       ).subscribe(value => {
         subscription.unsubscribe();
@@ -38,8 +38,8 @@ export class DiaperingActivity implements Activity {
   );
   constructor(
     private readonly translator: TranslateService,
-    private readonly api: ApiService,
     private readonly database: DatabaseService,
+    private readonly activityStreamService: ActivityStreamService,
   ) {
   }
 

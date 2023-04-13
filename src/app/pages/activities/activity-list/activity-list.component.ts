@@ -5,12 +5,9 @@ import {EncryptorService} from "../../../services/encryptor.service";
 import {EncryptedValue} from "../../../dto/encrypted-value";
 import {Activity} from "../../../activity/activity";
 import {ACTIVITIES} from "../../../dependency-injection/injection-tokens";
-import {ActivityStream, ApiService} from "../../../services/api.service";
-import {ActivityType} from "../../../enum/activity-type.enum";
-import {BottleContentType} from "../../../enum/bottle-content-type.enum";
-import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {dateToYmd} from "../../../helper/date";
+import {ActivityStream, ActivityStreamService} from "../../../services/activity-stream.service";
 
 interface DateSortedActivityStream {
   [key: string]: ActivityStream;
@@ -32,7 +29,7 @@ export class ActivityListComponent implements OnInit {
     private readonly titleService: TitleService,
     private readonly userManager: UserManagerService,
     private readonly encryptor: EncryptorService,
-    private readonly api: ApiService,
+    private readonly activityStreamService: ActivityStreamService,
     private readonly translator: TranslateService,
     @Inject(ACTIVITIES) private readonly activityObjects: Activity[],
   ) {
@@ -53,7 +50,7 @@ export class ActivityListComponent implements OnInit {
       });
     });
 
-    this.api.getActivityStream().subscribe(async result => {
+    this.activityStreamService.getActivityStream().subscribe(async result => {
       const activities: DateSortedActivityStream = {};
       const stream = await result;
       let i = 0;

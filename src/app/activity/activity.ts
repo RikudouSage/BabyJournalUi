@@ -1,7 +1,7 @@
 import {from, interval, Observable, startWith, switchMap} from "rxjs";
 import {ActivityType} from "../enum/activity-type.enum";
 import {map} from "rxjs/operators";
-import {ActivityStream, ActivityStreamItem} from "../services/api.service";
+import {ActivityStream, ActivityStreamItem} from "../services/activity-stream.service";
 
 export function getDefaultLastActivityAt(
   activityStream: Observable<Promise<ActivityStream>>,

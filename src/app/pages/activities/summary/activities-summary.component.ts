@@ -1,12 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {TitleService} from "../../../services/title.service";
-import {
-  ActivityStream,
-  ApiService,
-  BottleFeedingActivityStreamItem,
-  BreastFeedingActivityStreamItem, DiaperingActivityStreamItem
-} from "../../../services/api.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {lastValueFrom, Observable, of} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
@@ -18,6 +12,11 @@ import {ActivityType} from "../../../enum/activity-type.enum";
 import {EnumToStringService} from "../../../services/enum-to-string.service";
 import {BreastIndex} from "../../../enum/breast-index.enum";
 import {dateDiff} from "../../../helper/date";
+import {
+  ActivityStream,
+  ActivityStreamService,
+  BottleFeedingActivityStreamItem, BreastFeedingActivityStreamItem, DiaperingActivityStreamItem
+} from "../../../services/activity-stream.service";
 
 interface CategorySummary {
   feeding: {
@@ -97,10 +96,10 @@ export class ActivitiesSummaryComponent implements OnInit {
     private readonly breakpointObserver: BreakpointObserver,
     private readonly translator: TranslateService,
     private readonly titleService: TitleService,
-    private readonly apiService: ApiService,
     private readonly userManager: UserManagerService,
     private readonly encryptor: EncryptorService,
     private readonly enumToString: EnumToStringService,
+    private readonly activityStreamService: ActivityStreamService,
   ) {
   }
 
@@ -117,7 +116,7 @@ export class ActivitiesSummaryComponent implements OnInit {
         this.isDateBeforeChildBirth = false;
       }
     }
-    this.apiService.getActivityStream().subscribe(async activityStream => {
+    this.activityStreamService.getActivityStream().subscribe(async activityStream => {
       this.fullActivityStream = await activityStream;
       this.reloadActivitiesForDate(this.changeDateForm.controls.date.value);
     });
