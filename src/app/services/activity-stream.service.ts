@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from "./api.service";
 import {DatabaseService} from "./database.service";
-import {Observable} from "rxjs";
+import {forkJoin, from, lastValueFrom, Observable, Subject, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {EncryptorService} from "./encryptor.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {FeedingType} from "../types/feeding-type.type";
+import {toObservable} from "../helper/observables";
 
 
 export interface ActivityStreamItem {
@@ -50,7 +51,31 @@ export class ActivityStreamService {
   ) {
   }
 
-  public getActivityStream(): Observable<Promise<ActivityStream>> {
+  public getActivityStream(): Observable<ActivityStream> {
+    return forkJoin(
+      this.getCachedActivityStream(),
+      this.getChangedActivityStream(),
+    ).pipe(
+      map(([cached, changes]) => {
+        console.log(changes);
+        return cached.concat(changes);
+      }),
+      map (async stream => {
+        return (await stream).sort((a, b): number => {
+          if (a.startTime === b.startTime) {
+            return 0;
+          }
+          const dateA = new Date(a.startTime);
+          const dateB = new Date(b.startTime);
+
+          return dateA.getTime() > dateB.getTime() ? -1 : 1;
+        });
+      }),
+      switchMap(value => toObservable(value)),
+    );
+  }
+
+  public getFullActivityStream(): Observable<ActivityStream> {
     return this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities`).pipe(
       map (async stream => {
         return await Promise.all(stream.map(async item => {
@@ -65,17 +90,46 @@ export class ActivityStreamService {
           return item;
         }));
       }),
-      map (async stream => {
-        return (await stream).sort((a, b): number => {
-          if (a.startTime === b.startTime) {
-            return 0;
-          }
-          const dateA = new Date(a.startTime);
-          const dateB = new Date(b.startTime);
+      tap(async stream => {
+        const promises = [];
+        for (const item of await stream) {
+          promises.push(this.database.storeActivityStreamItem(item));
+        }
 
-          return dateA.getTime() > dateB.getTime() ? -1 : 1;
-        });
+        await Promise.all(promises);
       }),
+      switchMap(stream => toObservable(stream)),
+    );
+  }
+
+  private getCachedActivityStream(): Observable<ActivityStream> {
+    return toObservable(this.database.getActivityStream());
+  }
+
+  private getChangedActivityStream(): Observable<ActivityStream> {
+    return this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities/changes`).pipe(
+      map (async stream => {
+        return await Promise.all(stream.map(async item => {
+          for (const key of Object.keys(item)) {
+            if (key === 'id' || key === 'activityType' || item[key] === null) {
+              continue;
+            }
+
+            item[key] = await this.encryptor.decrypt(<string>item[key]);
+          }
+
+          return item;
+        }));
+      }),
+      tap(async stream => {
+        const promises = [];
+        for (const item of await stream) {
+          promises.push(this.database.storeActivityStreamItem(item));
+        }
+
+        await Promise.all(promises);
+      }),
+      switchMap(stream => toObservable(stream)),
     );
   }
 }

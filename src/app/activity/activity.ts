@@ -4,14 +4,13 @@ import {map} from "rxjs/operators";
 import {ActivityStream, ActivityStreamItem} from "../services/activity-stream.service";
 
 export function getDefaultLastActivityAt(
-  activityStream: Observable<Promise<ActivityStream>>,
+  activityStream: Observable<ActivityStream>,
   types: ActivityType[],
   timeInterval = 60_000,
 ): Observable<Date | null> {
   return interval(timeInterval).pipe(
     startWith(0),
     switchMap(() => activityStream),
-    switchMap(value => from(value)),
     map(stream => {
       if (!stream.length) {
         return null;

@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {IDBPDatabase, IDBPTransaction, openDB, StoreNames} from "idb";
+import {deleteDB, IDBPDatabase, IDBPTransaction, openDB, StoreNames} from "idb";
 import {BottleContentType} from "../enum/bottle-content-type.enum";
 import {ActivityType} from "../enum/activity-type.enum";
 import {FeedingType} from "../types/feeding-type.type";
 import {ActivityInProgress} from "../types/activity-in-progress.type";
 import {AppLanguage} from "../types/app-language";
 import {BreastIndex} from "../enum/breast-index.enum";
+import {ActivityStream, ActivityStreamItem} from "./activity-stream.service";
 
 @Injectable({
   providedIn: 'root'
@@ -116,6 +117,35 @@ export class DatabaseService {
     await transaction.done;
   }
 
+  public async storeActivityStreamItem(item: ActivityStreamItem): Promise<void> {
+    const db = await this.open();
+    const transaction = db.transaction(this.storeNameActivityStreamCache, 'readwrite');
+    const store = transaction.objectStore(this.storeNameActivityStreamCache);
+    await store.put(item);
+    await transaction.done;
+  }
+
+  public async getActivityStreamItem(id: string): Promise<ActivityStreamItem | null> {
+    const db = await this.open();
+    const tx = db.transaction(this.storeNameActivityStreamCache, 'readonly');
+    const store = tx.objectStore(this.storeNameActivityStreamCache);
+
+    const result = await store.get(id);
+    if (result === undefined) {
+      return null;
+    }
+
+    return result;
+  }
+
+  public async getActivityStream(): Promise<ActivityStream> {
+    const db = await this.open();
+    const tx = db.transaction(this.storeNameActivityStreamCache, 'readonly');
+    const store = tx.objectStore(this.storeNameActivityStreamCache);
+
+    return (await store.getAll()) ?? [];
+  }
+
   private async getSetting<T>(settingName: string): Promise<T | undefined> {
     const db = await this.open();
     const tx = db.transaction(this.storeNameSettings, 'readonly');
@@ -136,14 +166,7 @@ export class DatabaseService {
   }
 
   public async deleteAll() {
-    const stores = [this.storeNameSettings, this.storeNameInProgress];
-    const db = await this.open();
-    for (const storeName of stores) {
-      const tx = db.transaction(storeName, 'readwrite');
-      const store = tx.objectStore(storeName);
-      await store.clear();
-      await tx.done;
-    }
+    await deleteDB(this.databaseName);
   }
 
   public getLanguage(): AppLanguage {
