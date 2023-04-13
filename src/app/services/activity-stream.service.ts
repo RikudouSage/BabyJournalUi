@@ -57,7 +57,6 @@ export class ActivityStreamService {
       this.getChangedActivityStream(),
     ).pipe(
       map(([cached, changes]) => {
-        console.log(changes);
         return cached.concat(changes);
       }),
       map (async stream => {

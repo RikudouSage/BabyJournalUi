@@ -24,6 +24,7 @@ export class ActivityListComponent implements OnInit {
   public activities: Activity[] = [];
   public activityStream: DateSortedActivityStream;
   public dates: string[] = [];
+  public activitiesLoaded = false;
 
   constructor(
     private readonly titleService: TitleService,
@@ -70,6 +71,7 @@ export class ActivityListComponent implements OnInit {
       }
 
       this.activityStream = activities;
+      this.activitiesLoaded = true;
     });
   }
 }

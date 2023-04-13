@@ -173,5 +173,6 @@
   "{{dateDescription}} {{childName}} haven't had diaper changed.": "{{dateDescription}} {{childName}} neměl/a žádnou výměnu plíny.",
   "{{dateDescription}} {{childName}} had a diaper changed <strong>{{count}} times</strong>.": "{{dateDescription}} měl/a {{childName}} plínu vyměněnu <strong>{{count}}x</strong>.",
   "<strong>{{countWet}}</strong> of those were wet, <strong>{{countPoopy}}</strong> were pooped and <strong>{{countDry}}</strong> were dry.": "<strong>{{countWet}}x</strong> z toho byla počůraná, <strong>{{countPoopy}}x</strong> pokaděná a <strong>{{countDry}}x</strong> suchá.",
-  "Loading data": "Načítání dat"
+  "Loading data": "Načítání dat",
+  "The app is currently downloading all your data, this might take a while depending on the amount of data you have stored.": "Aplikace momentálně stahuje vaše data, to může chvilku zabrat na základě toho, kolik jich máte uložených."
 }

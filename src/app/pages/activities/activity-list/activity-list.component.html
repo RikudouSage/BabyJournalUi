@@ -14,15 +14,20 @@
   </a>
 </mat-grid-list>
 
-<mat-card *ngIf="dates.length && activities.length; else loader">
+<mat-card *ngIf="activitiesLoaded; else loader">
   <mat-card-header>
     <mat-card-title>{{"Activities" | translate}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let date of dates">
-      <strong class="center">{{date | relativeDate | async | uppercaseFirst}}</strong>
-      <app-activity-event *ngFor="let activity of activityStream[date]" [activity]="activity"></app-activity-event>
-    </div>
+    <ng-container *ngIf="dates.length else noActivities">
+      <div *ngFor="let date of dates">
+        <strong class="center">{{date | relativeDate | async | uppercaseFirst}}</strong>
+        <app-activity-event *ngFor="let activity of activityStream[date]" [activity]="activity"></app-activity-event>
+      </div>
+    </ng-container>
+    <ng-template #noActivities>
+      <p class="center">{{"There are no events." | translate}}</p>
+    </ng-template>
   </mat-card-content>
 </mat-card>
 
