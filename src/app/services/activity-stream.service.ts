@@ -61,7 +61,8 @@ export class ActivityStreamService {
       () => new Date().getTime() < (this.cacheUntil ?? 0),
       of(this.cache),
       iif(
-        () => new Date().getTime() - (this.database.fullActivityStreamLastFetched()?.getTime() ?? 0) > this.maxTimeUntilFullFetch,
+        // () => new Date().getTime() - (this.database.fullActivityStreamLastFetched()?.getTime() ?? 0) > this.maxTimeUntilFullFetch,
+        () => false, // todo think of a better flow
         this.getFullActivityStream().pipe(
           tap(() => this.database.setFullActivityStreamLastFetched()),
         ),
