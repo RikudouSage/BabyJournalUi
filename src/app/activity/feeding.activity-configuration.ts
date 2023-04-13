@@ -1,4 +1,4 @@
-import {ActivityConfiguration, CancellationToken, getDefaultIsRunning, getDefaultLastActivityAt} from "./activity-configuration";
+import {ActivityConfiguration, getDefaultIsRunning, getDefaultLastActivityAt} from "./activity-configuration";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {DatabaseService} from "../services/database.service";
@@ -10,17 +10,13 @@ import {ActivityStreamService} from "../services/activity-stream.service";
 })
 export class FeedingActivityConfiguration implements ActivityConfiguration {
 
-  private currentCancellationToken: CancellationToken = {
-    token: 0,
-  };
-
   color = '#f48fb1';
   displayName = this.translator.get('Feeding');
   link = '/activities/feeding';
-  // isRunning = from(this.database.getInProgress(ActivityType.Feeding)).pipe(
-  //   map(value => value !== null),
-  // );
-  isRunning = this.isRunningFactory();
+  isRunning = getDefaultIsRunning(
+    this.database,
+    [ActivityType.FeedingBreast, ActivityType.FeedingBottle, ActivityType.FeedingSolid],
+  );
   lastActivityAt = getDefaultLastActivityAt(
     this.activityStreamService.getActivityStream(),
     [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast],
@@ -31,18 +27,5 @@ export class FeedingActivityConfiguration implements ActivityConfiguration {
     private readonly database: DatabaseService,
     private readonly activityStreamService: ActivityStreamService,
   ) {
-  }
-
-  reloadStatus(): void {
-    ++this.currentCancellationToken.token;
-    this.isRunning = this.isRunningFactory();
-  }
-
-  private isRunningFactory() {
-    return getDefaultIsRunning(
-      this.database,
-      [ActivityType.FeedingBreast, ActivityType.FeedingBottle, ActivityType.FeedingSolid],
-      this.currentCancellationToken,
-    );
   }
 }

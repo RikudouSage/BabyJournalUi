@@ -17,7 +17,4 @@ export class MedicalActivityConfiguration implements ActivityConfiguration {
     private readonly translator: TranslateService,
   ) {
   }
-
-  reloadStatus(): void {
-  }
 }

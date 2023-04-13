@@ -43,7 +43,4 @@ export class DiaperingActivityConfiguration implements ActivityConfiguration {
   ) {
   }
 
-  reloadStatus(): void {
-  }
-
 }

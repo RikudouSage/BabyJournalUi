@@ -17,7 +17,4 @@ export class OtherActivityConfiguration implements ActivityConfiguration {
     private readonly translator: TranslateService,
   ) {
   }
-
-  reloadStatus(): void {
-  }
 }

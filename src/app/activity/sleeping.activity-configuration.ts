@@ -18,7 +18,4 @@ export class SleepingActivityConfiguration implements ActivityConfiguration {
     private readonly translator: TranslateService,
   ) {
   }
-
-  reloadStatus(): void {
-  }
 }

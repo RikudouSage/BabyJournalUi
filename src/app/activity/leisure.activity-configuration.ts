@@ -17,7 +17,4 @@ export class LeisureActivityConfiguration implements ActivityConfiguration {
     private readonly translator: TranslateService,
   ) {
   }
-
-  reloadStatus(): void {
-  }
 }

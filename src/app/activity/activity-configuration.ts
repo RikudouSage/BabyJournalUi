@@ -4,19 +4,12 @@ import {map} from "rxjs/operators";
 import {ActivityStream, ActivityStreamItem} from "../services/activity-stream.service";
 import {DatabaseService} from "../services/database.service";
 
-export interface CancellationToken {
-  token: number;
-}
-
 export function getDefaultIsRunning(
   database: DatabaseService,
   types: ActivityType[],
-  cancellationToken: CancellationToken,
+  timeInterval = 10_000,
 ): Observable<boolean> {
-  const initialToken = cancellationToken.token;
-
-  return interval(10_000).pipe(
-    takeWhile(() => cancellationToken.token === initialToken),
+  return interval(timeInterval).pipe(
     startWith(0),
     switchMap(() => {
       const inProgress = types.map(activityType => from(database.getInProgress(activityType)));
@@ -70,5 +63,5 @@ export interface ActivityConfiguration {
   link: string;
   lastActivityAt: Observable<Date | null>;
 
-  reloadStatus(): void;
+  // reloadStatus(): void;
 }
