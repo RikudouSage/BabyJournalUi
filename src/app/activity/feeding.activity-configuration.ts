@@ -4,6 +4,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {DatabaseService} from "../services/database.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {ActivityStreamService} from "../services/activity-stream.service";
+import {tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,11 @@ export class FeedingActivityConfiguration implements ActivityConfiguration {
   isRunning = getDefaultIsRunning(
     this.database,
     [ActivityType.FeedingBreast, ActivityType.FeedingBottle, ActivityType.FeedingSolid],
+  ).pipe(
+    tap(value => console.log(value))
   );
   lastActivityAt = getDefaultLastActivityAt(
-    this.activityStreamService.getActivityStream(),
+    this.activityStreamService,
     [ActivityType.FeedingSolid, ActivityType.FeedingBottle, ActivityType.FeedingBreast],
   );
 

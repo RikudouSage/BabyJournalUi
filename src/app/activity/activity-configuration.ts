@@ -1,7 +1,7 @@
 import {forkJoin, from, interval, Observable, startWith, switchMap, takeWhile} from "rxjs";
 import {ActivityType} from "../enum/activity-type.enum";
 import {map} from "rxjs/operators";
-import {ActivityStream, ActivityStreamItem} from "../services/activity-stream.service";
+import {ActivityStream, ActivityStreamItem, ActivityStreamService} from "../services/activity-stream.service";
 import {DatabaseService} from "../services/database.service";
 
 export function getDefaultIsRunning(
@@ -16,25 +16,24 @@ export function getDefaultIsRunning(
       return forkJoin(...inProgress);
     }),
     map(results => {
-        for (const result of results) {
-          if (result === null) {
-            return false;
-          }
+      for (const result of results) {
+        if (result !== null) {
+          return true;
         }
-        return true;
       }
-    ),
+      return false;
+    }),
   );
 }
 
 export function getDefaultLastActivityAt(
-  activityStream: Observable<ActivityStream>,
+  activityStream: ActivityStreamService,
   types: ActivityType[],
   timeInterval = 60_000,
 ): Observable<Date | null> {
   return interval(timeInterval).pipe(
     startWith(0),
-    switchMap(() => activityStream),
+    switchMap(() => activityStream.getActivityStream()),
     map(stream => {
       if (!stream.length) {
         return null;
