@@ -184,5 +184,6 @@
   "Delete activity": "Smazat aktivitu",
   "Are you sure you want to delete this activity? You cannot take this action back.": "Opravdu chcete smazat tuto aktivitu? Tato akce je nevratná.",
   "Failed to delete the activity.": "Nezdařilo se smazat aktivitu.",
-  "State": "Stav"
+  "State": "Stav",
+  "Synchronize": "Synchronizovat"
 }
