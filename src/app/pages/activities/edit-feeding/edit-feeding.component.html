@@ -1,7 +1,7 @@
 <mat-spinner class="global" *ngIf="loading; else content"></mat-spinner>
 
 <ng-template #content>
-  <form [formGroup]="form">
+  <form [formGroup]="form" (submit)="save()">
     <mat-card>
       <mat-card-content>
         <mat-error class="center" *ngIf="errorMessage | async; let message">
@@ -62,8 +62,8 @@
         </mat-form-field>
       </ng-container>
     </mat-card>
-    <a class="right-corner-fab" mat-fab color="primary" (click)="save()">
+    <button class="right-corner-fab" mat-fab color="primary">
       <mat-icon>save</mat-icon>
-    </a>
+    </button>
   </form>
 </ng-template>
