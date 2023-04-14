@@ -66,7 +66,10 @@ import {SecondsToDurationStringPipe} from './pipes/seconds-to-duration-string.pi
 import {DiaperingActivityComponent} from './pages/activities/diapering/diapering-activity.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {FullDataRefreshComponent} from './pages/general/full-data-refresh/full-data-refresh.component';
-import { EditFeedingComponent } from './pages/activities/edit-feeding/edit-feeding.component';
+import {EditFeedingComponent} from './pages/activities/edit-feeding/edit-feeding.component';
+import {EditDiaperingComponent} from './pages/activities/edit-diapering/edit-diapering.component';
+import {PoopColorSelectComponent} from './components/poop-color-select/poop-color-select.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -107,6 +110,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiaperingActivityComponent,
     FullDataRefreshComponent,
     EditFeedingComponent,
+    EditDiaperingComponent,
+    PoopColorSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -154,6 +159,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       registrationStrategy: 'registerWhenStable:30000'
     }),
     MatButtonToggleModule,
+    MatCheckboxModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

@@ -10,8 +10,9 @@ import {DiaperingActivity, DiaperingActivityRepository} from "../../../entity/di
 import {EncryptorService} from "../../../services/encryptor.service";
 import {EncryptedValue} from "../../../dto/encrypted-value";
 import {Router} from "@angular/router";
+import {PoopColorsService} from "../../../services/poop-colors.service";
 
-type WetDiaperQuantity = 'small' | 'medium' | 'large';
+export type WetDiaperQuantity = 'small' | 'medium' | 'large';
 
 @Component({
   selector: 'app-diapering',
@@ -35,44 +36,7 @@ export class DiaperingActivityComponent implements OnInit {
     poopColor: new FormControl<PoopColor | null>(null),
   });
   public errorMessage: Observable<string> = of('');
-  public poopColors: PoopColor[] = [
-    {
-      name: this.translator.get('Dark brown'),
-      color: '#6a380c'
-    },
-    {
-      name: this.translator.get('Light brown'),
-      color: '#b86642',
-    },
-    {
-      name: this.translator.get('Mustard'),
-      color: '#c69b62',
-    },
-    {
-      name: this.translator.get('Green'),
-      color: '#79782f',
-    },
-    {
-      name: this.translator.get('Red'),
-      color: '#e52121',
-    },
-    {
-      name: this.translator.get('Orange'),
-      color: '#e68524',
-    },
-    {
-      name: this.translator.get('Yellow'),
-      color: '#dfdf17',
-    },
-    {
-      name: this.translator.get('White'),
-      color: '#f0ecec',
-    },
-    {
-      name: this.translator.get('Black'),
-      color: '#1f1b1b',
-    },
-  ];
+  public poopColors: PoopColor[] = this.poopColorsService.poopColors;
   public loading = false;
 
   constructor(
@@ -82,6 +46,7 @@ export class DiaperingActivityComponent implements OnInit {
     private readonly encryptor: EncryptorService,
     private readonly diaperingActivityRepository: DiaperingActivityRepository,
     private readonly router: Router,
+    private readonly poopColorsService: PoopColorsService,
   ) {
   }
   public async ngOnInit(): Promise<void> {

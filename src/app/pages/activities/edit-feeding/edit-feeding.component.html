@@ -9,58 +9,58 @@
         </mat-error>
         <mat-form-field>
           <mat-label>{{'Start' | translate}}</mat-label>
-          <input matInput formControlName="startTime" [mtxDatetimepicker]="startTime" required />
+          <input matInput formControlName="startTime" [mtxDatetimepicker]="startTime" required/>
           <mtx-datetimepicker-toggle matIconSuffix [for]="startTime"></mtx-datetimepicker-toggle>
           <mtx-datetimepicker #startTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
         </mat-form-field>
         <mat-form-field>
           <mat-label>{{'End' | translate}}</mat-label>
-          <input matInput formControlName="endTime" [mtxDatetimepicker]="endTime" required />
+          <input matInput formControlName="endTime" [mtxDatetimepicker]="endTime" required/>
           <mtx-datetimepicker-toggle matIconSuffix [for]="endTime"></mtx-datetimepicker-toggle>
           <mtx-datetimepicker #endTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
         </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'Notes' | translate}}</mat-label>
+          <textarea matInput formControlName="note"></textarea>
+        </mat-form-field>
+        <!-- Bottle -->
+        <ng-container *ngIf="form.controls.type.value === 'bottle'">
+          <mat-form-field>
+            <mat-label>{{'Amount' | translate}} (ml)</mat-label>
+            <input matInput formControlName="amount" type="number" inputmode="numeric" required/>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'Content' | translate}}</mat-label>
+            <mat-select formControlName="bottleContentType" required>
+              <mat-option [value]="BottleContentType.BreastMilk">
+                {{bottleContentTypeToString(BottleContentType.BreastMilk) | async | uppercaseFirst}}
+              </mat-option>
+              <mat-option [value]="BottleContentType.Formula">
+                {{bottleContentTypeToString(BottleContentType.Formula) | async | uppercaseFirst}}
+              </mat-option>
+              <mat-option [value]="BottleContentType.Water">
+                {{bottleContentTypeToString(BottleContentType.Water) | async | uppercaseFirst}}
+              </mat-option>
+              <mat-option [value]="BottleContentType.Juice">
+                {{bottleContentTypeToString(BottleContentType.Juice) | async | uppercaseFirst}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="form.controls.type.value === 'nursing'">
+          <mat-form-field>
+            <mat-label>{{'Breast' | translate}}</mat-label>
+            <mat-select formControlName="breast">
+              <mat-option [value]="BreastIndex.Left">
+                {{breastIndexToString(BreastIndex.Left) | async | uppercaseFirst}}
+              </mat-option>
+              <mat-option [value]="BreastIndex.Right">
+                {{breastIndexToString(BreastIndex.Right) | async | uppercaseFirst}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
       </mat-card-content>
-      <mat-form-field>
-        <mat-label>{{'Notes' | translate}}</mat-label>
-        <textarea matInput formControlName="note"></textarea>
-      </mat-form-field>
-      <!-- Bottle -->
-      <ng-container *ngIf="form.controls.type.value === 'bottle'">
-        <mat-form-field>
-          <mat-label>{{'Amount' | translate}} (ml)</mat-label>
-          <input matInput formControlName="amount" type="number" inputmode="numeric" required />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{'Content' | translate}}</mat-label>
-          <mat-select formControlName="bottleContentType" required>
-            <mat-option [value]="BottleContentType.BreastMilk">
-              {{bottleContentTypeToString(BottleContentType.BreastMilk) | async | uppercaseFirst}}
-            </mat-option>
-            <mat-option [value]="BottleContentType.Formula">
-              {{bottleContentTypeToString(BottleContentType.Formula) | async | uppercaseFirst}}
-            </mat-option>
-            <mat-option [value]="BottleContentType.Water">
-              {{bottleContentTypeToString(BottleContentType.Water) | async | uppercaseFirst}}
-            </mat-option>
-            <mat-option [value]="BottleContentType.Juice">
-              {{bottleContentTypeToString(BottleContentType.Juice) | async | uppercaseFirst}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </ng-container>
-      <ng-container *ngIf="form.controls.type.value === 'nursing'">
-        <mat-form-field>
-          <mat-label>{{'Breast' | translate}}</mat-label>
-          <mat-select formControlName="breast">
-            <mat-option [value]="BreastIndex.Left">
-              {{breastIndexToString(BreastIndex.Left) | async | uppercaseFirst}}
-            </mat-option>
-            <mat-option [value]="BreastIndex.Right">
-              {{breastIndexToString(BreastIndex.Right) | async | uppercaseFirst}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </ng-container>
     </mat-card>
     <button class="left-corner-fab" mat-fab color="warn" type="button" (click)="confirmDelete()">
       <mat-icon>delete</mat-icon>

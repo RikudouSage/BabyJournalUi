@@ -1,0 +1,57 @@
+<mat-spinner class="global" *ngIf="loading; else content"></mat-spinner>
+
+<ng-template #content>
+  <form [formGroup]="form" (submit)="save()">
+    <mat-card>
+      <mat-card-content>
+        <mat-error class="center" *ngIf="errorMessage | async; let message">
+          {{message}}
+        </mat-error>
+        <mat-form-field>
+          <mat-label>{{'Start' | translate}}</mat-label>
+          <input matInput formControlName="startTime" [mtxDatetimepicker]="startTime" required/>
+          <mtx-datetimepicker-toggle matIconSuffix [for]="startTime"></mtx-datetimepicker-toggle>
+          <mtx-datetimepicker #startTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'Notes' | translate}}</mat-label>
+          <textarea matInput formControlName="note"></textarea>
+        </mat-form-field>
+        <div class="section">
+          <p><strong>{{"State" | translate}}</strong></p>
+          <mat-checkbox formControlName="wet">
+            {{'Wet' | translate}}
+          </mat-checkbox>
+          <mat-checkbox formControlName="poopy">
+            {{'Poopy' | translate}}
+          </mat-checkbox>
+        </div>
+        <div *ngIf="form.controls.wet.value" class="section">
+          <p>
+            <strong>{{"Quantity" | translate}}</strong>
+          </p>
+          <mat-button-toggle-group formControlName="quantity">
+            <mat-button-toggle value="small">{{"Small" | translate}}</mat-button-toggle>
+            <mat-button-toggle value="medium">{{"Medium" | translate}}</mat-button-toggle>
+            <mat-button-toggle value="large">{{"Large" | translate}}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div *ngIf="form.controls.poopy.value" class="section">
+          <p>
+            <strong>{{"Poop color" | translate}}</strong>
+          </p>
+          <app-poop-color-select
+            [initialColor]="form.controls.poopColor.value"
+            (change)="form.patchValue({poopColor: $event})"
+          ></app-poop-color-select>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <button class="left-corner-fab" mat-fab color="warn" type="button" (click)="confirmDelete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button class="right-corner-fab" mat-fab color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </form>
+</ng-template>

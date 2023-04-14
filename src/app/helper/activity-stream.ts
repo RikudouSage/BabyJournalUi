@@ -29,7 +29,7 @@ export function toActivityStreamItem(
     throw new Error('Start time cannot be undefined');
   }
   if (result.endTime === undefined) {
-    throw new Error('End time cannot be undefined');
+    result.endTime = null;
   }
   if (result.note === undefined) {
     throw new Error('Note cannot be undefined');

@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-select [value]="initialColor" (valueChange)="onValueChanged($event)">
+    <mat-option *ngFor="let color of poopColors" [value]="color">
+      <mat-icon [style.color]="color.color">circle</mat-icon>
+      {{color.name | async}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -47,14 +47,10 @@
         <p>
           <strong>{{"Poop color" | translate}}</strong>
         </p>
-        <mat-form-field>
-          <mat-select formControlName="poopColor">
-            <mat-option *ngFor="let color of poopColors" [value]="color">
-              <mat-icon [style.color]="color.color">circle</mat-icon>
-              {{color.name | async}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <app-poop-color-select
+          [initialColor]="diaperingForm.controls.poopColor.value"
+          (change)="diaperingForm.patchValue({poopColor: $event})"
+        ></app-poop-color-select>
       </div>
 
       <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>

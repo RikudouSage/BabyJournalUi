@@ -13,7 +13,7 @@ import {toObservable} from "../helper/observables";
 export interface ActivityStreamItem {
   id: string;
   startTime: string;
-  endTime: string;
+  endTime: string | null;
   note: string | null;
   activityType: ActivityType;
   childName: string | null;
@@ -28,6 +28,7 @@ export interface BottleFeedingActivityStreamItem extends ActivityStreamItem {
 
 export interface BreastFeedingActivityStreamItem extends ActivityStreamItem {
   breast: string;
+  endTime: string;
 }
 
 export interface DiaperingActivityStreamItem extends ActivityStreamItem {
