@@ -66,6 +66,7 @@ import {SecondsToDurationStringPipe} from './pipes/seconds-to-duration-string.pi
 import {DiaperingActivityComponent} from './pages/activities/diapering/diapering-activity.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {FullDataRefreshComponent} from './pages/general/full-data-refresh/full-data-refresh.component';
+import { EditFeedingComponent } from './pages/activities/edit-feeding/edit-feeding.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -105,6 +106,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SecondsToDurationStringPipe,
     DiaperingActivityComponent,
     FullDataRefreshComponent,
+    EditFeedingComponent,
   ],
   imports: [
     BrowserModule,

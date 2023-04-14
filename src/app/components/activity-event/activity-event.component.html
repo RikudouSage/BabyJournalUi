@@ -12,6 +12,7 @@
     <span *ngIf="activity.note !== null">
       ({{"note" | translate}}: {{activity.note}})
     </span>
+    <a routerLink="/activities/feeding/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
   <span *ngIf="activity.activityType === ActivityType.FeedingBreast">
     <span
@@ -24,6 +25,7 @@
     <span *ngIf="activity.note !== null">
       ({{"note" | translate}}: {{activity.note}})
     </span>
+    <a routerLink="/activities/feeding/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
   <span *ngIf="activity.activityType === ActivityType.FeedingSolid">
     <span
@@ -34,6 +36,7 @@
     <span *ngIf="activity.note !== null">
       ({{"note" | translate}}: {{activity.note}})
     </span>
+    <a routerLink="/activities/feeding/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
   <span *ngIf="activity.activityType === ActivityType.Diapering">
     <span

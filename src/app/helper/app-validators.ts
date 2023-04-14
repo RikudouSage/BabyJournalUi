@@ -1,4 +1,4 @@
-import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 
 export class AppValidators {
   public static isEnum(enumType: any): ValidatorFn {
@@ -16,4 +16,31 @@ export class AppValidators {
       };
     }
   }
+
+  public static requiredIf(callback: (group: FormGroup) => boolean, controlName: string) {
+    return (group: AbstractControl): ValidationErrors | null => {
+      if (!callback(<FormGroup>group)) {
+        return null;
+      }
+
+      const control = (<FormGroup>group).controls[controlName];
+      if (control === undefined) {
+        return {
+          required: {
+            [controlName]: true,
+          },
+        };
+      }
+
+      if (!control.value && control.value !== 0) {
+        return {
+          required: {
+            [controlName]: true,
+          },
+        };
+      }
+
+      return null;
+    }
+  };
 }

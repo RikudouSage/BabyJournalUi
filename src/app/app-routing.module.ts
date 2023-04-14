@@ -23,6 +23,7 @@ import {BrowserSupportGuard} from "./guards/browser-support.guard";
 import {ChildIsSelectedGuard} from "./guards/child-is-selected.guard";
 import {HasChildrenGuard} from "./guards/has-children.guard";
 import {InitialLoadFinishedGuard} from "./guards/initial-load-finished.guard";
+import {EditFeedingComponent} from "./pages/activities/edit-feeding/edit-feeding.component";
 
 const routes: Routes = [
   {
@@ -71,6 +72,16 @@ const routes: Routes = [
       HasChildrenGuard,
       ChildIsSelectedGuard,
       InitialLoadFinishedGuard,
+    ],
+  },
+  {
+    path: 'activities/feeding/edit/:id',
+    component: EditFeedingComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
     ],
   },
   {

@@ -23,7 +23,9 @@ const routeHierarchy: RouteHierarchy = {
     'auth/logout': {},
     'activities/feeding': {},
     'activities/diapering': {},
-    'activities/summary': {},
+    'activities/summary': {
+      'activities/feeding/edit/*': {},
+    },
   },
   'auth/register': {},
   'children/create-first': {},
@@ -33,6 +35,20 @@ const routeHierarchy: RouteHierarchy = {
 };
 
 let cachedRouteHierarchy: CachedRouteHierarchy | null = null;
+
+function fnmatch(pattern: string, target: string): boolean {
+  pattern = pattern.replace('*', '.*')
+    .replace('/', '\\/')
+    .replace('?', '.')
+  ;
+  const regex = new RegExp(pattern);
+
+  return regex.test(target);
+}
+
+function containsGlobCharacters(target: string): boolean {
+  return target.indexOf('*') > -1 || target.indexOf('?') > -1;
+}
 
 function compileRouteHierarchy(hierarchy: RouteHierarchy, parent: string = ''): void {
   if (cachedRouteHierarchy === null) {
@@ -55,9 +71,25 @@ export function findRouteParent(route: string): string {
   if (cachedRouteHierarchy === null) {
     compileRouteHierarchy(routeHierarchy);
   }
+
   const routes = <CachedRouteHierarchy>cachedRouteHierarchy;
   if (typeof routes[route] === 'undefined') {
-    throw new Error(`Failed to find parent for route: '${route}'`);
+    let found = false;
+    for (const routeName of Object.keys(routes)) {
+      if (!containsGlobCharacters(routeName)) {
+        continue;
+      }
+
+      if (fnmatch(routeName, route)) {
+        route = routeName;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      throw new Error(`Failed to find parent for route: '${route}'`);
+    }
   }
 
   return routes[route];

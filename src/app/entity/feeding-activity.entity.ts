@@ -29,7 +29,9 @@ export class FeedingActivity extends AbstractEntity {
     endTime: EncryptedNullableString,
     note: EncryptedNullableString,
     type: EncryptedString,
-    amount: EncryptedString,
+    bottleContentType: EncryptedNullableString,
+    amount: EncryptedNullableString,
+    breast: EncryptedNullableString,
   }
 
 }
