@@ -125,6 +125,16 @@ export class DatabaseService {
     await transaction.done;
   }
 
+  public async removeActivityStreamItem(item: ActivityStreamItem | string): Promise<void> {
+    const id = typeof item === 'string' ? item : item.id;
+
+    const db = await this.open();
+    const transaction = db.transaction(this.storeNameActivityStreamCache, 'readwrite');
+    const store = transaction.objectStore(this.storeNameActivityStreamCache);
+    await store.delete(id);
+    await transaction.done;
+  }
+
   public async getActivityStreamItem(id: string): Promise<ActivityStreamItem | null> {
     const db = await this.open();
     const tx = db.transaction(this.storeNameActivityStreamCache, 'readonly');

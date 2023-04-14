@@ -20,6 +20,8 @@ import {findRouteParent} from "../../../helper/route-hierarchy";
 import {toActivityStreamItem} from "../../../helper/activity-stream";
 import {ActivityType} from "../../../enum/activity-type.enum";
 import {UserManagerService} from "../../../services/user-manager.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialog} from "../../../components/dialogs/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-edit-feeding',
@@ -77,6 +79,7 @@ export class EditFeedingComponent implements OnInit {
     private readonly enumToString: EnumToStringService,
     private readonly router: Router,
     private readonly userManager: UserManagerService,
+    private readonly dialog: MatDialog,
   ) {
   }
 
@@ -164,5 +167,28 @@ export class EditFeedingComponent implements OnInit {
       childName,
     ));
     await this.router.navigateByUrl(`/${findRouteParent(<string>this.currentRoute)}`);
+  }
+
+  public async confirmDelete() {
+    const dialog = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: this.translator.get('Delete event'),
+        description: this.translator.get('Are you sure you want to delete this event? You cannot take this action back.'),
+      }
+    });
+    dialog.afterClosed().subscribe(async result => {
+      if (result) {
+        this.loading = true;
+        const result = await toPromise(this.feedingRepository.delete(<FeedingActivity>this.activity));
+        if (!result) {
+          this.errorMessage = this.translator.get('Failed to delete the event.');
+          this.loading = false;
+          return;
+        }
+
+        await this.database.removeActivityStreamItem(<string>(<FeedingActivity>this.activity).id);
+        await this.router.navigateByUrl(`/${findRouteParent(<string>this.currentRoute)}`);
+      }
+    });
   }
 }

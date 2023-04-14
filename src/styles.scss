@@ -34,6 +34,12 @@ a.right-corner-fab, button.right-corner-fab {
   bottom: 25px;
 }
 
+a.left-corner-fab, button.left-corner-fab {
+  position: absolute;
+  left: 25px;
+  bottom: 25px;
+}
+
 mat-card-actions {
   [mat-raised-button] {
     margin-right: 1vw;
