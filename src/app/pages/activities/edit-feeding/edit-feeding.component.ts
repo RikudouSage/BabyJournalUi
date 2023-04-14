@@ -87,7 +87,6 @@ export class EditFeedingComponent implements OnInit {
     this.route.params.subscribe(async params => {
       const id = <string>params['id'];
       let activity = await toPromise(this.feedingRepository.get(id));
-      console.log(activity);
       activity = await this.encryptor.decryptEntity(activity);
       this.form.patchValue({
         startTime: new Date(activity.attributes.startTime.decrypted),
