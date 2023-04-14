@@ -8,20 +8,20 @@
           {{message}}
         </mat-error>
         <mat-form-field>
-          <mat-label>{{'Start time' | translate}}</mat-label>
+          <mat-label>{{'Start' | translate}}</mat-label>
           <input matInput formControlName="startTime" [mtxDatetimepicker]="startTime" required />
           <mtx-datetimepicker-toggle matIconSuffix [for]="startTime"></mtx-datetimepicker-toggle>
           <mtx-datetimepicker #startTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>{{'End time' | translate}}</mat-label>
+          <mat-label>{{'End' | translate}}</mat-label>
           <input matInput formControlName="endTime" [mtxDatetimepicker]="endTime" required />
           <mtx-datetimepicker-toggle matIconSuffix [for]="endTime"></mtx-datetimepicker-toggle>
           <mtx-datetimepicker #endTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
         </mat-form-field>
       </mat-card-content>
       <mat-form-field>
-        <mat-label>{{'Note' | translate}}</mat-label>
+        <mat-label>{{'Notes' | translate}}</mat-label>
         <textarea matInput formControlName="note"></textarea>
       </mat-form-field>
       <!-- Bottle -->

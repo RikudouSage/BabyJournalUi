@@ -175,5 +175,13 @@
   "<strong>{{countWet}}</strong> of those were wet, <strong>{{countPoopy}}</strong> were pooped and <strong>{{countDry}}</strong> were dry.": "<strong>{{countWet}}x</strong> z toho byla počůraná, <strong>{{countPoopy}}x</strong> pokaděná a <strong>{{countDry}}x</strong> suchá.",
   "Loading data": "Načítání dat",
   "The app is currently downloading all your data, this might take a while depending on the amount of data you have stored.": "Aplikace momentálně stahuje vaše data, to může chvilku zabrat na základě toho, kolik jich máte uložených.",
-  "Edit activity": "Úprava aktivity"
+  "Edit activity": "Úprava aktivity",
+  "Start": "Začátek",
+  "End": "Konec",
+  "Amount": "Množství",
+  "Content": "Obsah",
+  "Breast": "Prso",
+  "Delete activity": "Smazat aktivitu",
+  "Are you sure you want to delete this activity? You cannot take this action back.": "Opravdu chcete smazat tuto aktivitu? Tato akce je nevratná.",
+  "Failed to delete the activity.": "Nezdařilo se smazat aktivitu."
 }

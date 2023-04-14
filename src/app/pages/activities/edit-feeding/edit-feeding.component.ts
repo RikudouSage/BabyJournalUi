@@ -172,8 +172,8 @@ export class EditFeedingComponent implements OnInit {
   public async confirmDelete() {
     const dialog = this.dialog.open(ConfirmDialog, {
       data: {
-        title: this.translator.get('Delete event'),
-        description: this.translator.get('Are you sure you want to delete this event? You cannot take this action back.'),
+        title: this.translator.get('Delete activity'),
+        description: this.translator.get('Are you sure you want to delete this activity? You cannot take this action back.'),
       }
     });
     dialog.afterClosed().subscribe(async result => {
@@ -181,7 +181,7 @@ export class EditFeedingComponent implements OnInit {
         this.loading = true;
         const result = await toPromise(this.feedingRepository.delete(<FeedingActivity>this.activity));
         if (!result) {
-          this.errorMessage = this.translator.get('Failed to delete the event.');
+          this.errorMessage = this.translator.get('Failed to delete the activity.');
           this.loading = false;
           return;
         }
