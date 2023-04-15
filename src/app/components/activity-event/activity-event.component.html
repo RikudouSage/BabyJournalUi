@@ -61,4 +61,25 @@
     </span>
     <a routerLink="/activities/diapering/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
+  <span *ngIf="activity.activityType === ActivityType.Pumping">
+    <span
+      *ngIf="activity['amount'] === null"
+      [innerText]="'{{parentName}} pumped from {{sideBreast}}.' | translate: {
+        parentName: activity['parentName'],
+        sideBreast: breastIndexToString(stringNumberToBreastIndex($any(activity['breast']))) | async,
+      }"
+    ></span>
+    <span
+      *ngIf="activity['amount'] !== null"
+      [innerText]="'{{parentName}} pumped {{amount}} {{unit}} from {{sideBreast}}.' | translate: {
+        parentName: activity['parentName'],
+        sideBreast: breastIndexToString(stringNumberToBreastIndex($any(activity['breast']))) | async,
+        amount: activity['amount'],
+        unit: 'ml',
+      }"
+    ></span>
+    <span *ngIf="activity.note !== null">
+      ({{"note" | translate}}: {{activity.note}})
+    </span>
+  </span>
 </div>

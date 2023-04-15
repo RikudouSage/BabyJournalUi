@@ -187,5 +187,7 @@
   "State": "Stav",
   "Synchronize": "Synchronizovat",
   "Pumping": "Odsávání",
-  "Parent": "Rodič"
+  "Parent": "Rodič",
+  "{{parentName}} pumped from {{sideBreast}}.": "{{parentName}} odsávala z {{sideBreast}}.",
+  "{{parentName}} pumped {{amount}} {{unit}} from {{sideBreast}}.": "{{parentName}} odsála {{amount}} {{unit}} z {{sideBreast}}."
 }
