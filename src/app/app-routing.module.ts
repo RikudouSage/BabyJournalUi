@@ -25,6 +25,7 @@ import {HasChildrenGuard} from "./guards/has-children.guard";
 import {InitialLoadFinishedGuard} from "./guards/initial-load-finished.guard";
 import {EditFeedingComponent} from "./pages/activities/edit-feeding/edit-feeding.component";
 import {EditDiaperingComponent} from "./pages/activities/edit-diapering/edit-diapering.component";
+import {PumpingActivityComponent} from "./pages/activities/pumping/pumping-activity.component";
 
 const routes: Routes = [
   {
@@ -98,6 +99,17 @@ const routes: Routes = [
   {
     path: 'activities/diapering',
     component: DiaperingActivityComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
+  },
+  {
+    path: 'activities/pumping',
+    component: PumpingActivityComponent,
     canActivate: [
       BrowserSupportGuard,
       IsLoggedInGuard,

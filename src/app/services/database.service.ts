@@ -46,11 +46,27 @@ export class DatabaseService {
   }
 
   public async getLastNursingBreast(): Promise<BreastIndex> {
-    return await this.getSetting("lastBreastTab") ?? BreastIndex.Left;
+    return await this.getSetting("lastBreastTabNursing") ?? BreastIndex.Left;
   }
 
   public async saveLastNursingBreast(breast: BreastIndex): Promise<void> {
-    return await this.saveSetting("lastBreastTab", breast);
+    return await this.saveSetting("lastBreastTabNursing", breast);
+  }
+
+  public async getLastPumpingBreast(): Promise<BreastIndex> {
+    return await this.getSetting("lastBreastTabPumping") ?? BreastIndex.Left;
+  }
+
+  public async saveLastPumpingBreast(breast: BreastIndex): Promise<void> {
+    return await this.saveSetting("lastBreastTabPumping", breast);
+  }
+
+  public async getLastPumpingParentId(): Promise<string | null> {
+    return await this.getSetting("lastPumpingParentId") ?? null;
+  }
+
+  public async saveLastPumpingParentId(id: string): Promise<void> {
+    return await this.saveSetting("lastPumpingParentId", id);
   }
 
   public async getLastBottleFeedingAmount(): Promise<number | null> {

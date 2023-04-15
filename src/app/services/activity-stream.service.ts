@@ -28,7 +28,6 @@ export interface BottleFeedingActivityStreamItem extends ActivityStreamItem {
 
 export interface BreastFeedingActivityStreamItem extends ActivityStreamItem {
   breast: string;
-  endTime: string;
 }
 
 export interface DiaperingActivityStreamItem extends ActivityStreamItem {
@@ -36,6 +35,12 @@ export interface DiaperingActivityStreamItem extends ActivityStreamItem {
   poopy: string;
   quantity: string | null;
   poopColor: string | null;
+}
+
+export interface PumpingActivityStreamItem extends ActivityStreamItem {
+  breast: string;
+  amount: string;
+  parentName: string;
 }
 
 export type ActivityStream = ActivityStreamItem[];

@@ -70,6 +70,9 @@ import {EditFeedingComponent} from './pages/activities/edit-feeding/edit-feeding
 import {EditDiaperingComponent} from './pages/activities/edit-diapering/edit-diapering.component';
 import {PoopColorSelectComponent} from './components/poop-color-select/poop-color-select.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {PumpingActivityComponent} from './pages/activities/pumping/pumping-activity.component';
+import {PumpingActivityConfiguration} from "./activity/pumping.activity-configuration";
+import { ParentSelectComponent } from './components/parent-select/parent-select.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -112,6 +115,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditFeedingComponent,
     EditDiaperingComponent,
     PoopColorSelectComponent,
+    PumpingActivityComponent,
+    ParentSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -165,10 +170,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: FeedingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: DiaperingActivityConfiguration, multi: true},
-    // {provide: ACTIVITIES, useClass: SleepingActivity, multi: true},
-    // {provide: ACTIVITIES, useClass: LeisureActivity, multi: true},
-    // {provide: ACTIVITIES, useClass: MedicalActivity, multi: true},
-    // {provide: ACTIVITIES, useClass: OtherActivity, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: PumpingActivityConfiguration, multi: true},
+    // {provide: ACTIVITY_CONFIGURATIONS, useClass: SleepingActivityConfiguration, multi: true},
+    // {provide: ACTIVITY_CONFIGURATIONS, useClass: LeisureActivityConfiguration, multi: true},
+    // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
+    // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},
     {provide: MAT_DATE_LOCALE, useValue: navigator.languages},
   ],
   bootstrap: [AppComponent]

@@ -1,0 +1,14 @@
+<mat-spinner class="center" *ngIf="users === null else content"></mat-spinner>
+
+<ng-template #content>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <mat-label *ngIf="label">{{label}}</mat-label>
+      <mat-select formControlName="userId">
+        <mat-option *ngFor="let user of users" [value]="user.id">
+          {{user.attributes.displayName | potentiallyEncryptedValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</ng-template>

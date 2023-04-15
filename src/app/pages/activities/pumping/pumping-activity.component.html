@@ -1,0 +1,38 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+<ng-template #content>
+  <mat-tab-group [selectedIndex]="form.controls.breast.value" (selectedTabChange)="saveSelectedBreast($event)">
+    <mat-tab label="{{'Left breast' | translate}}"></mat-tab>
+    <mat-tab label="{{'Right breast' | translate}}"></mat-tab>
+  </mat-tab-group>
+  <mat-card>
+    <mat-card-content>
+      <mat-error class="center" *ngIf="errorMessage | async; let message">
+        {{message}}
+      </mat-error>
+      <form [formGroup]="form" (submit)="save(tracker)">
+        <app-tracker
+          [startTime]="form.controls.startTime.value"
+          [endTime]="form.controls.endTime.value"
+          (finished)="onTrackingFinished($event)"
+          (started)="onTrackingStarted($event)"
+          (startDateChanged)="onTrackingStarted($event)"
+          #tracker
+        ></app-tracker>
+        <mat-form-field class="notes">
+          <mat-label>{{"Notes" | translate}}</mat-label>
+          <input matInput formControlName="notes"/>
+        </mat-form-field>
+        <app-parent-select
+          [label]="'Parent' | translate"
+          [user]="form.controls.userId.value"
+          (change)="parentChanged($event)"
+        ></app-parent-select>
+        <mat-form-field class="amount-input">
+          <mat-label>{{"Amount" | translate}} (ml)</mat-label>
+          <input type="text" matInput formControlName="amount" inputmode="numeric" />
+        </mat-form-field>
+        <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

@@ -158,7 +158,7 @@ export class ActivitiesSummaryComponent implements OnInit {
       } else if (activity.activityType === ActivityType.FeedingBreast) {
         const typedActivity = <BreastFeedingActivityStreamItem>activity;
         const breast = <BreastIndex>Number(typedActivity.breast);
-        const seconds = dateDiff(new Date(typedActivity.startTime), new Date(typedActivity.endTime));
+        const seconds = dateDiff(new Date(typedActivity.startTime), new Date(<string>typedActivity.endTime));
         this.summary.feeding.nursing[breast] += seconds;
         this.summary.feeding.total.nursing += seconds;
       } else if (activity.activityType === ActivityType.FeedingSolid) {
