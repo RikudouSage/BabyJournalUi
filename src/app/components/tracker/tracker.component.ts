@@ -202,6 +202,7 @@ export class TrackerComponent implements OnInit {
   public async onVisibilityChange(): Promise<void> {
     if (this.tracking && document.visibilityState === 'visible') {
       await this.requestWakeLock();
+      this.elapsed = Math.floor(((this.endTime ?? new Date()).getTime() - (<Date>this.startTime).getTime()) / 1_000);
     }
   }
 }
