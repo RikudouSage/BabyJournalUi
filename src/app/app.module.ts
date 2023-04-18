@@ -72,7 +72,8 @@ import {PoopColorSelectComponent} from './components/poop-color-select/poop-colo
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {PumpingActivityComponent} from './pages/activities/pumping/pumping-activity.component';
 import {PumpingActivityConfiguration} from "./activity/pumping.activity-configuration";
-import { ParentSelectComponent } from './components/parent-select/parent-select.component';
+import {ParentSelectComponent} from './components/parent-select/parent-select.component';
+import {getBrowserLanguages} from "./helper/language";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -175,7 +176,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: LeisureActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},
-    {provide: MAT_DATE_LOCALE, useValue: navigator.languages},
+    {provide: MAT_DATE_LOCALE, useValue: getBrowserLanguages()},
   ],
   bootstrap: [AppComponent]
 })

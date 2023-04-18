@@ -1,4 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {getBrowserLanguages} from "../helper/language";
 
 @Pipe({
   name: 'timeOrNull'
@@ -16,7 +17,7 @@ export class TimeOrNullPipe implements PipeTransform {
       value = new Date(value);
     }
 
-    return new Intl.DateTimeFormat(navigator.languages.concat(), {
+    return new Intl.DateTimeFormat(getBrowserLanguages(), {
       dateStyle: undefined,
       timeStyle: 'short'
     }).format(value);

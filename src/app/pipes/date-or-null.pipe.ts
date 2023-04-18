@@ -1,4 +1,5 @@
 import {Injectable, Pipe, PipeTransform} from '@angular/core';
+import {getBrowserLanguages} from "../helper/language";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +20,7 @@ export class DateOrNullPipe implements PipeTransform {
       value = new Date(value);
     }
 
-    return new Intl.DateTimeFormat(navigator.languages.concat(), {
+    return new Intl.DateTimeFormat(getBrowserLanguages(), {
       dateStyle: dateStyle ?? undefined,
     }).format(value);
   }

@@ -20,6 +20,7 @@ import {DiaperingActivityRepository} from "./entity/diapering-activity.entity";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PumpingActivityRepository} from "./entity/pumping-activity.entity";
+import {getPrimaryBrowserLanguage} from "./helper/language";
 
 @Component({
   selector: 'app-root',
@@ -52,7 +53,7 @@ export class AppComponent implements OnInit {
     database: DatabaseService,
   ) {
     translator.use(
-      database.getLanguage() === AppLanguage.Default ? navigator.languages[0] : database.getLanguage()
+      database.getLanguage() === AppLanguage.Default ? getPrimaryBrowserLanguage() : database.getLanguage()
     );
     router.events.subscribe(event => {
       if (!this.appLikeNavigation) {

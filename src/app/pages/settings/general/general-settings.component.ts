@@ -5,6 +5,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {DatabaseService} from "../../../services/database.service";
 import {AppLanguage} from "../../../types/app-language";
 import {lastValueFrom} from "rxjs";
+import {getPrimaryBrowserLanguage} from "../../../helper/language";
 
 @Component({
   selector: 'app-general',
@@ -37,7 +38,7 @@ export class GeneralSettingsComponent implements OnInit {
     this.settingsForm.controls.language.valueChanges.subscribe(language => {
       this.database.storeLanguage(language);
       if (language === AppLanguage.Default) {
-        this.translator.use(navigator.languages[0]);
+        this.translator.use(getPrimaryBrowserLanguage());
       } else {
         this.translator.use(language);
       }
