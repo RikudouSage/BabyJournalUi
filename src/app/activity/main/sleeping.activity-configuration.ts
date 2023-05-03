@@ -14,7 +14,9 @@ export class SleepingActivityConfiguration implements ActivityConfiguration {
   readonly displayName = this.translator.get('Sleeping');
   readonly link = '/activities/sleeping';
   readonly isRunning = getDefaultIsRunning(this.database, [ActivityType.Sleeping]);
-  readonly lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(this.activityStream, [ActivityType.Sleeping]);
+  readonly lastActivityAt: Observable<Date | null> = getDefaultLastActivityAt(this.activityStream, [ActivityType.Sleeping], {
+    useDate: 'endDate',
+  });
 
   constructor(
     private readonly translator: TranslateService,

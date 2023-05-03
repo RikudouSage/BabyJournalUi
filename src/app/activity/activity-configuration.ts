@@ -29,9 +29,18 @@ export function getDefaultIsRunning(
 export function getDefaultLastActivityAt(
   activityStream: ActivityStreamService,
   types: ActivityType[],
-  timeInterval = 60_000,
+  options: {
+    timeInterval?: number,
+    useDate?: 'startDate' | 'endDate',
+  } = {
+    timeInterval: 60_000,
+    useDate: 'startDate',
+  },
 ): Observable<Date | null> {
-  return interval(timeInterval).pipe(
+  options.timeInterval ??= 60_000;
+  options.useDate ??= 'startDate';
+
+  return interval(options.timeInterval).pipe(
     startWith(0),
     switchMap(() => activityStream.getActivityStream()),
     map(stream => {
@@ -45,13 +54,23 @@ export function getDefaultLastActivityAt(
       }
 
       return filtered.reduce((previousValue, currentValue): ActivityStreamItem => {
-        const previousDate = new Date(previousValue.startTime);
+        const previousDate = new Date(
+          options.useDate === 'endDate'
+            ? (previousValue.endTime ?? previousValue.startTime)
+            : previousValue.startTime
+        );
         const currentDate = new Date(currentValue.activityType);
 
         return previousDate.getTime() > currentDate.getTime() ? currentValue : previousValue;
       });
     }),
-    map(value => value !== null ? new Date(value.startTime) : null),
+    map(value => value !== null
+      ? new Date(
+        options.useDate === 'endDate'
+        ? (value.endTime ?? value.startTime)
+        : value.startTime,
+      )
+      : null),
   )
 }
 
