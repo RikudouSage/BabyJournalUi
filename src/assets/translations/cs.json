@@ -189,5 +189,9 @@
   "Pumping": "Odsávání",
   "Parent": "Rodič",
   "{{parentName}} pumped from {{sideBreast}}.": "{{parentName}} odsávala z {{sideBreast}}.",
-  "{{parentName}} pumped {{amount}} {{unit}} from {{sideBreast}}.": "{{parentName}} odsála {{amount}} {{unit}} z {{sideBreast}}."
+  "{{parentName}} pumped {{amount}} {{unit}} from {{sideBreast}}.": "{{parentName}} odsála {{amount}} {{unit}} z {{sideBreast}}.",
+  "About": "O aplikaci",
+  "Licensed under the": "Licencováno pod",
+  "MIT license": "MIT licencí",
+  "API licensed under the": "API licencováno pod"
 }

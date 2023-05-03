@@ -26,6 +26,7 @@ import {InitialLoadFinishedGuard} from "./guards/initial-load-finished.guard";
 import {EditFeedingComponent} from "./pages/activities/edit-feeding/edit-feeding.component";
 import {EditDiaperingComponent} from "./pages/activities/edit-diapering/edit-diapering.component";
 import {PumpingActivityComponent} from "./pages/activities/pumping/pumping-activity.component";
+import {AboutComponent} from "./pages/general/about/about.component";
 
 const routes: Routes = [
   {
@@ -206,6 +207,13 @@ const routes: Routes = [
     canActivate: [
       BrowserSupportGuard,
     ],
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    canActivate: [
+      BrowserSupportGuard,
+    ]
   },
   {
     path: 'full-data-refresh',

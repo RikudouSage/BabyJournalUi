@@ -74,6 +74,7 @@ import {PumpingActivityComponent} from './pages/activities/pumping/pumping-activ
 import {PumpingActivityConfiguration} from "./activity/pumping.activity-configuration";
 import {ParentSelectComponent} from './components/parent-select/parent-select.component';
 import {getBrowserLanguages} from "./helper/language";
+import { AboutComponent } from './pages/general/about/about.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -118,6 +119,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PoopColorSelectComponent,
     PumpingActivityComponent,
     ParentSelectComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
