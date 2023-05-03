@@ -28,8 +28,8 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {SelectChildComponent} from './pages/children/select-child/select-child.component';
 import {PotentiallyEncryptedValuePipe} from './pipes/potentially-encrypted-value.pipe';
 import {ACTIVITY_CONFIGURATIONS} from "./dependency-injection/injection-tokens";
-import {FeedingActivityConfiguration} from "./activity/feeding.activity-configuration";
-import {DiaperingActivityConfiguration} from "./activity/diapering.activity-configuration";
+import {FeedingActivityConfiguration} from "./activity/main/feeding.activity-configuration";
+import {DiaperingActivityConfiguration} from "./activity/main/diapering.activity-configuration";
 import {FeedingActivityComponent} from './pages/activities/feeding/feeding-activity.component';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
@@ -71,11 +71,11 @@ import {EditDiaperingComponent} from './pages/activities/edit-diapering/edit-dia
 import {PoopColorSelectComponent} from './components/poop-color-select/poop-color-select.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {PumpingActivityComponent} from './pages/activities/pumping/pumping-activity.component';
-import {PumpingActivityConfiguration} from "./activity/pumping.activity-configuration";
+import {PumpingActivityConfiguration} from "./activity/main/pumping.activity-configuration";
 import {ParentSelectComponent} from './components/parent-select/parent-select.component';
 import {getBrowserLanguages} from "./helper/language";
-import { AboutComponent } from './pages/general/about/about.component';
-import { EditPumpingComponent } from './pages/activities/edit-pumping/edit-pumping.component';
+import {AboutComponent} from './pages/general/about/about.component';
+import {EditPumpingComponent} from './pages/activities/edit-pumping/edit-pumping.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');

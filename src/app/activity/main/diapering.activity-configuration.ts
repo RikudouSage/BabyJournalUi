@@ -1,10 +1,10 @@
-import {ActivityConfiguration, getDefaultLastActivityAt} from "./activity-configuration";
+import {ActivityConfiguration, getDefaultLastActivityAt} from "../activity-configuration";
 import {TranslateService} from "@ngx-translate/core";
 import {Injectable} from "@angular/core";
 import {of} from "rxjs";
-import {ActivityType} from "../enum/activity-type.enum";
-import {DatabaseService} from "../services/database.service";
-import {ActivityStreamService} from "../services/activity-stream.service";
+import {ActivityType} from "../../enum/activity-type.enum";
+import {DatabaseService} from "../../services/database.service";
+import {ActivityStreamService} from "../../services/activity-stream.service";
 
 @Injectable({
   providedIn: 'root',

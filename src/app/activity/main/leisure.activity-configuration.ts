@@ -1,4 +1,4 @@
-import {ActivityConfiguration} from "./activity-configuration";
+import {ActivityConfiguration} from "../activity-configuration";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {Observable, of} from "rxjs";
@@ -6,9 +6,9 @@ import {Observable, of} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class SleepingActivityConfiguration implements ActivityConfiguration {
-  readonly color = '#1a237e';
-  readonly displayName = this.translator.get('Sleeping');
+export class LeisureActivityConfiguration implements ActivityConfiguration {
+  readonly color = '#00bcd4';
+  readonly displayName = this.translator.get('Leisure');
   readonly link = '';
   readonly isRunning = of(false);
   readonly lastActivityAt: Observable<Date | null> = of(null);
