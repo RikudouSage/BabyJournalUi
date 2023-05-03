@@ -7,6 +7,7 @@ export function toActivityStreamItem(
   entity: AbstractEntity,
   type: ActivityType,
   childName: string | null,
+  additionalFields: {[key: string]: any} = {},
 ): ActivityStreamItem {
   let result: Partial<ActivityStreamItem> = {
     id: String(entity.id),
@@ -20,6 +21,9 @@ export function toActivityStreamItem(
       throw new Error("The entity must be decrypted before being passed to this function");
     }
     result[attribute] = value instanceof EncryptedValue ? value.decrypted : value;
+  }
+  for (const key of Object.keys(additionalFields)) {
+    result[key] = additionalFields[key];
   }
 
   if (result.id === undefined) {

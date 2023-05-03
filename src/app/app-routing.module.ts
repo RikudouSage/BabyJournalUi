@@ -27,6 +27,7 @@ import {EditFeedingComponent} from "./pages/activities/edit-feeding/edit-feeding
 import {EditDiaperingComponent} from "./pages/activities/edit-diapering/edit-diapering.component";
 import {PumpingActivityComponent} from "./pages/activities/pumping/pumping-activity.component";
 import {AboutComponent} from "./pages/general/about/about.component";
+import {EditPumpingComponent} from "./pages/activities/edit-pumping/edit-pumping.component";
 
 const routes: Routes = [
   {
@@ -90,6 +91,16 @@ const routes: Routes = [
   {
     path: 'activities/diapering/edit/:id',
     component: EditDiaperingComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
+    path: 'activities/pumping/edit/:id',
+    component: EditPumpingComponent,
     canActivate: [
       BrowserSupportGuard,
       IsLoggedInGuard,

@@ -27,6 +27,7 @@ const routeHierarchy: RouteHierarchy = {
     'activities/summary': {
       'activities/feeding/edit/*': {},
       'activities/diapering/edit/*': {},
+      'activities/pumping/edit/*': {},
     },
   },
   'auth/register': {},
@@ -34,6 +35,7 @@ const routeHierarchy: RouteHierarchy = {
   'unsupported-browser': {},
   'privacy': {},
   'full-data-refresh': {},
+  'about': {},
 };
 
 let cachedRouteHierarchy: CachedRouteHierarchy | null = null;

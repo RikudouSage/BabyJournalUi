@@ -75,6 +75,7 @@ import {PumpingActivityConfiguration} from "./activity/pumping.activity-configur
 import {ParentSelectComponent} from './components/parent-select/parent-select.component';
 import {getBrowserLanguages} from "./helper/language";
 import { AboutComponent } from './pages/general/about/about.component';
+import { EditPumpingComponent } from './pages/activities/edit-pumping/edit-pumping.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -120,6 +121,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PumpingActivityComponent,
     ParentSelectComponent,
     AboutComponent,
+    EditPumpingComponent,
   ],
   imports: [
     BrowserModule,
