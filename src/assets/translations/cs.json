@@ -193,5 +193,6 @@
   "About": "O aplikaci",
   "Licensed under the": "Licencováno pod",
   "MIT license": "MIT licencí",
-  "API licensed under the": "API licencováno pod"
+  "API licensed under the": "API licencováno pod",
+  "{{childName}}'s sleeping": "Spaní dítěte {{childName}}"
 }

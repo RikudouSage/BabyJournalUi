@@ -76,6 +76,8 @@ import {ParentSelectComponent} from './components/parent-select/parent-select.co
 import {getBrowserLanguages} from "./helper/language";
 import {AboutComponent} from './pages/general/about/about.component';
 import {EditPumpingComponent} from './pages/activities/edit-pumping/edit-pumping.component';
+import {SleepingActivityConfiguration} from "./activity/main/sleeping.activity-configuration";
+import {SleepingActivityComponent} from './pages/activities/sleeping/sleeping-activity.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -122,6 +124,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ParentSelectComponent,
     AboutComponent,
     EditPumpingComponent,
+    SleepingActivityComponent,
   ],
   imports: [
     BrowserModule,
@@ -176,7 +179,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: ACTIVITY_CONFIGURATIONS, useClass: FeedingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: DiaperingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: PumpingActivityConfiguration, multi: true},
-    // {provide: ACTIVITY_CONFIGURATIONS, useClass: SleepingActivityConfiguration, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: SleepingActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: LeisureActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},

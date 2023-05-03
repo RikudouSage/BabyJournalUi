@@ -24,6 +24,7 @@ const routeHierarchy: RouteHierarchy = {
     'activities/feeding': {},
     'activities/diapering': {},
     'activities/pumping': {},
+    'activities/sleeping': {},
     'activities/summary': {
       'activities/feeding/edit/*': {},
       'activities/diapering/edit/*': {},
