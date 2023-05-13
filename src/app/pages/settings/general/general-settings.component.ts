@@ -6,6 +6,8 @@ import {DatabaseService} from "../../../services/database.service";
 import {AppLanguage} from "../../../types/app-language";
 import {lastValueFrom} from "rxjs";
 import {getPrimaryBrowserLanguage} from "../../../helper/language";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {toPromise} from "../../../helper/observables";
 
 @Component({
   selector: 'app-general',
@@ -24,6 +26,7 @@ export class GeneralSettingsComponent implements OnInit {
     private readonly translator: TranslateService,
     private readonly titleService: TitleService,
     private readonly database: DatabaseService,
+    private readonly snackBar: MatSnackBar,
   ) {
   }
 
@@ -35,13 +38,21 @@ export class GeneralSettingsComponent implements OnInit {
       [AppLanguage.Czech]: this.getLanguageName(AppLanguage.Czech),
     };
 
-    this.settingsForm.controls.language.valueChanges.subscribe(language => {
+    this.settingsForm.controls.language.valueChanges.subscribe(async language => {
       this.database.storeLanguage(language);
       if (language === AppLanguage.Default) {
         this.translator.use(getPrimaryBrowserLanguage());
       } else {
         this.translator.use(language);
       }
+
+      this.snackBar.open(
+        await toPromise(this.translator.get('Successfully saved! App restart might be needed.')),
+        await toPromise(this.translator.get('Dismiss')),
+        {
+          duration: 10_000,
+        },
+      );
     });
   }
 

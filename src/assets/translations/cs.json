@@ -202,5 +202,21 @@
   "{{parentName}} pumped <strong>{{amount}} {{unit}}</strong> in total.": "{{parentName}} odsála celkem <strong>{{amount}} {{unit}}</strong>.",
   "<strong>{{amount}} {{unit}}</strong> of that was from {{sideBreast}}.": "<strong>{{amount}} {{unit}}</strong> z toho bylo z {{sideBreast}}.",
   "{{dateDescription}} {{childName}} haven't slept.": "{{dateDescription}} {{childName}} nespal/a.",
-  "{{dateDescription}} {{childName}} has slept for <strong>{{howLong}}</strong>.": "{{dateDescription}} {{childName}} spal/a <strong>{{howLong}}</strong>."
+  "{{dateDescription}} {{childName}} has slept for <strong>{{howLong}}</strong>.": "{{dateDescription}} {{childName}} spal/a <strong>{{howLong}}</strong>.",
+  "The feeding break length in minutes.": "Délka pauzy u krmení v minutách.",
+  "Feeding break length": "Délka pauzy u krmení",
+  "This configures how many minutes are allowed between individual feeding activities to still count as a single feeding session.": "Tímto nastavením měníte maximální počet minut mezi jednotlivými krmícími aktivitami, aby se stále počítaly jako jedno krmení.",
+  "Set to 0 to disable.": "Hodnotou 0 nastavení vypnete.",
+  "Successfully saved! App restart might be needed.": "Úspěšně uloženo! Může být vyžadován restart aplikace.",
+  "Activity settings": "Nastavení aktivit",
+  "Various settings to fine-tune activity tracking.": "Různá nastavení pro úpravu trackování aktivit.",
+  "Calculate feeding since": "Počítat krmení od",
+  "beginning": "začátku",
+  "end": "konce",
+  "Whether to calculate the time since last feeding since the beginning of the activity or the end.": "Jestli počítat čas od posledního krmení od začátku aktivity, nebo od konce.",
+  "Calculate sleeping since": "Počítat spaní od",
+  "Whether to calculate the time since last sleeping since the beginning of the activity or the end.": "Jestli počítat čas od posledního spaní od začátku aktivity, nebo od konce.",
+  "Calculate pumping since": "Počítat odsávání od",
+  "Whether to calculate the time since last pumping since the beginning of the activity or the end.": "Jestli počítat čas od posledního odsávání od začátku aktivity, nebo od konce.",
+  "Successfully saved!": "Úspěšně uloženo!"
 }

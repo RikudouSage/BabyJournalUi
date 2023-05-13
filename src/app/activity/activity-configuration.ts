@@ -34,11 +34,13 @@ export function getDefaultLastActivityAt(
     timeInterval?: number,
     useDate?: 'startDate' | 'endDate',
     maxTimeAgo?: number,
+    joinInterval?: number,
   } = {},
 ): Observable<Date | null> {
   options.timeInterval ??= 60_000;
   options.useDate ??= 'startDate';
   options.maxTimeAgo ??= 2 * 24 * 60 * 60; // 2 days
+  options.joinInterval ??= 0;
 
   return interval(options.timeInterval).pipe(
     startWith(0),
@@ -53,16 +55,45 @@ export function getDefaultLastActivityAt(
         return null;
       }
 
-      return filtered.reduce((previousValue, currentValue): ActivityStreamItem => {
-        const previousDate = new Date(
+      const sorted = filtered.sort((a, b) => {
+        const aDate = new Date(
           options.useDate === 'endDate'
-            ? (previousValue.endTime ?? previousValue.startTime)
-            : previousValue.startTime
+            ? (a.endTime ?? a.startTime)
+            : a.startTime
         );
-        const currentDate = new Date(currentValue.activityType);
+        const bDate = new Date(
+          options.useDate === 'endDate'
+            ? (b.endTime ?? b.startTime)
+            : b.startTime
+        );
 
-        return previousDate.getTime() > currentDate.getTime() ? currentValue : previousValue;
+        if (aDate.getTime() === bDate.getTime()) {
+          return 0;
+        }
+
+        return aDate.getTime() > bDate.getTime() ? -1 : 1;
       });
+
+      let chosenActivity: ActivityStreamItem | null = null;
+      for (const activity of sorted) {
+        if (chosenActivity === null) {
+          chosenActivity = activity;
+          continue;
+        }
+        if (<number>options.joinInterval <= 0 || options.useDate === "endDate") {
+          break;
+        }
+        const previousDate = new Date(chosenActivity.startTime);
+        const currentDate = new Date(activity.endTime ?? activity.startTime);
+
+        if (dateDiff(currentDate, previousDate) <= <number>options.joinInterval) {
+          chosenActivity = activity;
+        } else {
+          break;
+        }
+      }
+
+      return chosenActivity;
     }),
     map(value => {
       if (value === null) {

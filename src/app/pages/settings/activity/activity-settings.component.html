@@ -1,0 +1,79 @@
+<mat-spinner class="global" *ngIf="!loaded else content"></mat-spinner>
+<ng-template #content>
+  <form [formGroup]="form" (submit)="save()">
+    <!-- Feeding -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{"Feeding" | translate}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>{{"Feeding break length" | translate}}</mat-label>
+          <input type="number" [formControlName]="ParentalUnitSetting.FeedingBreakLength" matInput/>
+        </mat-form-field>
+        <div class="setting-description">
+          <p>
+            {{"The feeding break length in minutes." | translate}}
+          </p>
+          <p>
+            {{"This configures how many minutes are allowed between individual feeding activities to still count as a single feeding session." | translate}}
+          </p>
+          <p>
+            {{"Set to 0 to disable." | translate}}
+          </p>
+        </div>
+        <mat-form-field>
+          <mat-label>{{"Calculate feeding since" | translate}}</mat-label>
+          <mat-select [formControlName]="ParentalUnitSetting.CalculateFeedingSince">
+            <mat-option [value]="CalculateActivitySince.Start">{{calculateActivitySinceToString(CalculateActivitySince.Start) | async}}</mat-option>
+            <mat-option [value]="CalculateActivitySince.End">{{calculateActivitySinceToString(CalculateActivitySince.End) | async}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="setting-description">
+          <p>{{"Whether to calculate the time since last feeding since the beginning of the activity or the end." | translate}}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Sleeping -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{"Sleeping" | translate}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>{{"Calculate sleeping since" | translate}}</mat-label>
+          <mat-select [formControlName]="ParentalUnitSetting.CalculateSleepingSince">
+            <mat-option [value]="CalculateActivitySince.Start">{{calculateActivitySinceToString(CalculateActivitySince.Start) | async}}</mat-option>
+            <mat-option [value]="CalculateActivitySince.End">{{calculateActivitySinceToString(CalculateActivitySince.End) | async}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="setting-description">
+          <p>{{"Whether to calculate the time since last sleeping since the beginning of the activity or the end." | translate}}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Pumping -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{"Pumping" | translate}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>{{"Calculate pumping since" | translate}}</mat-label>
+          <mat-select [formControlName]="ParentalUnitSetting.CalculatePumpingSince">
+            <mat-option [value]="CalculateActivitySince.Start">{{calculateActivitySinceToString(CalculateActivitySince.Start) | async}}</mat-option>
+            <mat-option [value]="CalculateActivitySince.End">{{calculateActivitySinceToString(CalculateActivitySince.End) | async}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="setting-description">
+          <p>{{"Whether to calculate the time since last pumping since the beginning of the activity or the end." | translate}}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <button class="right-corner-fab" mat-fab color="primary" [class.success]="saved">
+      <mat-icon *ngIf="!saved">save</mat-icon>
+      <mat-icon *ngIf="saved">done</mat-icon>
+    </button>
+  </form>
+
+</ng-template>

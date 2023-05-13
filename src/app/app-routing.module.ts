@@ -30,6 +30,7 @@ import {AboutComponent} from "./pages/general/about/about.component";
 import {EditPumpingComponent} from "./pages/activities/edit-pumping/edit-pumping.component";
 import {SleepingActivityComponent} from "./pages/activities/sleeping/sleeping-activity.component";
 import {EditSleepingComponent} from "./pages/activities/edit-sleeping/edit-sleeping.component";
+import {ActivitySettingsComponent} from "./pages/settings/activity/activity-settings.component";
 
 const routes: Routes = [
   {
@@ -222,6 +223,14 @@ const routes: Routes = [
   {
     path: 'settings/general',
     component: GeneralSettingsComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
+  },
+  {
+    path: 'settings/activities',
+    component: ActivitySettingsComponent,
     canActivate: [
       BrowserSupportGuard,
       IsLoggedInGuard,

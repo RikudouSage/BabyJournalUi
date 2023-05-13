@@ -16,6 +16,7 @@ const routeHierarchy: RouteHierarchy = {
         },
       },
       'settings/general': {},
+      'settings/activities': {},
     },
     'children/select-child': {
       'children/add': {},
