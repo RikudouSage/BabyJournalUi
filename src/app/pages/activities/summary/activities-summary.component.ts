@@ -17,7 +17,8 @@ import {
   ActivityStreamService,
   BottleFeedingActivityStreamItem,
   BreastFeedingActivityStreamItem,
-  DiaperingActivityStreamItem
+  DiaperingActivityStreamItem,
+  PumpingActivityStreamItem
 } from "../../../services/activity-stream.service";
 
 interface CategorySummary {
@@ -39,7 +40,22 @@ interface CategorySummary {
     poopy: number;
     dry: number;
     changes: number;
-  }
+  };
+  pumping: {
+    [parentName: string]: {
+      amount: {
+        [breast in BreastIndex]: number;
+      };
+      time: {
+        [BreastIndex.Left]: number;
+        [BreastIndex.Right]: number;
+      };
+      total: {
+        time: number;
+        amount: number;
+      };
+    };
+  };
 }
 
 @Component({
@@ -75,6 +91,7 @@ export class ActivitiesSummaryComponent implements OnInit {
       changes: 0,
       poopy: 0,
     },
+    pumping: {},
   };
   private fullActivityStream: ActivityStream | null = null;
 
@@ -119,7 +136,7 @@ export class ActivitiesSummaryComponent implements OnInit {
       }
     }
     this.activityStreamService.getActivityStream().subscribe(async activityStream => {
-      this.fullActivityStream = await activityStream;
+      this.fullActivityStream = activityStream;
       this.reloadActivitiesForDate(this.changeDateForm.controls.date.value);
     });
     this.changeDateForm.controls.date.valueChanges.subscribe(date => this.reloadActivitiesForDate(date));
@@ -175,8 +192,36 @@ export class ActivitiesSummaryComponent implements OnInit {
           this.summary.diapering.dry += 1;
         }
         this.summary.diapering.changes += 1;
+      } else if (activity.activityType === ActivityType.Pumping) {
+        const typedActivity = <PumpingActivityStreamItem>activity;
+        const parent = typedActivity.parentName;
+        const breast = <BreastIndex>Number(typedActivity.breast);
+        const amount = typedActivity.amount !== null ? Number(typedActivity.amount) : null;
+        const seconds = dateDiff(new Date(typedActivity.startTime), new Date(<string>typedActivity.endTime));
+
+        this.summary.pumping[parent] ??= {
+          amount: {
+            [BreastIndex.Left]: 0,
+            [BreastIndex.Right]: 0,
+          },
+          time: {
+            [BreastIndex.Left]: 0,
+            [BreastIndex.Right]: 0,
+          },
+          total: {
+            time: 0,
+            amount: 0,
+          },
+        };
+
+        this.summary.pumping[parent].amount[breast] += amount ?? 0;
+        this.summary.pumping[parent].time[breast] += seconds;
+        this.summary.pumping[parent].total.time += seconds;
+        this.summary.pumping[parent].total.amount += amount ?? 0;
       }
     }
+
+    console.log(this.summary.pumping);
 
     if (this.childBirthDate !== null) {
       this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();

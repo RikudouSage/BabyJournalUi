@@ -39,7 +39,7 @@ export interface DiaperingActivityStreamItem extends ActivityStreamItem {
 
 export interface PumpingActivityStreamItem extends ActivityStreamItem {
   breast: string;
-  amount: string;
+  amount: string | null;
   parentName: string;
 }
 
