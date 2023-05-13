@@ -1,0 +1,35 @@
+<mat-spinner class="global" *ngIf="loading; else content"></mat-spinner>
+
+<ng-template #content>
+  <form [formGroup]="form" (submit)="save()">
+    <mat-card>
+      <mat-card-content>
+        <mat-error class="center" *ngIf="errorMessage | async; let message">
+          {{message}}
+        </mat-error>
+        <mat-form-field>
+          <mat-label>{{'Start' | translate}}</mat-label>
+          <input matInput formControlName="startTime" [mtxDatetimepicker]="startTime" required/>
+          <mtx-datetimepicker-toggle matIconSuffix [for]="startTime"></mtx-datetimepicker-toggle>
+          <mtx-datetimepicker #startTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'End' | translate}}</mat-label>
+          <input matInput formControlName="endTime" [mtxDatetimepicker]="endTime" required/>
+          <mtx-datetimepicker-toggle matIconSuffix [for]="endTime"></mtx-datetimepicker-toggle>
+          <mtx-datetimepicker #endTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'Notes' | translate}}</mat-label>
+          <textarea matInput formControlName="note"></textarea>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <button class="left-corner-fab" mat-fab color="warn" type="button" (click)="confirmDelete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button class="right-corner-fab" mat-fab color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </form>
+</ng-template>

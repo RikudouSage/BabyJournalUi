@@ -4,4 +4,5 @@ export enum ActivityType {
   FeedingSolid = 'feedingSolid',
   Diapering = 'diapering',
   Pumping = 'pumping',
+  Sleeping = 'sleeping',
 }
