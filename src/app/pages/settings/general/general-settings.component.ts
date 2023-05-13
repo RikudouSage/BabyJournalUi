@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {TitleService} from "../../../services/title.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DatabaseService} from "../../../services/database.service";
 import {AppLanguage} from "../../../types/app-language";
-import {lastValueFrom} from "rxjs";
-import {getPrimaryBrowserLanguage} from "../../../helper/language";
+import {lastValueFrom, timer} from "rxjs";
+import {ApiService} from "../../../services/api.service";
+import {ParentalUnitSetting} from "../../../enum/parental-unit-setting.enum";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {toPromise} from "../../../helper/observables";
 
 @Component({
   selector: 'app-general',
@@ -13,17 +16,25 @@ import {getPrimaryBrowserLanguage} from "../../../helper/language";
   styleUrls: ['./general-settings.component.scss']
 })
 export class GeneralSettingsComponent implements OnInit {
-  public readonly AppLanguage = AppLanguage;
+  protected readonly ParentalUnitSetting = ParentalUnitSetting;
+  protected readonly AppLanguage = AppLanguage;
+
   public languageNames: {[key in AppLanguage]: string} | null = null;
+  public saved = false;
 
   public settingsForm = new FormGroup({
-    language: <FormControl<AppLanguage>>new FormControl(this.database.getLanguage()),
+    language: new FormControl<AppLanguage>(this.database.getLanguage()),
+    [ParentalUnitSetting.FeedingBreakLength]: new FormControl<number | null>(null, [
+      Validators.min(0),
+    ]),
   });
 
   constructor(
     private readonly translator: TranslateService,
     private readonly titleService: TitleService,
     private readonly database: DatabaseService,
+    private readonly api: ApiService,
+    private readonly snackBar: MatSnackBar,
   ) {
   }
 
@@ -34,14 +45,9 @@ export class GeneralSettingsComponent implements OnInit {
       [AppLanguage.English]: this.getLanguageName(AppLanguage.English),
       [AppLanguage.Czech]: this.getLanguageName(AppLanguage.Czech),
     };
-
-    this.settingsForm.controls.language.valueChanges.subscribe(language => {
-      this.database.storeLanguage(language);
-      if (language === AppLanguage.Default) {
-        this.translator.use(getPrimaryBrowserLanguage());
-      } else {
-        this.translator.use(language);
-      }
+    const settings = await this.api.getSettings();
+    this.settingsForm.patchValue({
+      [ParentalUnitSetting.FeedingBreakLength]: Number(settings[ParentalUnitSetting.FeedingBreakLength]),
     });
   }
 
@@ -54,4 +60,26 @@ export class GeneralSettingsComponent implements OnInit {
     return intl.of(language) ?? language;
   }
 
+  public async save() {
+    if (!this.settingsForm.valid || this.settingsForm.controls.language.value === null) {
+      return;
+    }
+
+    this.database.storeLanguage(<AppLanguage>this.settingsForm.controls.language.value);
+    await this.api.saveSettings({
+      [ParentalUnitSetting.FeedingBreakLength]: this.settingsForm.controls[ParentalUnitSetting.FeedingBreakLength].value || 0
+    });
+
+    const timeout = 3_000;
+
+    this.saved = true;
+    timer(timeout).subscribe(() => this.saved = false);
+    this.snackBar.open(
+      await toPromise(this.translator.get('Successfully saved!')),
+      await toPromise(this.translator.get('Dismiss')),
+      {
+        duration: timeout,
+      }
+    );
+  }
 }

@@ -2,8 +2,15 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {EncryptorService} from "./encryptor.service";
 import {HttpClient} from "@angular/common/http";
-import {lastValueFrom} from "rxjs";
+import {lastValueFrom, switchMap} from "rxjs";
 import {UserManagerService} from "./user-manager.service";
+import {ParentalUnitSetting} from "../enum/parental-unit-setting.enum";
+import {toObservable, toPromise} from "../helper/observables";
+import {map} from "rxjs/operators";
+
+type Settings = {
+  [setting in ParentalUnitSetting]: string | number | null;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +64,30 @@ export class ApiService {
 
   public async refreshShareCode(): Promise<void> {
     await lastValueFrom(this.httpClient.post<void>(`${this.apiUrl}/account/refresh-share-code`, {}));
+  }
+
+  public getSettings(): Promise<Settings> {
+    return toPromise(this.httpClient.get<{[setting in ParentalUnitSetting]: string | null}>(`${this.apiUrl}/account/settings`).pipe(
+      map(async value => {
+        if (value[ParentalUnitSetting.FeedingBreakLength] !== null) {
+          value[ParentalUnitSetting.FeedingBreakLength] = await this.encryptor.decrypt(value[ParentalUnitSetting.FeedingBreakLength]);
+        }
+
+        return value;
+      }),
+      switchMap(value => toObservable(value)),
+    ));
+  }
+
+  public async saveSettings(settings: Partial<Settings>, isEncrypted: boolean = false): Promise<void> {
+    let encrypted = settings;
+    if (!isEncrypted) {
+      encrypted = {};
+      for (const key of Object.keys(settings)) {
+        encrypted[<ParentalUnitSetting>key] = await this.encryptor.encrypt(String(settings[<ParentalUnitSetting>key]));
+      }
+    }
+    await toPromise(this.httpClient.patch<void>(`${this.apiUrl}/account/settings`, encrypted));
   }
 
 }
