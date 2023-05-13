@@ -200,5 +200,7 @@
   "There are no pumping activities for {{dateDescription}}.": "{{dateDescription}} neproběhlo žádné odsávání.",
   "{{parentName}} pumped for <strong>{{howLong}}</strong> in total.": "{{parentName}} odsávala celkem <strong>{{howLong}}</strong>.",
   "{{parentName}} pumped <strong>{{amount}} {{unit}}</strong> in total.": "{{parentName}} odsála celkem <strong>{{amount}} {{unit}}</strong>.",
-  "<strong>{{amount}} {{unit}}</strong> of that was from {{sideBreast}}.": "<strong>{{amount}} {{unit}}</strong> z toho bylo z {{sideBreast}}."
+  "<strong>{{amount}} {{unit}}</strong> of that was from {{sideBreast}}.": "<strong>{{amount}} {{unit}}</strong> z toho bylo z {{sideBreast}}.",
+  "{{dateDescription}} {{childName}} haven't slept.": "{{dateDescription}} {{childName}} nespal/a.",
+  "{{dateDescription}} {{childName}} has slept for <strong>{{howLong}}</strong>.": "{{dateDescription}} {{childName}} spal/a <strong>{{howLong}}</strong>."
 }

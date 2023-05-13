@@ -29,6 +29,7 @@
       </mat-card>
     </mat-tab>
     <mat-tab label="{{'By category' | translate}}">
+      <!-- Feeding -->
       <mat-card>
         <mat-card-header>
           <mat-card-title>{{"Feeding" | translate}}</mat-card-title>
@@ -115,6 +116,7 @@
           <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
+      <!-- Diapers -->
       <mat-card>
         <mat-card-header>
           <mat-card-title>{{"Diapering" | translate}}</mat-card-title>
@@ -143,6 +145,32 @@
           <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
+      <!-- Sleeping -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{"Sleeping" | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-divider></mat-divider>
+          <p
+            *ngIf="!summary.sleeping"
+            [innerText]="'{{dateDescription}} {{childName}} haven\'t slept.' | translate: {
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+            }"
+          ></p>
+          <p
+            *ngIf="summary.sleeping"
+            [innerHTML]="'{{dateDescription}} {{childName}} has slept for <strong>{{howLong}}</strong>.' | translate:{
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              howLong: summary.sleeping | secondsToDurationString | async,
+            }"
+          ></p>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
+      <!-- Pumping -->
       <mat-card>
         <mat-card-header>
           <mat-card-title>{{"Pumping" | translate}}</mat-card-title>
