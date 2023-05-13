@@ -3,6 +3,7 @@ import {ActivityType} from "../enum/activity-type.enum";
 import {map} from "rxjs/operators";
 import {ActivityStreamItem, ActivityStreamService} from "../services/activity-stream.service";
 import {DatabaseService} from "../services/database.service";
+import {dateDiff} from "../helper/date";
 
 export function getDefaultIsRunning(
   database: DatabaseService,
@@ -32,13 +33,12 @@ export function getDefaultLastActivityAt(
   options: {
     timeInterval?: number,
     useDate?: 'startDate' | 'endDate',
-  } = {
-    timeInterval: 60_000,
-    useDate: 'startDate',
-  },
+    maxTimeAgo?: number,
+  } = {},
 ): Observable<Date | null> {
   options.timeInterval ??= 60_000;
   options.useDate ??= 'startDate';
+  options.maxTimeAgo ??= 2 * 24 * 60 * 60; // 2 days
 
   return interval(options.timeInterval).pipe(
     startWith(0),
@@ -64,13 +64,23 @@ export function getDefaultLastActivityAt(
         return previousDate.getTime() > currentDate.getTime() ? currentValue : previousValue;
       });
     }),
-    map(value => value !== null
-      ? new Date(
+    map(value => {
+      if (value === null) {
+        return null;
+      }
+      const date = new Date(
         options.useDate === 'endDate'
-        ? (value.endTime ?? value.startTime)
-        : value.startTime,
-      )
-      : null),
+          ? (value.endTime ?? value.startTime)
+          : value.startTime,
+      );
+      const now = new Date();
+
+      if (dateDiff(date, now) > <number>options.maxTimeAgo) {
+        return null;
+      }
+
+      return date;
+    }),
   )
 }
 
