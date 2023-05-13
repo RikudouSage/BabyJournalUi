@@ -29,6 +29,7 @@ import {PumpingActivityComponent} from "./pages/activities/pumping/pumping-activ
 import {AboutComponent} from "./pages/general/about/about.component";
 import {EditPumpingComponent} from "./pages/activities/edit-pumping/edit-pumping.component";
 import {SleepingActivityComponent} from "./pages/activities/sleeping/sleeping-activity.component";
+import {EditSleepingComponent} from "./pages/activities/edit-sleeping/edit-sleeping.component";
 
 const routes: Routes = [
   {
@@ -113,6 +114,16 @@ const routes: Routes = [
   {
     path: 'activities/pumping/edit/:id',
     component: EditPumpingComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
+    path: 'activities/sleeping/edit/:id',
+    component: EditSleepingComponent,
     canActivate: [
       BrowserSupportGuard,
       IsLoggedInGuard,

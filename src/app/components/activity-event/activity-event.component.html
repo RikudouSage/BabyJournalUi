@@ -93,5 +93,6 @@
     <span *ngIf="activity.note !== null">
       ({{"note" | translate}}: {{activity.note}})
     </span>
+    <a routerLink="/activities/sleeping/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
 </div>
