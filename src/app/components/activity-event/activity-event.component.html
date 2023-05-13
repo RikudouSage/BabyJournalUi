@@ -83,4 +83,15 @@
     </span>
     <a routerLink="/activities/pumping/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
+  <span *ngIf="activity.activityType === ActivityType.Sleeping">
+    <span
+      [innerText]="'{{childName}} has slept for {{howLong}}.' | translate:{
+        childName: activity.childName,
+        howLong: activity.startTime | dateDiff:$any(activity.endTime) | secondsToDurationString | async,
+      }"
+    ></span>
+    <span *ngIf="activity.note !== null">
+      ({{"note" | translate}}: {{activity.note}})
+    </span>
+  </span>
 </div>

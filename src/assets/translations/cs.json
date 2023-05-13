@@ -195,5 +195,6 @@
   "MIT license": "MIT licencí",
   "{{childName}}'s sleeping": "Spaní dítěte {{childName}}",
   "API licensed under the": "API licencováno pod",
-  "App icon by": "Ikonku aplikace vytvořil"
+  "App icon by": "Ikonku aplikace vytvořil",
+  "{{childName}} has slept for {{howLong}}.": "{{childName}} spal/a {{howLong}}."
 }
