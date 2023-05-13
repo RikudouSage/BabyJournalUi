@@ -56,6 +56,7 @@ interface CategorySummary {
       };
     };
   };
+  sleeping: number;
 }
 
 @Component({
@@ -92,6 +93,7 @@ export class ActivitiesSummaryComponent implements OnInit {
       poopy: 0,
     },
     pumping: {},
+    sleeping: 0,
   };
   private fullActivityStream: ActivityStream | null = null;
 
@@ -218,6 +220,9 @@ export class ActivitiesSummaryComponent implements OnInit {
         this.summary.pumping[parent].time[breast] += seconds;
         this.summary.pumping[parent].total.time += seconds;
         this.summary.pumping[parent].total.amount += amount ?? 0;
+      } else if (activity.activityType === ActivityType.Sleeping) {
+        const seconds = dateDiff(new Date(activity.startTime), new Date(<string>activity.endTime));
+        this.summary.sleeping += seconds;
       }
     }
 
