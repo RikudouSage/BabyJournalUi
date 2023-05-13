@@ -79,6 +79,7 @@ import {EditPumpingComponent} from './pages/activities/edit-pumping/edit-pumping
 import {SleepingActivityConfiguration} from "./activity/main/sleeping.activity-configuration";
 import {SleepingActivityComponent} from './pages/activities/sleeping/sleeping-activity.component';
 import { EditSleepingComponent } from './pages/activities/edit-sleeping/edit-sleeping.component';
+import { ObjectKeysPipe } from './pipes/object-keys.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -127,6 +128,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditPumpingComponent,
     SleepingActivityComponent,
     EditSleepingComponent,
+    ObjectKeysPipe,
   ],
   imports: [
     BrowserModule,
