@@ -1,29 +1,14 @@
-<form [formGroup]="settingsForm" (submit)="save()">
-  <mat-form-field *ngIf="languageNames !== null">
-    <mat-label matListItemTitle>{{"Language" | translate}}</mat-label>
-    <mat-select formControlName="language">
-      <mat-option *ngFor="let language of AppLanguage | keyvalue" [value]="language.value">
-        {{languageNames[language.value] | uppercaseFirst}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label matListItemTitle>{{"Feeding break length" | translate}}</mat-label>
-    <input type="number" [formControlName]="ParentalUnitSetting.FeedingBreakLength" matInput/>
-    <mat-hint>
-      <p>
-        {{"The feeding break length in minutes." | translate}}
-      </p>
-      <p>
-        {{"This configures how many minutes are allowed between individual feeding activities to still count as a single feeding session." | translate}}
-      </p>
-      <p>
-        {{"Set to 0 to disable." | translate}}
-      </p>
-    </mat-hint>
-  </mat-form-field>
-  <button class="right-corner-fab" mat-fab color="primary" [class.success]="saved">
-    <mat-icon *ngIf="!saved">save</mat-icon>
-    <mat-icon *ngIf="saved">done</mat-icon>
-  </button>
-</form>
+<mat-list>
+  <form [formGroup]="settingsForm">
+    <mat-list-item [lines]="3" *ngIf="languageNames !== null">
+      <mat-form-field>
+        <mat-label matListItemTitle>{{"Language" | translate}}</mat-label>
+        <mat-select formControlName="language">
+          <mat-option *ngFor="let language of AppLanguage | keyvalue" [value]="language.value">
+            {{languageNames[language.value] | uppercaseFirst}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-list-item>
+  </form>
+</mat-list>

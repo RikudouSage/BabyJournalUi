@@ -1,0 +1,25 @@
+@use "sass:math";
+
+mat-form-field {
+  width: 100% ;
+}
+
+.success {
+  background: green;
+}
+
+mat-card-title {
+  margin-bottom: 1vh;
+}
+
+.setting-description {
+  $space: 7vw;
+
+  font-size: 12px;
+  width: calc(100% - $space);
+  margin-left: math.div($space, 2);
+}
+
+mat-card {
+  margin-bottom: 1vh;
+}

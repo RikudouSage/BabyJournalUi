@@ -4,12 +4,12 @@ import {EncryptorService} from "./encryptor.service";
 import {HttpClient} from "@angular/common/http";
 import {lastValueFrom, switchMap} from "rxjs";
 import {UserManagerService} from "./user-manager.service";
-import {ParentalUnitSetting} from "../enum/parental-unit-setting.enum";
+import {DefaultParentalUnitSettings, ParentalUnitSetting} from "../enum/parental-unit-setting.enum";
 import {toObservable, toPromise} from "../helper/observables";
 import {map} from "rxjs/operators";
 
 type Settings = {
-  [setting in ParentalUnitSetting]: string | number | null;
+  [setting in ParentalUnitSetting]: string | number;
 }
 
 @Injectable({
@@ -69,11 +69,17 @@ export class ApiService {
   public getSettings(): Promise<Settings> {
     return toPromise(this.httpClient.get<{[setting in ParentalUnitSetting]: string | null}>(`${this.apiUrl}/account/settings`).pipe(
       map(async value => {
-        if (value[ParentalUnitSetting.FeedingBreakLength] !== null) {
-          value[ParentalUnitSetting.FeedingBreakLength] = await this.encryptor.decrypt(value[ParentalUnitSetting.FeedingBreakLength]);
+        const result: Partial<Settings> = {};
+        for (const untypedKey of Object.keys(value)) {
+          const key = <ParentalUnitSetting>untypedKey;
+          if (value[key] === null) {
+            result[key] = DefaultParentalUnitSettings[key];
+          } else {
+            result[key] = await this.encryptor.decrypt(<string>value[key]);
+          }
         }
 
-        return value;
+        return <Settings>result;
       }),
       switchMap(value => toObservable(value)),
     ));

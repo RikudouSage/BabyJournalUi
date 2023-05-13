@@ -3,6 +3,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {BottleContentType} from "../enum/bottle-content-type.enum";
 import {Observable} from "rxjs";
 import {BreastIndex} from "../enum/breast-index.enum";
+import {CalculateActivitySince} from "../enum/parental-unit-setting.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,15 @@ export class EnumToStringService {
         return this.translator.get('left breast');
       case BreastIndex.Right:
         return this.translator.get('right breast');
+    }
+  }
+
+  public calculateActivitySinceToString(activityStart: CalculateActivitySince): Observable<string> {
+    switch (activityStart) {
+      case CalculateActivitySince.Start:
+        return this.translator.get('beginning');
+      case CalculateActivitySince.End:
+        return this.translator.get('end');
     }
   }
 }
