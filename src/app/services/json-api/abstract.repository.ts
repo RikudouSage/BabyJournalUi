@@ -6,7 +6,7 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {JsonApiRegistry} from './json-api-registry';
 import {DocumentCollection} from './document-collection';
 import {EncryptedValue} from "../../dto/encrypted-value";
-import {ApiService} from "../api.service";
+import {ApiUrlService} from "../api-url.service";
 
 type Seconds = number;
 
@@ -39,12 +39,12 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
   constructor(
     private httpClient: HttpClient,
     private registry: JsonApiRegistry,
-    private api: ApiService,
+    private apiUrlService: ApiUrlService,
   ) {
   }
 
   private getUrl(id: string | number | null = null, config: FetchConfig = {}) {
-    let url = `${this.api.apiUrl}/${this.type}`;
+    let url = `${this.apiUrlService.apiUrl}/${this.type}`;
     if (id !== null) {
       url += `/${id}`;
     }

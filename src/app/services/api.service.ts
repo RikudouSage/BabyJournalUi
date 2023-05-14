@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
 import {EncryptorService} from "./encryptor.service";
 import {HttpClient} from "@angular/common/http";
 import {lastValueFrom, switchMap} from "rxjs";
@@ -7,6 +6,7 @@ import {UserManagerService} from "./user-manager.service";
 import {DefaultParentalUnitSettings, ParentalUnitSetting} from "../enum/parental-unit-setting.enum";
 import {toObservable, toPromise} from "../helper/observables";
 import {map} from "rxjs/operators";
+import {ApiUrlService} from "./api-url.service";
 
 type Settings = {
   [setting in ParentalUnitSetting]: string | number;
@@ -16,25 +16,20 @@ type Settings = {
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly defaultApiUrl = environment.apiUrl;
-  private readonly apiUrlConfigName = 'apiUrl';
 
   get apiUrl(): string {
-    return localStorage.getItem(this.apiUrlConfigName) ?? this.defaultApiUrl;
+    return this.apiUrlService.apiUrl;
   }
 
   set apiUrl(url: string | null) {
-    if (url === null) {
-      localStorage.removeItem(this.apiUrlConfigName);
-    } else {
-      localStorage.setItem(this.apiUrlConfigName, url);
-    }
+    this.apiUrlService.apiUrl = url;
   }
 
   constructor(
     private readonly encryptor: EncryptorService,
     private readonly httpClient: HttpClient,
     private readonly userManager: UserManagerService,
+    private readonly apiUrlService: ApiUrlService,
   ) {
   }
 
