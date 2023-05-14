@@ -1,5 +1,4 @@
 import {AbstractEntity} from './abstract.entity';
-import {environment} from '../../../environments/environment';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {from, Observable, of, tap} from 'rxjs';
 import {Injectable} from '@angular/core';
@@ -7,6 +6,7 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {JsonApiRegistry} from './json-api-registry';
 import {DocumentCollection} from './document-collection';
 import {EncryptedValue} from "../../dto/encrypted-value";
+import {ApiService} from "../api.service";
 
 type Seconds = number;
 
@@ -34,18 +34,17 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
   protected useCache = false;
   protected cacheValidity: Seconds = 10;
 
-  private apiUrl: string = `${environment.apiUrl}`;
-
   private cache: {[key: string]: {value: T | DocumentCollection<T>, validUntil: Date}} = {};
 
   constructor(
     private httpClient: HttpClient,
     private registry: JsonApiRegistry,
+    private api: ApiService,
   ) {
   }
 
   private getUrl(id: string | number | null = null, config: FetchConfig = {}) {
-    let url = `${this.apiUrl}/${this.type}`;
+    let url = `${this.api.apiUrl}/${this.type}`;
     if (id !== null) {
       url += `/${id}`;
     }
