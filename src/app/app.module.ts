@@ -83,6 +83,8 @@ import {ObjectKeysPipe} from './pipes/object-keys.pipe';
 import {ActivitySettingsComponent} from './pages/settings/activity/activity-settings.component';
 import {ChatgptLegalComponent} from './pages/general/chatgpt-legal/chatgpt-legal.component';
 import {OAuthAuthorizeComponent} from './pages/oauth/authorize/o-auth-authorize.component';
+import { ConnectedApplicationsComponent } from './pages/oauth/connected-applications/connected-applications.component';
+import { ModifyOauthScopesComponent } from './pages/oauth/modify-oauth-scopes/modify-oauth-scopes.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -135,6 +137,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ActivitySettingsComponent,
     ChatgptLegalComponent,
     OAuthAuthorizeComponent,
+    ConnectedApplicationsComponent,
+    ModifyOauthScopesComponent,
   ],
   imports: [
     BrowserModule,

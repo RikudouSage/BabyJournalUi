@@ -33,6 +33,8 @@ import {EditSleepingComponent} from "./pages/activities/edit-sleeping/edit-sleep
 import {ActivitySettingsComponent} from "./pages/settings/activity/activity-settings.component";
 import {ChatgptLegalComponent} from "./pages/general/chatgpt-legal/chatgpt-legal.component";
 import {OAuthAuthorizeComponent} from "./pages/oauth/authorize/o-auth-authorize.component";
+import {ConnectedApplicationsComponent} from "./pages/oauth/connected-applications/connected-applications.component";
+import {ModifyOauthScopesComponent} from "./pages/oauth/modify-oauth-scopes/modify-oauth-scopes.component";
 
 const routes: Routes = [
   {
@@ -278,9 +280,26 @@ const routes: Routes = [
     path: 'oauth/authorize',
     component: OAuthAuthorizeComponent,
     canActivate: [
+      BrowserSupportGuard,
       IsLoggedInGuard,
     ]
   },
+  {
+    path: 'oauth/connected-applications',
+    component: ConnectedApplicationsComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
+  },
+  {
+    path: 'oauth/modify-app/:clientId',
+    component: ModifyOauthScopesComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+    ],
+  }
 ];
 
 @NgModule({

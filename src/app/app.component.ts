@@ -5,7 +5,7 @@ import {map, shareReplay} from "rxjs/operators";
 import {TitleService} from "./services/title.service";
 import {UserManagerService} from "./services/user-manager.service";
 import {JsonApiRegistry} from "./services/json-api/json-api-registry";
-import {UserRepository} from "./entity/user.entity";
+import {User, UserRepository} from "./entity/user.entity";
 import {ChildRepository} from "./entity/child.entity";
 import {ParentalUnitRepository} from "./entity/parental-unit.entity";
 import {FeedingActivityRepository} from "./entity/feeding-activity.entity";
@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
     );
   title: Observable<string> = this.titleService.titleChanged;
   isLoggedIn: Observable<boolean> = this.userManager.isLoggedInChanged;
+  currentUser: Promise<User> = this.userManager.getCurrentUser();
 
   constructor(
     private readonly breakpointObserver: BreakpointObserver,

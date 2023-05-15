@@ -20,9 +20,11 @@
           <p [innerHTML]="'App <strong>{{appName}}</strong> is asking for the following permissions:' | translate:{
           appName: clientName,
         }"></p>
-          <mat-checkbox *ngFor="let scope of form.controls; let index = index" [formControl]="scope">
-            <strong>{{scopes[index].scope}}</strong> - {{scopes[index].description}}
-          </mat-checkbox>
+          <div *ngFor="let scope of form.controls; let index = index">
+            <mat-checkbox [formControl]="scope">
+              <strong>{{scopes[index].scope}}</strong> - {{scopes[index].description}}
+            </mat-checkbox>
+          </div>
           <p [innerHTML]="'Note that for this integration to work, we need to store your encryption key which means that in theory <strong>{{thisAppName}}</strong> can have access to your data.' | translate:{
           thisAppName: appTitle | async,
         }"></p>

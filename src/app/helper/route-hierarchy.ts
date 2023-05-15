@@ -31,6 +31,10 @@ const routeHierarchy: RouteHierarchy = {
     'activities/diapering/edit/*': {},
     'activities/pumping/edit/*': {},
     'activities/sleeping/edit/*': {},
+    'oauth/connected-applications': {
+      'oauth/authorize': {},
+      'oauth/modify-app/*': {},
+    },
   },
   'auth/register': {},
   'children/create-first': {},

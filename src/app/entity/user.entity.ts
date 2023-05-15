@@ -6,15 +6,25 @@ import {Child} from "./child.entity";
 import {Observable, of} from "rxjs";
 import {ParentalUnit} from "./parental-unit.entity";
 
+export interface UserApplication {
+  name: string;
+  identifier: string;
+  scopes: string[];
+}
+
 export class User extends AbstractEntity {
   type: string = 'user';
 
   override attributes: {
     name: EncryptedValue | null;
     displayName: EncryptedValue | string;
+    applicationsConnected: boolean;
+    applications: UserApplication[];
   } = {
     name: null,
     displayName: '',
+    applicationsConnected: false,
+    applications: [],
   }
 
   override relationships: {

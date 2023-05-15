@@ -69,4 +69,14 @@ export class OAuthService {
 
     window.location.href = url;
   }
+
+  public async revoke(clientId: string): Promise<void> {
+    await toPromise(this.httpClient.post<void>(`${this.apiUrlService.apiUrl}/oauth/revoke/${clientId}`, {}));
+  }
+
+  public async setScopes(clientId: string, scopes: string[]): Promise<void> {
+    await toPromise(this.httpClient.patch(`${this.apiUrlService.apiUrl}/oauth/modify-scopes/${clientId}`, {
+      scopes: scopes,
+    }));
+  }
 }

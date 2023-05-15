@@ -227,5 +227,13 @@
   "Note that for this integration to work, we need to store your encryption key which means that in theory <strong>{{thisAppName}}</strong> can have access to your data.": "Aby toto propojení mohlo fungovat, musíme si uložit vaše šifrovací klíče, což znamená, že teoreticky může <strong>{{thisAppName}}</strong> přistupovat k vašim datům.",
   "Also note that all data sent to <strong>{{appName}}</strong> will be sent unencrypted and its up to the app how it stores your data, make sure you trust it.": "Také berte na vědomí, že data zaslaná aplikaci <strong>{{appName}}</strong> budou odeslána nezašifrovaná a záleží na ní, jak s vašimi daty nakládá, ujistěte se, že jí důvěřujete.",
   "Authorize app": "Autorizovat aplikaci",
-  "Go back": "Jít zpět"
+  "Go back": "Jít zpět",
+  "Applications": "Aplikace",
+  "This app has the following permissions:": "Tato aplikace má následující oprávnění:",
+  "Revoke application access?": "Zrušit aplikaci přístup?",
+  "Are you sure you want to revoke access for application {{appName}}?": "Opravdu chcete aplikaci {{appName}} zrušit přístup?",
+  "Revoke": "Zrušit přístup",
+  "Modify permissions": "Upravit oprávnění",
+  "You have no applications connected to your account.": "K vašemu účtu nejsou připojeny žádné aplikace.",
+  "{{appName}} permissions": "Oprávnění aplikace {{appName}}"
 }
