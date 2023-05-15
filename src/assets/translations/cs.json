@@ -218,5 +218,14 @@
   "Whether to calculate the time since last sleeping since the beginning of the activity or the end.": "Jestli počítat čas od posledního spaní od začátku aktivity, nebo od konce.",
   "Calculate pumping since": "Počítat odsávání od",
   "Whether to calculate the time since last pumping since the beginning of the activity or the end.": "Jestli počítat čas od posledního odsávání od začátku aktivity, nebo od konce.",
-  "Successfully saved!": "Úspěšně uloženo!"
+  "Successfully saved!": "Úspěšně uloženo!",
+  "There was an error while processing your request.": "Nastala chyba při zpracování vašeho požadavku.",
+  "There was an error while fetching data from server:": "Nastala chyba při stahování dat ze serveru:",
+  "{{appName}} authorization": "Autorizace {{appName}}",
+  "App authorization": "Autorizace aplikace",
+  "App <strong>{{appName}}</strong> is asking for the following permissions:": "Aplikace <strong>{{appName}}</strong> žádá o následující oprávnění:",
+  "Note that for this integration to work, we need to store your encryption key which means that in theory <strong>{{thisAppName}}</strong> can have access to your data.": "Aby toto propojení mohlo fungovat, musíme si uložit vaše šifrovací klíče, což znamená, že teoreticky může <strong>{{thisAppName}}</strong> přistupovat k vašim datům.",
+  "Also note that all data sent to <strong>{{appName}}</strong> will be sent unencrypted and its up to the app how it stores your data, make sure you trust it.": "Také berte na vědomí, že data zaslaná aplikaci <strong>{{appName}}</strong> budou odeslána nezašifrovaná a záleží na ní, jak s vašimi daty nakládá, ujistěte se, že jí důvěřujete.",
+  "Authorize app": "Autorizovat aplikaci",
+  "Go back": "Jít zpět"
 }

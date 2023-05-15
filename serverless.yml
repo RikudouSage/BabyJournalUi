@@ -74,6 +74,11 @@ resources:
             - AllowedHeaders: ["*"]
               AllowedMethods: [GET]
               AllowedOrigins: ["*"]
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
     WebsiteBucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -87,6 +92,8 @@ resources:
 
     # Webserver
     WebsiteCDN:
+      DependsOn:
+        - CertificateBlocker
       Type: AWS::CloudFront::Distribution
       Properties:
         DistributionConfig:

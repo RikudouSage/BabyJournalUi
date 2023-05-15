@@ -1,0 +1,42 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+
+<ng-template #content>
+  <ng-template #errorMessage>
+    <p>
+      {{"There was an error while fetching data from server:" | translate}}
+      <span>{{error}}</span>
+    </p>
+  </ng-template>
+
+  <ng-container *ngIf="!error else errorMessage">
+    <form>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title
+            [innerText]="'{{appName}} authorization' | translate:{appName: clientName}"
+          ></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p [innerHTML]="'App <strong>{{appName}}</strong> is asking for the following permissions:' | translate:{
+          appName: clientName,
+        }"></p>
+          <mat-checkbox *ngFor="let scope of form.controls; let index = index" [formControl]="scope">
+            <strong>{{scopes[index].scope}}</strong> - {{scopes[index].description}}
+          </mat-checkbox>
+          <p [innerHTML]="'Note that for this integration to work, we need to store your encryption key which means that in theory <strong>{{thisAppName}}</strong> can have access to your data.' | translate:{
+          thisAppName: appTitle | async,
+        }"></p>
+          <p [innerHTML]="'Also note that all data sent to <strong>{{appName}}</strong> will be sent unencrypted and its up to the app how it stores your data, make sure you trust it.' | translate:{
+          appName: clientName,
+        }"></p>
+        </mat-card-content>
+        <mat-card-footer>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" type="button" (click)="authorize()">{{"Authorize app" | translate}}</button>
+            <button mat-raised-button color="accent" type="button" (click)="reject()">{{"Go back" | translate}}</button>
+          </mat-card-actions>
+        </mat-card-footer>
+      </mat-card>
+    </form>
+  </ng-container>
+</ng-template>

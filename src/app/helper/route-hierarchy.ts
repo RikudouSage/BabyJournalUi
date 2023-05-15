@@ -38,6 +38,7 @@ const routeHierarchy: RouteHierarchy = {
   'privacy': {},
   'full-data-refresh': {},
   'about': {},
+  'legal-chatgpt-plugin': {},
 };
 
 let cachedRouteHierarchy: CachedRouteHierarchy | null = null;
