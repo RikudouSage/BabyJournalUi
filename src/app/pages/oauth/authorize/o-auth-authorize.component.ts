@@ -17,6 +17,7 @@ export class OAuthAuthorizeComponent implements OnInit {
   public clientName: string = '';
   public scopes: ScopeResponse[] = [];
   public appTitle: Promise<string>;
+  public preauthorized = false;
 
   public form = new FormArray<FormControl<boolean>>([]);
 
@@ -39,6 +40,7 @@ export class OAuthAuthorizeComponent implements OnInit {
       try {
         const isAuthorized = await this.oAuth.isAuthorized(clientId, scopes);
         if (isAuthorized.success) {
+          this.preauthorized = true;
           window.location.href = <string>isAuthorized.redirectUrl;
           return;
         }

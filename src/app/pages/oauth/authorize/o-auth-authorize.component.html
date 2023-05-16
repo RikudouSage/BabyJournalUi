@@ -1,4 +1,5 @@
 <mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+<mat-spinner class="global" *ngIf="preauthorized"></mat-spinner>
 
 <ng-template #content>
   <ng-template #errorMessage>
@@ -9,7 +10,7 @@
   </ng-template>
 
   <ng-container *ngIf="!error else errorMessage">
-    <form>
+    <form *ngIf="!preauthorized">
       <mat-card>
         <mat-card-header>
           <mat-card-title
