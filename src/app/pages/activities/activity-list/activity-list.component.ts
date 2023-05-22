@@ -8,6 +8,9 @@ import {ACTIVITY_CONFIGURATIONS} from "../../../dependency-injection/injection-t
 import {TranslateService} from "@ngx-translate/core";
 import {dateToYmd} from "../../../helper/date";
 import {ActivityStream, ActivityStreamService} from "../../../services/activity-stream.service";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {Observable} from "rxjs";
+import {map, shareReplay} from "rxjs/operators";
 
 interface DateSortedActivityStream {
   [key: string]: ActivityStream;
@@ -21,6 +24,39 @@ interface DateSortedActivityStream {
 export class ActivityListComponent implements OnInit {
   private readonly limit = 100;
 
+  public columnsCount: Observable<number> = this.breakpointObserver.observe([
+    Breakpoints.XSmall,
+    Breakpoints.Small,
+    Breakpoints.Medium,
+    Breakpoints.Large,
+    Breakpoints.XLarge,
+  ]).pipe(
+    map(result => {
+      if (!result.matches) {
+        return 4;
+      }
+      const breakpoint = (<string[]>Object.keys(result.breakpoints)).filter(value => result.breakpoints[value]).reduce((previousValue, currentValue) => {
+        return currentValue;
+      });
+      console.log(Breakpoints.Small);
+      switch (breakpoint) {
+        case Breakpoints.XSmall:
+          return 2;
+        case Breakpoints.Small:
+          return 2;
+        case Breakpoints.Medium:
+          return 4;
+        case Breakpoints.Large:
+          return 6;
+        case Breakpoints.XLarge:
+          return 6;
+      }
+
+      return 4;
+    }),
+    shareReplay(1),
+  );
+
   public activities: ActivityConfiguration[] = [];
   public activityStream: DateSortedActivityStream;
   public dates: string[] = [];
@@ -32,6 +68,7 @@ export class ActivityListComponent implements OnInit {
     private readonly encryptor: EncryptorService,
     private readonly activityStreamService: ActivityStreamService,
     private readonly translator: TranslateService,
+    private readonly breakpointObserver: BreakpointObserver,
     @Inject(ACTIVITY_CONFIGURATIONS) private readonly activityObjects: ActivityConfiguration[],
   ) {
   }

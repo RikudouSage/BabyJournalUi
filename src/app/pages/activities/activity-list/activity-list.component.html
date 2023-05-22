@@ -1,4 +1,4 @@
-<mat-grid-list cols="2" gutterSize="10">
+<mat-grid-list [cols]="(columnsCount | async) ?? 1" gutterSize="10">
   <a [routerLink]="activity.link" *ngFor="let activity of activities" class="activity-tile">
     <mat-grid-tile [style.background-color]="activity.color">
       {{activity.displayName | async}}
