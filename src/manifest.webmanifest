@@ -1,11 +1,19 @@
 {
-  "name": "Baby Journal",
+  "name": "Baby Journal & Activity Tracker",
   "short_name": "Baby Journal",
   "theme_color": "#c2185b",
-  "background_color": "#fafafa",
+  "background_color": "#303030",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "description": "Track your baby's sleeping, feeding, diapering and more!",
+  "dir": "ltr",
+  "lang": "en",
+  "orientation": "portrait",
+  "categories": [
+    "health",
+    "kids"
+  ],
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
