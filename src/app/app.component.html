@@ -17,6 +17,7 @@
         <a mat-list-item routerLink="/settings" (click)="hideDrawer(drawer)">{{"Settings" | translate}}</a>
         <a mat-list-item routerLink="/privacy" (click)="hideDrawer(drawer)">{{"Privacy" | translate}}</a>
         <a mat-list-item routerLink="/full-data-refresh" (click)="hideDrawer(drawer)">{{"Synchronize" | translate}}</a>
+        <a mat-list-item routerLink="/oauth/connected-applications"  *ngIf="(currentUser | async)?.attributes?.applicationsConnected" (click)="hideDrawer(drawer)">{{"Applications" | translate}}</a>
         <a mat-list-item routerLink="/auth/logout" (click)="hideDrawer(drawer)">{{"Logout" | translate}}</a>
         <a mat-list-item routerLink="/about" (click)="hideDrawer(drawer)">{{"About" | translate}}</a>
       </ng-template>

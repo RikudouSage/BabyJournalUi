@@ -2,14 +2,15 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, from, Observable, of} from "rxjs";
 import {Title} from "@angular/platform-browser";
 import {TranslateService} from "@ngx-translate/core";
+import {toPromise} from "../helper/observables";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TitleService {
-  private readonly defaultTitle = 'Baby Journal';
+  private readonly _defaultTitle = 'Baby Journal';
 
-  private _titleChanged: BehaviorSubject<string> = new BehaviorSubject<string>(this.defaultTitle);
+  private _titleChanged: BehaviorSubject<string> = new BehaviorSubject<string>(this._defaultTitle);
 
   constructor(
     private readonly titleService: Title,
@@ -19,6 +20,10 @@ export class TitleService {
 
   get titleChanged(): Observable<string> {
     return this._titleChanged;
+  }
+
+  get defaultTitle(): Promise<string> {
+    return toPromise(this.translator.get(this._defaultTitle));
   }
 
   set title(title: string | Promise<string> | Observable<string>) {
@@ -37,6 +42,6 @@ export class TitleService {
     });
   }
   public setDefault(): void {
-    this.title = this.translator.get(this.defaultTitle);
+    this.title = this.defaultTitle;
   }
 }

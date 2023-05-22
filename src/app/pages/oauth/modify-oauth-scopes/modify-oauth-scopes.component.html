@@ -1,0 +1,30 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+
+<mat-error *ngIf="error | async; let errorMessage">
+  {{errorMessage}}
+</mat-error>
+
+<ng-template #content>
+  <!-- ngIf just for type assertion -->
+  <form *ngIf="application && !(error | async)">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          [innerText]="'{{appName}} permissions' | translate:{appName: application.name}"
+        ></mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let scope of form.controls; let index = index">
+          <mat-checkbox [formControl]="scope">
+            <strong>{{availableScopes[index].scope}}</strong> - {{availableScopes[index].description}}
+          </mat-checkbox>
+        </div>
+      </mat-card-content>
+      <mat-card-footer>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="save()">{{"Save" | translate}}</button>
+        </mat-card-actions>
+      </mat-card-footer>
+    </mat-card>
+  </form>
+</ng-template>
