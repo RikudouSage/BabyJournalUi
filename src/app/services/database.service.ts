@@ -199,7 +199,8 @@ export class DatabaseService {
     await transaction.done;
   }
 
-  public async deleteAll() {
+  public async deleteAll(): Promise<void> {
+    this.db?.close();
     await deleteDB(this.databaseName);
   }
 

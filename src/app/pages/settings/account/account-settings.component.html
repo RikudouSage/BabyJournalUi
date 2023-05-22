@@ -20,5 +20,9 @@
     <a routerLink="/settings/account/sharing">
       <mat-list-item><strong>{{"Sharing" | translate}}</strong></mat-list-item>
     </a>
+    <mat-divider></mat-divider>
+    <a [routerLink]="" (click)="$event.preventDefault(); deleteAccount()">
+      <mat-list-item><strong class="red">{{"Delete account" | translate}}</strong></mat-list-item>
+    </a>
   </mat-list>
 </ng-template>
