@@ -1,6 +1,5 @@
 [{
   "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "cz.chrastecky.baby_journal.twa",
+  "target" : { "namespace": "android_app", "package_name": "app.baby_journal.twa",
     "sha256_cert_fingerprints": ["99:04:58:95:C2:6D:F5:99:50:86:AF:71:69:06:25:57:EF:5E:17:D8:30:91:C6:08:AA:BD:C8:94:C8:AD:0D:79"] }
-}
-]
+}]
