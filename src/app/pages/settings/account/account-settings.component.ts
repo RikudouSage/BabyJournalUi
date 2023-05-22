@@ -9,6 +9,9 @@ import {lastValueFrom} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {ChangeNameDialogComponent} from "../../../components/dialogs/change-name-dialog/change-name-dialog.component";
 import {EncryptedValue} from "../../../dto/encrypted-value";
+import {ConfirmDialog} from "../../../components/dialogs/confirm-dialog/confirm-dialog.component";
+import {ApiService} from "../../../services/api.service";
+import {DatabaseService} from "../../../services/database.service";
 
 @Component({
   selector: 'app-account',
@@ -28,6 +31,8 @@ export class AccountSettingsComponent implements OnInit  {
     private readonly dialog: MatDialog,
     private readonly userRepository: UserRepository,
     private readonly parentalUnitRepository: ParentalUnitRepository,
+    private readonly api: ApiService,
+    private readonly database: DatabaseService,
   ) {
   }
 
@@ -82,6 +87,28 @@ export class AccountSettingsComponent implements OnInit  {
         this.parentalUnit = await this.encryptor.decryptEntity(parentalUnit);
         this.loading = false;
       });
+    });
+  }
+
+  public async deleteAccount() {
+    if (this.user === null) {
+      return;
+    }
+    const dialog = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: this.translator.get('Are you sure?'),
+        description: this.translator.get(`You cannot take this action back. If there are other users connected to this account, no data other than your user will be deleted. Otherwise all of your data will be deleted.`),
+      },
+    });
+    dialog.afterClosed().subscribe(async (result: boolean) => {
+      if (!result) {
+        return;
+      }
+
+      await this.database.deleteAll();
+      await this.api.deleteUser();
+      await this.userManager.logout();
+      window.location.reload();
     });
   }
 }

@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@import "node_modules/@ng-matero/extensions/core/theming/prebuilt/pink-bluegrey";
+
 .setting-item-title {
   display: inline-block;
   margin-right: 2vw;
@@ -5,4 +8,8 @@
 
 a {
   text-decoration: none;
+}
+
+.red {
+  color: map-get(map-get(mat.get-color-config($theme), warn), default);
 }

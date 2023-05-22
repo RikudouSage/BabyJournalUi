@@ -57,6 +57,10 @@ export class ApiService {
     this.userManager.login(response.id);
   }
 
+  public async deleteUser(): Promise<void> {
+    await toPromise(this.httpClient.delete<void>(`${this.apiUrl}/account/delete`));
+  }
+
   public async refreshShareCode(): Promise<void> {
     await lastValueFrom(this.httpClient.post<void>(`${this.apiUrl}/account/refresh-share-code`, {}));
   }
