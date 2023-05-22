@@ -7,6 +7,7 @@ import {DatabaseService} from "./database.service";
 import {AppLanguage} from "../types/app-language";
 import {getFirstSupportedLanguage} from "../helper/language";
 import {UserManagerService} from "./user-manager.service";
+import {EncryptorService} from "./encryptor.service";
 
 interface OAuthClient {
   identifier: string;
@@ -33,7 +34,8 @@ export class OAuthService {
     private readonly httpClient: HttpClient,
     private readonly apiUrlService: ApiUrlService,
     private readonly database: DatabaseService,
-    private readonly userManager: UserManagerService
+    private readonly userManager: UserManagerService,
+    private readonly encryptor: EncryptorService,
   ) {
   }
 
@@ -68,6 +70,12 @@ export class OAuthService {
     }
 
     window.location.href = url;
+  }
+
+  public async storePrivateKeys(): Promise<void> {
+    await toPromise(this.httpClient.post<void>(`${this.apiUrlService.apiUrl}/oauth/store-keys`, {
+      keys: await this.encryptor.exportKey(),
+    }));
   }
 
   public async revoke(clientId: string): Promise<void> {

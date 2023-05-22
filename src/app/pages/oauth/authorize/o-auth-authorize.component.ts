@@ -70,6 +70,8 @@ export class OAuthAuthorizeComponent implements OnInit {
   }
 
   public async authorize() {
+    this.loading = true;
+    await this.oAuth.storePrivateKeys();
     this.oAuth.redirectToAuthorizationResult(
       true,
       this.scopes
