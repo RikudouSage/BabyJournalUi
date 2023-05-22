@@ -28,3 +28,6 @@
 </p>
 <p [innerText]="'If you want to get technical, your data is encrypted using {{algorithm}} with modulus length of {{bits}} bits and {{hash}} hashing function, all of that is then base64 encoded to make it easier to transfer over the network.' | translate:{algorithm: 'RSA-OAEP', bits: 4096, hash: 'SHA-512'}">
 </p>
+<p>
+  {{"If you delete your data (from account settings), we delete it permanently. We might store your (encrypted) data for up to 30 days in automated backups." | translate}}
+</p>

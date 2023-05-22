@@ -222,5 +222,6 @@
   "Are you sure?": "Jste si jistí?",
   "You cannot take this action back. If there are other users connected to this account, no data other than your user will be deleted. Otherwise all of your data will be deleted.": "Tato akce je nevratná. Pokud jsou k tomuto účtu připojeny další uživatelé, žádná jiná data nebudou smazána. Jinak budou smazána všechna vaše data.",
   "All data has been deleted.": "Všechna data byla smazána.",
-  "Delete account": "Smazat účet"
+  "Delete account": "Smazat účet",
+  "If you delete your data (from account settings), we delete it permanently. We might store your (encrypted) data for up to 30 days in automated backups.": "Pokud smažete svá data (v nastavení účtu), jsou smazána natrvalo. Můžete skladovat vaše (zašifrovaná) data až 30 dní v automatických zálohách."
 }
