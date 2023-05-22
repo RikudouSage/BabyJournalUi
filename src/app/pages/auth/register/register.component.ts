@@ -10,6 +10,7 @@ import {isUuid} from "../../../helper/uuid";
 import {UserManagerService} from "../../../services/user-manager.service";
 import {DatabaseService} from "../../../services/database.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {environment} from "../../../../environments/environment";
 
 type Step = 'create' | 'invitationCode' | 'advanced' | 'restore';
 
@@ -102,7 +103,10 @@ export class RegisterComponent implements OnInit {
       return null;
     }
 
-    const key = <string>this.loginFromCodeForm.controls.code.value;
+    let key = <string>this.loginFromCodeForm.controls.code.value;
+    if (key === 'demo-account' && environment.demoAccountCode) {
+      key = environment.demoAccountCode;
+    }
     const parts = key.split(':::');
     if (parts.length !== 3 || !isUuid(parts[2])) {
       this.codeLoginError = this.translator.get('The restore code you provided is invalid.');
