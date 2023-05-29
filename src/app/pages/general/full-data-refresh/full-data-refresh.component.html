@@ -1,4 +1,7 @@
-<p *ngIf="displayInfoMessage">
-  {{"The app is currently downloading all your data, this might take a while depending on the amount of data you have stored." | translate}}
-</p>
+<ng-container *ngIf="displayInfoMessage && running">
+  <p>
+    {{"The app is currently downloading all your data, this might take a while depending on the amount of data you have stored." | translate}}
+  </p>
+  <p [innerText]="'Progress: {{processed}} of {{total}} items.' | translate:{processed: processed, total: total}"></p>
+</ng-container>
 <mat-spinner class="global"></mat-spinner>

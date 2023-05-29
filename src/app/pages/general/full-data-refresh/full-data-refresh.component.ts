@@ -14,6 +14,10 @@ import {Router} from "@angular/router";
 export class FullDataRefreshComponent implements OnInit {
   public displayInfoMessage = false;
 
+  public running: boolean = false;
+  public total: number = 0;
+  public processed: number = 0;
+
   constructor(
     private readonly translator: TranslateService,
     private readonly titleService: TitleService,
@@ -24,7 +28,13 @@ export class FullDataRefreshComponent implements OnInit {
   }
   public async ngOnInit(): Promise<void> {
     this.titleService.title = this.translator.get('Loading data');
-    timer(1_000).subscribe(() => this.displayInfoMessage = true);
+    timer(2_000).subscribe(() => this.displayInfoMessage = true);
+
+    this.activityStreamService.onFullSyncProgress.subscribe(progress => {
+      this.running = progress.running;
+      this.total = progress.total;
+      this.processed = progress.current;
+    });
     this.activityStreamService.getFullActivityStream().subscribe(async () => {
       await this.database.setInitialActivityStreamLoadFinished();
       await this.router.navigateByUrl('/');

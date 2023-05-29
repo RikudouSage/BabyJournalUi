@@ -224,5 +224,6 @@
   "All data has been deleted.": "Všechna data byla smazána.",
   "Delete account": "Smazat účet",
   "If you delete your data (from account settings), we delete it permanently. We might store your (encrypted) data for up to 30 days in automated backups.": "Pokud smažete svá data (v nastavení účtu), jsou smazána natrvalo. Můžeme skladovat vaše (zašifrovaná) data až 30 dní v automatických zálohách.",
-  "Any data you delete in the app is deleted forever (except for automated backups mentioned in previous paragraph).": "Jakákoliv data, která smažete v aplikaci, jsou smazána navždy (mimo automatizované zálohy zmíněné v předchozím odstavci)."
+  "Any data you delete in the app is deleted forever (except for automated backups mentioned in previous paragraph).": "Jakákoliv data, která smažete v aplikaci, jsou smazána navždy (mimo automatizované zálohy zmíněné v předchozím odstavci).",
+  "Progress: {{processed}} of {{total}} items.": "Dokončeno {{processed}} z {{total}} položek."
 }

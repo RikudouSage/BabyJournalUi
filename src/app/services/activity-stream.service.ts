@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from "./api.service";
 import {DatabaseService} from "./database.service";
-import {forkJoin, iif, Observable, of, switchMap, tap} from "rxjs";
+import {BehaviorSubject, forkJoin, iif, Observable, of, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {EncryptorService} from "./encryptor.service";
@@ -45,14 +45,30 @@ export interface PumpingActivityStreamItem extends ActivityStreamItem {
 
 export type ActivityStream = ActivityStreamItem[];
 
+interface FullSyncProgress {
+  total: number;
+  current: number;
+  running: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ActivityStreamService {
+  private _fullSyncProgress: BehaviorSubject<FullSyncProgress> = new BehaviorSubject<FullSyncProgress>({
+    current: 0,
+    running: false,
+    total: 0,
+  });
+
   private cache: ActivityStream = [];
   private cacheUntil: number | null = null;
 
   private maxTimeUntilFullFetch = 2 * 60 * 60 * 1_000; // in milliseconds
+
+  get onFullSyncProgress(): Observable<FullSyncProgress> {
+    return this._fullSyncProgress;
+  }
 
   constructor(
     private readonly api: ApiService,
@@ -104,6 +120,11 @@ export class ActivityStreamService {
   public getFullActivityStream(): Observable<ActivityStream> {
     return this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities`).pipe(
       map (async stream => {
+        this._fullSyncProgress.next({
+          total: stream.length,
+          running: true,
+          current: 0,
+        });
         return await Promise.all(stream.map(async item => {
           for (const key of Object.keys(item)) {
             if (key === 'id' || key === 'activityType' || item[key] === null) {
@@ -113,6 +134,11 @@ export class ActivityStreamService {
             item[key] = await this.encryptor.decrypt(<string>item[key]);
           }
 
+          this._fullSyncProgress.next({
+            total: stream.length,
+            running: true,
+            current: this._fullSyncProgress.value.current + 1,
+          });
           return item;
         }));
       }),
@@ -122,6 +148,11 @@ export class ActivityStreamService {
           promises.push(this.database.storeActivityStreamItem(item));
         }
 
+        this._fullSyncProgress.next({
+          total: 0,
+          running: false,
+          current: 0,
+        });
         await Promise.all(promises);
       }),
       switchMap(stream => toObservable(stream)),
