@@ -5,7 +5,7 @@
   "background_color": "#303030",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./?mode=pwa",
   "description": "Track your baby's sleeping, feeding, diapering and more!",
   "dir": "ltr",
   "lang": "en",
