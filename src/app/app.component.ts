@@ -14,13 +14,11 @@ import {findRouteParent} from "./helper/route-hierarchy";
 import {MatSidenav} from "@angular/material/sidenav";
 import {TranslateService} from "@ngx-translate/core";
 import {DatabaseService} from "./services/database.service";
-import {AppLanguage} from "./types/app-language";
 import {MatSnackBar, MatSnackBarRef, TextOnlySnackBar} from "@angular/material/snack-bar";
 import {DiaperingActivityRepository} from "./entity/diapering-activity.entity";
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PumpingActivityRepository} from "./entity/pumping-activity.entity";
-import {getPrimaryBrowserLanguage} from "./helper/language";
 import {SleepingActivityRepository} from "./entity/sleeping-activity.entity";
 
 type AppMode = 'browser' | 'standalone' | 'android';
@@ -57,9 +55,8 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     database: DatabaseService,
   ) {
-    translator.use(
-      database.getLanguage() === AppLanguage.Default ? getPrimaryBrowserLanguage() : database.getLanguage()
-    );
+    console.log(database.getEffectiveLanguage());
+    translator.use(database.getEffectiveLanguage());
     router.events.subscribe(event => {
       if (!this.appLikeNavigation) {
         return;

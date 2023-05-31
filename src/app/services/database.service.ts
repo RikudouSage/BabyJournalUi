@@ -7,6 +7,7 @@ import {ActivityInProgress} from "../types/activity-in-progress.type";
 import {AppLanguage} from "../types/app-language";
 import {BreastIndex} from "../enum/breast-index.enum";
 import {ActivityStream, ActivityStreamItem} from "./activity-stream.service";
+import {getPrimaryBrowserLanguage} from "../helper/language";
 
 @Injectable({
   providedIn: 'root'
@@ -206,6 +207,20 @@ export class DatabaseService {
 
   public getLanguage(): AppLanguage {
     return <any>localStorage.getItem('language') ?? 'default';
+  }
+
+  public getEffectiveLanguage(): AppLanguage {
+    const language = this.getLanguage();
+    if (language !== AppLanguage.Default) {
+      return language;
+    }
+
+    const browserLanguage = getPrimaryBrowserLanguage();
+    if (Object.values(AppLanguage).indexOf(<any>browserLanguage) > 0) {
+      return <AppLanguage>browserLanguage;
+    }
+
+    return AppLanguage.English;
   }
 
   public storeLanguage(language: AppLanguage): void {
