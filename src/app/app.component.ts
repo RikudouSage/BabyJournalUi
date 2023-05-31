@@ -23,6 +23,8 @@ import {PumpingActivityRepository} from "./entity/pumping-activity.entity";
 import {getPrimaryBrowserLanguage} from "./helper/language";
 import {SleepingActivityRepository} from "./entity/sleeping-activity.entity";
 
+type AppMode = 'browser' | 'standalone' | 'android';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -31,6 +33,8 @@ import {SleepingActivityRepository} from "./entity/sleeping-activity.entity";
 export class AppComponent implements OnInit {
   private offlineSnackBar: MatSnackBarRef<TextOnlySnackBar>;
   public appLikeNavigation: boolean = true;
+
+  public appMode: AppMode = 'browser';
 
   isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -50,7 +54,7 @@ export class AppComponent implements OnInit {
     private readonly translator: TranslateService,
     private readonly iconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
-    router: Router,
+    private readonly router: Router,
     database: DatabaseService,
   ) {
     translator.use(
@@ -82,6 +86,16 @@ export class AppComponent implements OnInit {
     }
     this.registerCustomIcons();
     this.registerRepositories();
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      this.appMode = 'standalone';
+    }
+    if (this.router.routerState.snapshot.url.indexOf('?mode=pwa') > -1) {
+      this.appMode = 'standalone';
+    }
+    if (this.router.routerState.snapshot.url.indexOf('?mode=twa') > -1) {
+      this.appMode = 'android';
+    }
   }
 
   private registerRepositories() {

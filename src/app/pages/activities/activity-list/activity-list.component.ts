@@ -38,7 +38,6 @@ export class ActivityListComponent implements OnInit {
       const breakpoint = (<string[]>Object.keys(result.breakpoints)).filter(value => result.breakpoints[value]).reduce((previousValue, currentValue) => {
         return currentValue;
       });
-      console.log(Breakpoints.Small);
       switch (breakpoint) {
         case Breakpoints.XSmall:
           return 2;
