@@ -55,7 +55,6 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     database: DatabaseService,
   ) {
-    console.log(database.getEffectiveLanguage());
     translator.use(database.getEffectiveLanguage());
     router.events.subscribe(event => {
       if (!this.appLikeNavigation) {

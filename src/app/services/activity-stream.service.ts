@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
 import {EncryptorService} from "./encryptor.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {FeedingType} from "../types/feeding-type.type";
-import {toObservable} from "../helper/observables";
+import {toObservable, toPromise} from "../helper/observables";
 
 
 export interface ActivityStreamItem {
@@ -118,14 +118,32 @@ export class ActivityStreamService {
   }
 
   public getFullActivityStream(): Observable<ActivityStream> {
-    return this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities`).pipe(
+    return this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities`, {
+      observe: "response",
+    }).pipe(
+      map(response => {
+        return {
+          stream: <ActivityStream>response.body,
+          total: Number(response.headers.get('X-Total-Count')),
+          perPage: Number(response.headers.get('X-Per-Page')),
+        }
+      }),
       map (async stream => {
         this._fullSyncProgress.next({
-          total: stream.length,
+          total: stream.total,
           running: true,
           current: 0,
         });
-        return await Promise.all(stream.map(async item => {
+        const pages = Math.ceil(stream.total / stream.perPage);
+        const partialStreams = [];
+        for (let page = 2; page <= pages; ++page) {
+          partialStreams.push(await toPromise(this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities?page=${page}`)));
+        }
+        let mergedStream: ActivityStream = stream.stream;
+        for (const partialStream of partialStreams) {
+          mergedStream = mergedStream.concat(partialStream);
+        }
+        return await Promise.all(mergedStream.map(async item => {
           for (const key of Object.keys(item)) {
             if (key === 'id' || key === 'activityType' || item[key] === null) {
               continue;
@@ -135,7 +153,7 @@ export class ActivityStreamService {
           }
 
           this._fullSyncProgress.next({
-            total: stream.length,
+            total: mergedStream.length,
             running: true,
             current: this._fullSyncProgress.value.current + 1,
           });
