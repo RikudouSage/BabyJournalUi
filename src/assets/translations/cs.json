@@ -225,5 +225,7 @@
   "Delete account": "Smazat účet",
   "If you delete your data (from account settings), we delete it permanently. We might store your (encrypted) data for up to 30 days in automated backups.": "Pokud smažete svá data (v nastavení účtu), jsou smazána natrvalo. Můžeme skladovat vaše (zašifrovaná) data až 30 dní v automatických zálohách.",
   "Any data you delete in the app is deleted forever (except for automated backups mentioned in previous paragraph).": "Jakákoliv data, která smažete v aplikaci, jsou smazána navždy (mimo automatizované zálohy zmíněné v předchozím odstavci).",
-  "Progress: {{processed}} of {{total}} items.": "Dokončeno {{processed}} z {{total}} položek."
+  "Progress: {{processed}} of {{total}} items.": "Dokončeno {{processed}} z {{total}} položek.",
+  "Your device doesn't support keeping the screen awake, your screen might lock.": "Vaše zařízení nepodporuje udržení zařízení odemčeného, váš displej se může zamknout.",
+  "Please make sure your screen doesn't lock during the refresh as the data might not be downloaded correctly.": "Prosím ujistěte se, že se displej nezamkne během obnovování dat, jinak hrozí, že se data nestáhnou v pořádku."
 }

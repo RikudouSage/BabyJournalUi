@@ -4,4 +4,8 @@
   </p>
   <p [innerText]="'Progress: {{processed}} of {{total}} items.' | translate:{processed: processed, total: total}"></p>
 </ng-container>
+<mat-error *ngIf="displayInfoMessage && running && !wakeLockSupported">
+  {{"Your device doesn't support keeping the screen awake, your screen might lock." | translate}}
+  {{"Please make sure your screen doesn't lock during the refresh as the data might not be downloaded correctly." | translate}}
+</mat-error>
 <mat-spinner class="global"></mat-spinner>

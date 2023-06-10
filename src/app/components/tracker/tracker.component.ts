@@ -1,16 +1,14 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {interval, Observable, Subscription} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
+import {WakeLockService} from "../../services/wake-lock.service";
+import {MatSnackBar, MatSnackBarRef, TextOnlySnackBar} from "@angular/material/snack-bar";
+import {TranslateService} from "@ngx-translate/core";
+import {toPromise} from "../../helper/observables";
 
 export interface TrackingPausedEvent {
   elapsed: number;
-}
-
-interface WakeLockSentinel {
-  released: boolean;
-  type: 'screen';
-  release(): Promise<undefined>;
 }
 
 export interface TrackerOutputData {
@@ -24,9 +22,8 @@ export interface TrackerOutputData {
   templateUrl: './tracker.component.html',
   styleUrls: ['./tracker.component.scss']
 })
-export class TrackerComponent implements OnInit {
-
-  private wakeLock: WakeLockSentinel | null = null;
+export class TrackerComponent implements OnInit, OnDestroy {
+  private warningMessage: MatSnackBarRef<TextOnlySnackBar> | null = null;
 
   private _startTime: Date | null = null;
   private _endTime: Date | null = null;
@@ -136,10 +133,23 @@ export class TrackerComponent implements OnInit {
 
   constructor(
     private readonly breakpointObserver: BreakpointObserver,
+    private readonly wakeLockService: WakeLockService,
+    private readonly snackBar: MatSnackBar,
+    private readonly translator: TranslateService,
   ) {
   }
 
   public async ngOnInit() {
+    if (!this.wakeLockService.isSupported()) {
+      this.warningMessage = this.snackBar.open(
+        await toPromise(this.translator.get(`Your device doesn't support keeping the screen awake, your screen might lock.`)),
+        await toPromise(this.translator.get('Dismiss')),
+      )
+    }
+  }
+
+  public async ngOnDestroy() {
+    this.warningMessage?.dismiss();
   }
 
   public async startTracking(reset: boolean = false): Promise<void> {
@@ -177,7 +187,7 @@ export class TrackerComponent implements OnInit {
     this._isPaused = false;
     this.subscriptions.paused?.unsubscribe();
     this.subscriptions.tracking?.unsubscribe();
-    await this.wakeLock?.release();
+    await this.wakeLockService.release();
 
     this._finished.next(result);
     this.initialized = true;
@@ -189,13 +199,7 @@ export class TrackerComponent implements OnInit {
   }
 
   private async requestWakeLock(): Promise<void> {
-    if (typeof (<any>navigator).wakeLock === 'undefined') {
-      return;
-    }
-    if (this.wakeLock !== null && !this.wakeLock.released) {
-      return;
-    }
-    this.wakeLock = await (<any>navigator).wakeLock.request('screen');
+    await this.wakeLockService.requestWakeLock();
   }
 
   @HostListener('window:visibilitychange')
