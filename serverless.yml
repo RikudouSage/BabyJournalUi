@@ -11,6 +11,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, env:AWS_REGION}
   runtime: provided
+  stackTags:
+    BillingProject: BabyJournal
+    BillingSubproject: BabyJournalUi
   lambdaHashingVersion: '20201221'
 
 package:
