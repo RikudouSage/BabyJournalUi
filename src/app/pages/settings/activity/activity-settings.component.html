@@ -32,6 +32,8 @@
         <div class="setting-description">
           <p>{{"Whether to calculate the time since last feeding since the beginning of the activity or the end." | translate}}</p>
         </div>
+        <mat-checkbox [formControlName]="ParentalUnitSetting.ConsiderWaterFeeding">{{"Consider water feeding" | translate}}</mat-checkbox>
+        <p>{{"Whether water should be considered feeding or not. Changes how the time since feeding is calculated on the main page." | translate}}</p>
       </mat-card-content>
     </mat-card>
     <!-- Sleeping -->

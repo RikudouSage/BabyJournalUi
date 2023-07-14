@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import {DatabaseService} from "../../services/database.service";
 import {ActivityType} from "../../enum/activity-type.enum";
-import {ActivityStreamService} from "../../services/activity-stream.service";
+import {ActivityStreamService, BottleFeedingActivityStreamItem} from "../../services/activity-stream.service";
 import {ApiService} from "../../services/api.service";
 import {toObservable} from "../../helper/observables";
 import {switchMap} from "rxjs/operators";
@@ -32,6 +32,12 @@ export class FeedingActivityConfiguration implements ActivityConfiguration {
               ? "startDate"
               : "endDate",
             joinInterval: <number>settings[ParentalUnitSetting.FeedingBreakLength] * 60,
+            ignoreIf: item => {
+              if (settings[ParentalUnitSetting.ConsiderWaterFeeding]) {
+                return false;
+              }
+              return (<BottleFeedingActivityStreamItem>item).bottleContentType === 'Water';
+            },
           },
         );
       }),

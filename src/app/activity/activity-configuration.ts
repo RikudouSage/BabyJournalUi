@@ -35,12 +35,14 @@ export function getDefaultLastActivityAt(
     useDate?: 'startDate' | 'endDate',
     maxTimeAgo?: number,
     joinInterval?: number,
+    ignoreIf?: (item: ActivityStreamItem) => boolean,
   } = {},
 ): Observable<Date | null> {
   options.timeInterval ??= 60_000;
   options.useDate ??= 'startDate';
   options.maxTimeAgo ??= 2 * 24 * 60 * 60; // 2 days
   options.joinInterval ??= 0;
+  options.ignoreIf ??= () => false;
 
   return interval(options.timeInterval).pipe(
     startWith(0),
@@ -49,7 +51,10 @@ export function getDefaultLastActivityAt(
       if (!stream.length) {
         return null;
       }
-      const filtered = stream.filter(item => types.indexOf(item.activityType) > -1);
+      const filtered = stream
+        .filter(item => types.indexOf(item.activityType) > -1)
+        .filter(item => !options.ignoreIf!(item))
+      ;
 
       if (!filtered.length) {
         return null;

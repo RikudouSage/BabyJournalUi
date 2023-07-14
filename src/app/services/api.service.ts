@@ -9,7 +9,7 @@ import {map} from "rxjs/operators";
 import {ApiUrlService} from "./api-url.service";
 
 type Settings = {
-  [setting in ParentalUnitSetting]: string | number;
+  [setting in ParentalUnitSetting]: string | number | boolean;
 }
 
 @Injectable({
@@ -75,6 +75,9 @@ export class ApiService {
             result[key] = DefaultParentalUnitSettings[key];
           } else {
             result[key] = await this.encryptor.decrypt(<string>value[key]);
+            if (result[key] === 'true' || result[key] === 'false') {
+              result[key] = result[key] === 'true';
+            }
           }
         }
 
