@@ -18,6 +18,8 @@ export class FullDataRefreshComponent implements OnInit {
   public running: boolean = false;
   public total: number = 0;
   public processed: number = 0;
+  public processing: number = 0;
+  public downloaded: number = 0;
 
   public readonly wakeLockSupported: boolean = this.wakeLockService.isSupported();
 
@@ -38,7 +40,9 @@ export class FullDataRefreshComponent implements OnInit {
     this.activityStreamService.onFullSyncProgress.subscribe(progress => {
       this.running = progress.running;
       this.total = progress.total;
-      this.processed = progress.current;
+      this.processed = progress.currentFinished;
+      this.processing = progress.currentInProgress;
+      this.downloaded = progress.downloaded;
     });
     this.activityStreamService.getFullActivityStream().subscribe(async () => {
       await this.database.setInitialActivityStreamLoadFinished();

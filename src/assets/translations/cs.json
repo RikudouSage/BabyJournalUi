@@ -225,9 +225,10 @@
   "Delete account": "Smazat účet",
   "If you delete your data (from account settings), we delete it permanently. We might store your (encrypted) data for up to 30 days in automated backups.": "Pokud smažete svá data (v nastavení účtu), jsou smazána natrvalo. Můžeme skladovat vaše (zašifrovaná) data až 30 dní v automatických zálohách.",
   "Any data you delete in the app is deleted forever (except for automated backups mentioned in previous paragraph).": "Jakákoliv data, která smažete v aplikaci, jsou smazána navždy (mimo automatizované zálohy zmíněné v předchozím odstavci).",
-  "Progress: {{processed}} of {{total}} items.": "Dokončeno {{processed}} z {{total}} položek.",
   "Your device doesn't support keeping the screen awake, your screen might lock.": "Vaše zařízení nepodporuje udržení zařízení odemčeného, váš displej se může zamknout.",
   "Please make sure your screen doesn't lock during the refresh as the data might not be downloaded correctly.": "Prosím ujistěte se, že se displej nezamkne během obnovování dat, jinak hrozí, že se data nestáhnou v pořádku.",
   "Consider water feeding": "Považovat vodu za jídlo",
-  "Whether water should be considered feeding or not. Changes how the time since feeding is calculated on the main page.": "Jestli se má voda považovat za jídlo, nebo ne. Mění, jakým způsobem se počítá čas od posledního krmení na hlavní stránce."
+  "Whether water should be considered feeding or not. Changes how the time since feeding is calculated on the main page.": "Jestli se má voda považovat za jídlo, nebo ne. Mění, jakým způsobem se počítá čas od posledního krmení na hlavní stránce.",
+  "Downloaded: {{downloaded}} of {{total}} items.": "Staženo: {{downloaded}} z {{total}} položek.",
+  "Decrypting: {{processing}} of {{total}} items ({{finished}} finished).": "Dešifrování: {{processing}} z {{total}} položek ({{finished}} dokončeno)."
 }

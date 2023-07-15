@@ -47,8 +47,11 @@ export type ActivityStream = ActivityStreamItem[];
 
 interface FullSyncProgress {
   total: number;
-  current: number;
+  currentFinished: number;
+  currentInProgress: number;
+  downloaded: number;
   running: boolean;
+  downloading: boolean;
 }
 
 @Injectable({
@@ -56,8 +59,11 @@ interface FullSyncProgress {
 })
 export class ActivityStreamService {
   private _fullSyncProgress: BehaviorSubject<FullSyncProgress> = new BehaviorSubject<FullSyncProgress>({
-    current: 0,
+    currentFinished: 0,
+    currentInProgress: 0,
+    downloaded: 0,
     running: false,
+    downloading: false,
     total: 0,
   });
 
@@ -132,18 +138,37 @@ export class ActivityStreamService {
         this._fullSyncProgress.next({
           total: stream.total,
           running: true,
-          current: 0,
+          downloading: true,
+          currentFinished: 0,
+          currentInProgress: 0,
+          downloaded: stream.stream.length,
         });
         const pages = Math.ceil(stream.total / stream.perPage);
         const partialStreams = [];
         for (let page = 2; page <= pages; ++page) {
           partialStreams.push(await toPromise(this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities?page=${page}`)));
+          this._fullSyncProgress.next({
+            total: stream.total,
+            running: true,
+            downloading: true,
+            currentFinished: 0,
+            currentInProgress: 0,
+            downloaded: this._fullSyncProgress.value.downloaded + partialStreams[partialStreams.length - 1].length,
+          });
         }
         let mergedStream: ActivityStream = stream.stream;
         for (const partialStream of partialStreams) {
           mergedStream = mergedStream.concat(partialStream);
         }
         return await Promise.all(mergedStream.map(async item => {
+          this._fullSyncProgress.next({
+            total: mergedStream.length,
+            running: true,
+            downloaded: this._fullSyncProgress.value.downloaded,
+            downloading: false,
+            currentFinished: this._fullSyncProgress.value.currentFinished,
+            currentInProgress: this._fullSyncProgress.value.currentInProgress + 1,
+          });
           for (const key of Object.keys(item)) {
             if (key === 'id' || key === 'activityType' || item[key] === null) {
               continue;
@@ -154,8 +179,11 @@ export class ActivityStreamService {
 
           this._fullSyncProgress.next({
             total: mergedStream.length,
+            downloading: false,
+            downloaded: this._fullSyncProgress.value.downloaded,
             running: true,
-            current: this._fullSyncProgress.value.current + 1,
+            currentFinished: this._fullSyncProgress.value.currentFinished + 1,
+            currentInProgress: this._fullSyncProgress.value.currentInProgress,
           });
           return item;
         }));
@@ -169,7 +197,10 @@ export class ActivityStreamService {
         this._fullSyncProgress.next({
           total: 0,
           running: false,
-          current: 0,
+          downloaded: this._fullSyncProgress.value.downloaded,
+          downloading: false,
+          currentFinished: 0,
+          currentInProgress: 0,
         });
         await Promise.all(promises);
       }),
