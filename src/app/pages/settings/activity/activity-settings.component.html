@@ -1,6 +1,16 @@
 <mat-spinner class="global" *ngIf="!loaded else content"></mat-spinner>
 <ng-template #content>
   <form [formGroup]="form" (submit)="save()">
+    <!-- General -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{"General" | translate}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-checkbox [formControlName]="ParentalUnitSetting.UseSharedInProgress">{{"Use shared tracking" | translate}}</mat-checkbox>
+        <p>{{"When checked, the progress will be shared across all devices (meaning you can start tracking on one device and finish on another)." | translate}}</p>
+      </mat-card-content>
+    </mat-card>
     <!-- Feeding -->
     <mat-card>
       <mat-card-header>

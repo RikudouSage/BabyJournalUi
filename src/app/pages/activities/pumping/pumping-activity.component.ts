@@ -14,6 +14,7 @@ import {Observable, of} from "rxjs";
 import {TrackerComponent, TrackerOutputData} from "../../../components/tracker/tracker.component";
 import {User, UserRepository} from "../../../entity/user.entity";
 import {EncryptedValue} from "../../../dto/encrypted-value";
+import {InProgressManager} from "../../../services/in-progress-manager.service";
 
 @Component({
   selector: 'app-pumping',
@@ -42,6 +43,7 @@ export class PumpingActivityComponent implements OnInit {
     private readonly router: Router,
     private readonly repository: PumpingActivityRepository,
     private readonly userRepository: UserRepository,
+    private readonly inProgressManager: InProgressManager,
   ) {
   }
   public async ngOnInit(): Promise<void> {
@@ -60,7 +62,7 @@ export class PumpingActivityComponent implements OnInit {
     this.form.patchValue({
       breast: await this.database.getLastPumpingBreast(),
     });
-    const existingActivity = await this.database.getInProgress(ActivityType.Pumping);
+    const existingActivity = await this.inProgressManager.getInProgress(ActivityType.Pumping);
     if (existingActivity !== null) {
       this.form.patchValue({
         startTime: existingActivity.startTime,
@@ -72,7 +74,7 @@ export class PumpingActivityComponent implements OnInit {
     }
 
     this.form.valueChanges.subscribe(async changes => {
-      const existingActivity = await this.database.getInProgress(ActivityType.Pumping);
+      const existingActivity = await this.inProgressManager.getInProgress(ActivityType.Pumping);
       if (existingActivity === null || changes.trackingJustFinished) {
         return;
       }
@@ -85,7 +87,7 @@ export class PumpingActivityComponent implements OnInit {
       existingActivity.data.amount = changes.amount;
       existingActivity.data.userId = changes.userId;
 
-      await this.database.saveInProgress(existingActivity);
+      await this.inProgressManager.saveInProgress(existingActivity);
     });
 
     this.loading = false;
@@ -125,11 +127,11 @@ export class PumpingActivityComponent implements OnInit {
       endTime: result.endTime,
       trackingJustFinished: true,
     });
-    await this.database.removeInProgress(ActivityType.Pumping);
+    await this.inProgressManager.removeInProgress(ActivityType.Pumping);
   }
 
   public async onTrackingStarted(startTime: Date) {
-    await this.database.saveInProgress({
+    await this.inProgressManager.saveInProgress({
       startTime: startTime,
       activity: ActivityType.Pumping,
       mode: 'running',

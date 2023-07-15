@@ -38,6 +38,7 @@ export class ActivitySettingsComponent implements OnInit {
       Validators.required,
     ]),
     [ParentalUnitSetting.ConsiderWaterFeeding]: new FormControl<boolean>(DefaultParentalUnitSettings[ParentalUnitSetting.ConsiderWaterFeeding]),
+    [ParentalUnitSetting.UseSharedInProgress]: new FormControl<boolean>(DefaultParentalUnitSettings[ParentalUnitSetting.UseSharedInProgress]),
   });
   public loaded: boolean = false;
 
@@ -54,13 +55,13 @@ export class ActivitySettingsComponent implements OnInit {
     this.titleService.title = this.translator.get('Activity settings');
 
     const settings = await this.api.getSettings();
-    console.log(settings)
     this.form.patchValue({
       [ParentalUnitSetting.FeedingBreakLength]: Number(settings[ParentalUnitSetting.FeedingBreakLength]),
       [ParentalUnitSetting.CalculateFeedingSince]: <CalculateActivitySince>settings[ParentalUnitSetting.CalculateFeedingSince],
       [ParentalUnitSetting.CalculateSleepingSince]: <CalculateActivitySince>settings[ParentalUnitSetting.CalculateSleepingSince],
       [ParentalUnitSetting.CalculatePumpingSince]: <CalculateActivitySince>settings[ParentalUnitSetting.CalculatePumpingSince],
       [ParentalUnitSetting.ConsiderWaterFeeding]: <boolean>settings[ParentalUnitSetting.ConsiderWaterFeeding],
+      [ParentalUnitSetting.UseSharedInProgress]: <boolean>settings[ParentalUnitSetting.UseSharedInProgress],
     });
     this.loaded = true;
   }
@@ -76,6 +77,7 @@ export class ActivitySettingsComponent implements OnInit {
       [ParentalUnitSetting.CalculateSleepingSince]: this.form.controls[ParentalUnitSetting.CalculateSleepingSince].value || DefaultParentalUnitSettings[ParentalUnitSetting.CalculateSleepingSince],
       [ParentalUnitSetting.CalculatePumpingSince]: this.form.controls[ParentalUnitSetting.CalculatePumpingSince].value || DefaultParentalUnitSettings[ParentalUnitSetting.CalculatePumpingSince],
       [ParentalUnitSetting.ConsiderWaterFeeding]: this.form.controls[ParentalUnitSetting.ConsiderWaterFeeding].value ?? DefaultParentalUnitSettings[ParentalUnitSetting.ConsiderWaterFeeding],
+      [ParentalUnitSetting.UseSharedInProgress]: this.form.controls[ParentalUnitSetting.UseSharedInProgress].value ?? DefaultParentalUnitSettings[ParentalUnitSetting.UseSharedInProgress],
     });
 
     const timeout = 3_000;

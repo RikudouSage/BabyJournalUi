@@ -15,7 +15,15 @@ export class DocumentCollection<T extends AbstractEntity> {
     return copy;
   }
 
-  public length(): number {
+  public first(): T | null {
+    if (!this.data.length) {
+      return null;
+    }
+
+    return this.data[0];
+  }
+
+  public get length(): number {
     return this.data.length;
   }
 

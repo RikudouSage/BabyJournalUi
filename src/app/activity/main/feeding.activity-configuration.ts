@@ -1,13 +1,13 @@
 import {ActivityConfiguration, getDefaultIsRunning, getDefaultLastActivityAt} from "../activity-configuration";
 import {Injectable} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
-import {DatabaseService} from "../../services/database.service";
 import {ActivityType} from "../../enum/activity-type.enum";
 import {ActivityStreamService, BottleFeedingActivityStreamItem} from "../../services/activity-stream.service";
 import {ApiService} from "../../services/api.service";
 import {toObservable} from "../../helper/observables";
 import {switchMap} from "rxjs/operators";
 import {CalculateActivitySince, ParentalUnitSetting} from "../../enum/parental-unit-setting.enum";
+import {InProgressManager} from "../../services/in-progress-manager.service";
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class FeedingActivityConfiguration implements ActivityConfiguration {
   displayName = this.translator.get('Feeding');
   link = '/activities/feeding';
   isRunning = getDefaultIsRunning(
-    this.database,
+    this.inProgressManager,
     [ActivityType.FeedingBreast, ActivityType.FeedingBottle, ActivityType.FeedingSolid],
   );
   lastActivityAt = toObservable(this.api.getSettings())
@@ -45,7 +45,7 @@ export class FeedingActivityConfiguration implements ActivityConfiguration {
 
   constructor(
     private readonly translator: TranslateService,
-    private readonly database: DatabaseService,
+    private readonly inProgressManager: InProgressManager,
     private readonly activityStreamService: ActivityStreamService,
     private readonly api: ApiService,
   ) {

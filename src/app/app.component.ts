@@ -20,6 +20,7 @@ import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PumpingActivityRepository} from "./entity/pumping-activity.entity";
 import {SleepingActivityRepository} from "./entity/sleeping-activity.entity";
+import {SharedInProgressActivityRepository} from "./entity/shared-in-progress-activity.entity";
 
 type AppMode = 'browser' | 'standalone' | 'android';
 
@@ -104,6 +105,7 @@ export class AppComponent implements OnInit {
     registry.registerRepository(this.injector.get(DiaperingActivityRepository));
     registry.registerRepository(this.injector.get(PumpingActivityRepository));
     registry.registerRepository(this.injector.get(SleepingActivityRepository));
+    registry.registerRepository(this.injector.get(SharedInProgressActivityRepository));
   }
 
   public async hideDrawer(drawer: MatSidenav) {

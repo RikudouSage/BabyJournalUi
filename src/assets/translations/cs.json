@@ -230,5 +230,7 @@
   "Consider water feeding": "Považovat vodu za jídlo",
   "Whether water should be considered feeding or not. Changes how the time since feeding is calculated on the main page.": "Jestli se má voda považovat za jídlo, nebo ne. Mění, jakým způsobem se počítá čas od posledního krmení na hlavní stránce.",
   "Downloaded: {{downloaded}} of {{total}} items.": "Staženo: {{downloaded}} z {{total}} položek.",
-  "Decrypting: {{processing}} of {{total}} items ({{finished}} finished).": "Dešifrování: {{processing}} z {{total}} položek ({{finished}} dokončeno)."
+  "Decrypting: {{processing}} of {{total}} items ({{finished}} finished).": "Dešifrování: {{processing}} z {{total}} položek ({{finished}} dokončeno).",
+  "Use shared tracking": "Použít sdílené trackování",
+  "When checked, the progress will be shared across all devices (meaning you can start tracking on one device and finish on another).": "Pokud je zaškrnuto, trackování bude sdíleno napříč zařízeními (což znamená, že můžete začít trackovat na jednom zařízení a skončit na jiném)."
 }

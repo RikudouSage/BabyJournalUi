@@ -9,6 +9,7 @@ export enum ParentalUnitSetting {
   CalculatePumpingSince = 'calculate_pumping_since',
   CalculateSleepingSince = 'calculate_sleeping_since',
   ConsiderWaterFeeding = 'consider_water_feeding',
+  UseSharedInProgress = 'use_shared_in_progress',
 }
 
 export const DefaultParentalUnitSettings: {
@@ -17,10 +18,12 @@ export const DefaultParentalUnitSettings: {
   [ParentalUnitSetting.CalculateSleepingSince]: CalculateActivitySince;
   [ParentalUnitSetting.CalculatePumpingSince]: CalculateActivitySince;
   [ParentalUnitSetting.ConsiderWaterFeeding]: boolean;
+  [ParentalUnitSetting.UseSharedInProgress]: boolean;
 } = {
   [ParentalUnitSetting.FeedingBreakLength]: 0,
   [ParentalUnitSetting.CalculateFeedingSince]: CalculateActivitySince.Start,
   [ParentalUnitSetting.CalculatePumpingSince]: CalculateActivitySince.Start,
   [ParentalUnitSetting.CalculateSleepingSince]: CalculateActivitySince.End,
   [ParentalUnitSetting.ConsiderWaterFeeding]: true,
+  [ParentalUnitSetting.UseSharedInProgress]: false,
 }

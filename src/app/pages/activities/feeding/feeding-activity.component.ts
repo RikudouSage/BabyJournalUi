@@ -18,6 +18,7 @@ import {ActivityType} from "../../../enum/activity-type.enum";
 import {FeedingType} from "../../../types/feeding-type.type";
 import {EnumToStringService} from "../../../services/enum-to-string.service";
 import {BreastIndex} from "../../../enum/breast-index.enum";
+import {InProgressManager} from "../../../services/in-progress-manager.service";
 
 enum FeedingTypeIndex {
   Bottle,
@@ -82,6 +83,7 @@ export class FeedingActivityComponent implements OnInit {
     private readonly feedingActivityRepository: FeedingActivityRepository,
     private readonly router: Router,
     private readonly enumToString: EnumToStringService,
+    private readonly inProgressManager: InProgressManager
   ) {
   }
 
@@ -101,7 +103,7 @@ export class FeedingActivityComponent implements OnInit {
   }
 
   public async initializeSolidFood(): Promise<void> {
-    const existingActivity = await this.database.getInProgress(ActivityType.FeedingSolid);
+    const existingActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingSolid);
     if (existingActivity !== null) {
       this.solidFoodForm.patchValue({
         startTime: existingActivity.startTime,
@@ -110,7 +112,7 @@ export class FeedingActivityComponent implements OnInit {
     }
 
     this.solidFoodForm.valueChanges.subscribe(async changes => {
-      const existingActivity = await this.database.getInProgress(ActivityType.FeedingSolid);
+      const existingActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingSolid);
       if (existingActivity === null || changes.trackingJustFinished) {
         return;
       }
@@ -119,13 +121,13 @@ export class FeedingActivityComponent implements OnInit {
       }
       existingActivity.notes = changes.notes ?? null;
 
-      await this.database.saveInProgress(existingActivity);
+      await this.inProgressManager.saveInProgress(existingActivity);
     });
   }
 
   public async initializeNursing(): Promise<void> {
     this.breastIndex = await this.database.getLastNursingBreast();
-    const existingActivity = await this.database.getInProgress(ActivityType.FeedingBreast);
+    const existingActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingBreast);
     if (existingActivity !== null) {
       const index = <BreastIndex>existingActivity.data.breast;
       const form = index === BreastIndex.Left ? this.leftBreastForm : this.rightBreastForm;
@@ -136,7 +138,7 @@ export class FeedingActivityComponent implements OnInit {
     }
 
     this.leftBreastForm.valueChanges.subscribe(async changes => {
-      const existingActivity = await this.database.getInProgress(ActivityType.FeedingBreast);
+      const existingActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingBreast);
       if (existingActivity === null || existingActivity.data.breast !== BreastIndex.Left || changes.trackingJustFinished) {
         return;
       }
@@ -145,10 +147,10 @@ export class FeedingActivityComponent implements OnInit {
       }
       existingActivity.notes = changes.notes ?? null;
 
-      await this.database.saveInProgress(existingActivity);
+      await this.inProgressManager.saveInProgress(existingActivity);
     });
     this.rightBreastForm.valueChanges.subscribe(async changes => {
-      const existingActivity = await this.database.getInProgress(ActivityType.FeedingBreast);
+      const existingActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingBreast);
       if (existingActivity === null || existingActivity.data.breast !== BreastIndex.Right || changes.trackingJustFinished) {
         return;
       }
@@ -157,7 +159,7 @@ export class FeedingActivityComponent implements OnInit {
       }
       existingActivity.notes = changes.notes ?? null;
 
-      await this.database.saveInProgress(existingActivity);
+      await this.inProgressManager.saveInProgress(existingActivity);
     });
   }
 
@@ -187,7 +189,7 @@ export class FeedingActivityComponent implements OnInit {
       await this.database.setLastBottleContentType(value);
     });
 
-    const existingBottleActivity = await this.database.getInProgress(ActivityType.FeedingBottle);
+    const existingBottleActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingBottle);
     if (existingBottleActivity !== null) {
       this.bottleForm.patchValue({
         startTime: existingBottleActivity.startTime,
@@ -198,7 +200,7 @@ export class FeedingActivityComponent implements OnInit {
     }
 
     this.bottleForm.valueChanges.subscribe(async changes => {
-      const existingBottleActivity = await this.database.getInProgress(ActivityType.FeedingBottle);
+      const existingBottleActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingBottle);
       if (existingBottleActivity === null || changes.trackingJustFinished) {
         return;
       }
@@ -209,7 +211,7 @@ export class FeedingActivityComponent implements OnInit {
       existingBottleActivity.data.contentType = changes.contentType;
       existingBottleActivity.notes = changes.notes ?? null;
 
-      await this.database.saveInProgress(existingBottleActivity);
+      await this.inProgressManager.saveInProgress(existingBottleActivity);
     });
   }
 
@@ -236,11 +238,11 @@ export class FeedingActivityComponent implements OnInit {
       endTime: result.endTime,
       trackingJustFinished: true,
     });
-    await this.database.removeInProgress(ActivityType.FeedingBottle);
+    await this.inProgressManager.removeInProgress(ActivityType.FeedingBottle);
   }
 
   public async onBottleTrackingStarted(startTime: Date) {
-    await this.database.saveInProgress({
+    await this.inProgressManager.saveInProgress({
       startTime: startTime,
       activity: ActivityType.FeedingBottle,
       mode: 'running',
@@ -284,12 +286,12 @@ export class FeedingActivityComponent implements OnInit {
       endTime: result.endTime,
       trackingJustFinished: true,
     });
-    await this.database.removeInProgress(ActivityType.FeedingBreast);
+    await this.inProgressManager.removeInProgress(ActivityType.FeedingBreast);
   }
 
   public async onBreastTrackingStarted(startTime: Date, breast: BreastIndex): Promise<void> {
     const form = breast === BreastIndex.Left ? this.leftBreastForm : this.rightBreastForm;
-    await this.database.saveInProgress({
+    await this.inProgressManager.saveInProgress({
       startTime: startTime,
       activity: ActivityType.FeedingBreast,
       mode: 'running',
@@ -365,11 +367,11 @@ export class FeedingActivityComponent implements OnInit {
       endTime: result.endTime,
       trackingJustFinished: true,
     });
-    await this.database.removeInProgress(ActivityType.FeedingSolid);
+    await this.inProgressManager.removeInProgress(ActivityType.FeedingSolid);
   }
 
   public async onSolidFoodTrackingStarted(startTime: Date) {
-    await this.database.saveInProgress({
+    await this.inProgressManager.saveInProgress({
       startTime: startTime,
       activity: ActivityType.FeedingSolid,
       mode: 'running',

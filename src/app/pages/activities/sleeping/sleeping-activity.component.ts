@@ -13,6 +13,7 @@ import {DatabaseService} from "../../../services/database.service";
 import {EncryptedValue} from "../../../dto/encrypted-value";
 import {SleepingActivity, SleepingActivityRepository} from "../../../entity/sleeping-activity.entity";
 import {Router} from "@angular/router";
+import {InProgressManager} from "../../../services/in-progress-manager.service";
 
 @Component({
   selector: 'app-sleeping',
@@ -37,6 +38,7 @@ export class SleepingActivityComponent implements OnInit {
     private readonly database: DatabaseService,
     private readonly repository: SleepingActivityRepository,
     private readonly router: Router,
+    private readonly inProgressManager: InProgressManager,
   ) {
   }
   public async ngOnInit(): Promise<void> {
@@ -47,7 +49,7 @@ export class SleepingActivityComponent implements OnInit {
       childName: potentiallyEncryptedValue(child.attributes.displayName),
     });
 
-    const existingActivity = await this.database.getInProgress(ActivityType.Sleeping);
+    const existingActivity = await this.inProgressManager.getInProgress(ActivityType.Sleeping);
     if (existingActivity !== null) {
       this.form.patchValue({
         startTime: existingActivity.startTime,
@@ -56,7 +58,7 @@ export class SleepingActivityComponent implements OnInit {
     }
 
     this.form.valueChanges.subscribe(async changes => {
-      const existingActivity = await this.database.getInProgress(ActivityType.Sleeping);
+      const existingActivity = await this.inProgressManager.getInProgress(ActivityType.Sleeping);
       if (existingActivity === null || changes.trackingJustFinished) {
         return;
       }
@@ -66,7 +68,7 @@ export class SleepingActivityComponent implements OnInit {
       }
       existingActivity.notes = changes.notes ?? null;
 
-      await this.database.saveInProgress(existingActivity);
+      await this.inProgressManager.saveInProgress(existingActivity);
     });
 
     this.loading = false;
@@ -97,11 +99,11 @@ export class SleepingActivityComponent implements OnInit {
       endTime: result.endTime,
       trackingJustFinished: true,
     });
-    await this.database.removeInProgress(ActivityType.Sleeping);
+    await this.inProgressManager.removeInProgress(ActivityType.Sleeping);
   }
 
   public async onTrackingStarted(startTime: Date) {
-    await this.database.saveInProgress({
+    await this.inProgressManager.saveInProgress({
       startTime: startTime,
       activity: ActivityType.Sleeping,
       mode: 'running',

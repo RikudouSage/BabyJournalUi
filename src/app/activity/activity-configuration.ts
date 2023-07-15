@@ -2,18 +2,18 @@ import {forkJoin, from, interval, Observable, startWith, switchMap} from "rxjs";
 import {ActivityType} from "../enum/activity-type.enum";
 import {map} from "rxjs/operators";
 import {ActivityStreamItem, ActivityStreamService} from "../services/activity-stream.service";
-import {DatabaseService} from "../services/database.service";
 import {dateDiff} from "../helper/date";
+import {InProgressManager} from "../services/in-progress-manager.service";
 
 export function getDefaultIsRunning(
-  database: DatabaseService,
+  inProgressManager: InProgressManager,
   types: ActivityType[],
   timeInterval = 10_000,
 ): Observable<boolean> {
   return interval(timeInterval).pipe(
     startWith(0),
     switchMap(() => {
-      const inProgress = types.map(activityType => from(database.getInProgress(activityType)));
+      const inProgress = types.map(activityType => from(inProgressManager.getInProgress(activityType)));
       return forkJoin(...inProgress);
     }),
     map(results => {
