@@ -63,6 +63,7 @@ export class FeedingActivityComponent implements OnInit {
     endTime: <FormControl<Date | null>>new FormControl(null, [Validators.required]),
     notes: <FormControl<string | null>>new FormControl(),
     trackingJustFinished: new FormControl(false),
+    amount: <FormControl<number | null>>new FormControl(null, [Validators.required, Validators.min(0)]),
   });
 
   public bottleErrorMessage: Observable<string> = of('');
@@ -103,11 +104,21 @@ export class FeedingActivityComponent implements OnInit {
   }
 
   public async initializeSolidFood(): Promise<void> {
+    this.solidFoodForm.patchValue({
+      amount: await this.database.getLastSolidFeedingAmount() ?? 25,
+    });
+
+    this.solidFoodForm.controls.amount.valueChanges.subscribe(async value => {
+      value ??= 25;
+      await this.database.setLastSolidFeedingAmount(value);
+    });
+
     const existingActivity = await this.inProgressManager.getInProgress(ActivityType.FeedingSolid);
     if (existingActivity !== null) {
       this.solidFoodForm.patchValue({
         startTime: existingActivity.startTime,
         notes: existingActivity.notes,
+        amount: existingActivity.data.amount,
       });
     }
 
@@ -120,6 +131,7 @@ export class FeedingActivityComponent implements OnInit {
         existingActivity.startTime = changes.startTime;
       }
       existingActivity.notes = changes.notes ?? null;
+      existingActivity.data.amount = changes.amount;
 
       await this.inProgressManager.saveInProgress(existingActivity);
     });
@@ -347,7 +359,7 @@ export class FeedingActivityComponent implements OnInit {
 
     const activity = new FeedingActivity();
     activity.attributes = {
-      amount: null,
+      amount: new EncryptedValue(await this.encryptor.encrypt(String(this.solidFoodForm.controls.amount.value))),
       startTime: new EncryptedValue(await this.encryptor.encrypt((<Date>this.solidFoodForm.controls.startTime.value).toISOString())),
       endTime: new EncryptedValue(await this.encryptor.encrypt((<Date>this.solidFoodForm.controls.endTime.value).toISOString())),
       type: new EncryptedValue(await this.encryptor.encrypt(<FeedingType>'solid')),

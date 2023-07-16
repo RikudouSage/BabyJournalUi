@@ -78,6 +78,14 @@ export class DatabaseService {
     await this.saveSetting('lastBottleFeedingAmount', amount);
   }
 
+  public async getLastSolidFeedingAmount(): Promise<number | null> {
+    return await this.getSetting('lastSolidFeedingAmount') ?? null;
+  }
+
+  public async setLastSolidFeedingAmount(amount: number): Promise<void> {
+    await this.saveSetting('lastSolidFeedingAmount', amount);
+  }
+
   public async getLastBottleContentType(): Promise<BottleContentType | null> {
     return await this.getSetting('lastBottleContentType') ?? null;
   }

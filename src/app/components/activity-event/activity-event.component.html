@@ -28,9 +28,16 @@
     <a routerLink="/activities/feeding/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
   <span *ngIf="activity.activityType === ActivityType.FeedingSolid">
-    <span
+    <span *ngIf="!activity['amount']"
       [innerText]="'{{childName}} ate solid food.' | translate: {
         childName: activity.childName,
+      }"
+    ></span>
+    <span *ngIf="activity['amount']"
+      [innerText]="'{{childName}} ate {{amount}} {{unit}} of solid food.' | translate: {
+        childName: activity.childName,
+        unit: 'g',
+        amount: activity['amount'],
       }"
     ></span>
     <span *ngIf="activity.note !== null">

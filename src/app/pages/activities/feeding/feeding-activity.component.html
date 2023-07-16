@@ -112,6 +112,13 @@
               <mat-label>{{"Notes" | translate}}</mat-label>
               <input matInput formControlName="notes" />
             </mat-form-field>
+            <div class="drinking-label">
+              {{"Ate" | translate}}
+              <mat-form-field class="amount-input">
+                <input type="text" matInput formControlName="amount" inputmode="numeric" />
+              </mat-form-field>
+              <span [innerText]="' ' + ('{{unit}} of food.' | translate:{unit: 'g'}) + ' '"></span>
+            </div>
             <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
           </form>
         </mat-card-content>

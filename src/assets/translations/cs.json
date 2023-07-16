@@ -235,5 +235,8 @@
   "When checked, the progress will be shared across all devices (meaning you can start tracking on one device and finish on another).": "Pokud je zaškrnuto, trackování bude sdíleno napříč zařízeními (což znamená, že můžete začít trackovat na jednom zařízení a skončit na jiném).",
   "Android wrapper licensed under the": "Android aplikace licencována pod",
   "For general support, you may contact the author on the": "Pro obecnou podporu můžete kontaktovat autora na",
-  "official forum": "oficiálním fóru"
+  "official forum": "oficiálním fóru",
+  "Ate": "Snědl/a",
+  "{{unit}} of food.": "{{unit}} jídla.",
+  "{{childName}} ate {{amount}} {{unit}} of solid food.": "{{childName}} snědl/a {{amount}} {{unit}} pevné stravy."
 }

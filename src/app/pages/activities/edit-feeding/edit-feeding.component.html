@@ -23,12 +23,23 @@
           <mat-label>{{'Notes' | translate}}</mat-label>
           <textarea matInput formControlName="note"></textarea>
         </mat-form-field>
-        <!-- Bottle -->
-        <ng-container *ngIf="form.controls.type.value === 'bottle'">
+        <!-- Amount -->
+        <ng-container *ngIf="form.controls.type.value === 'bottle' || form.controls.type.value === 'solid'">
           <mat-form-field>
-            <mat-label>{{'Amount' | translate}} (ml)</mat-label>
+            <mat-label>
+              {{'Amount' | translate}}
+              <ng-container *ngIf="form.controls.type.value === 'bottle'">
+                (ml)
+              </ng-container>
+              <ng-container *ngIf="form.controls.type.value === 'solid'">
+                (g)
+              </ng-container>
+            </mat-label>
             <input matInput formControlName="amount" type="number" inputmode="numeric" required/>
           </mat-form-field>
+        </ng-container>
+        <!-- Bottle -->
+        <ng-container *ngIf="form.controls.type.value === 'bottle'">
           <mat-form-field>
             <mat-label>{{'Content' | translate}}</mat-label>
             <mat-select formControlName="bottleContentType" required>
