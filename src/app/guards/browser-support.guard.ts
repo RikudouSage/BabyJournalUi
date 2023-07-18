@@ -1,10 +1,17 @@
 import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  Router,
+  RouterStateSnapshot,
+  UrlTree
+} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
-export class BrowserSupportGuard implements CanActivate {
+export class BrowserSupportGuard implements CanActivate, CanActivateChild {
 
   constructor(
     private readonly router: Router,
@@ -28,6 +35,13 @@ export class BrowserSupportGuard implements CanActivate {
     }
 
     return true;
+  }
+
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean | UrlTree {
+    return this.canActivate(childRoute, state);
   }
 
 }

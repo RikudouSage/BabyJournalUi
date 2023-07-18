@@ -1,12 +1,19 @@
 import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  Router,
+  RouterStateSnapshot,
+  UrlTree
+} from "@angular/router";
 import {UserManagerService} from "../services/user-manager.service";
 import {lastValueFrom} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChildIsSelectedGuard implements CanActivate {
+export class ChildIsSelectedGuard implements CanActivate, CanActivateChild {
   constructor(
     private readonly userManager: UserManagerService,
     private readonly router: Router,
@@ -24,6 +31,13 @@ export class ChildIsSelectedGuard implements CanActivate {
     }
 
     return true;
+  }
+
+  async canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<boolean | UrlTree> {
+    return await this.canActivate(route, state);
   }
 
 }

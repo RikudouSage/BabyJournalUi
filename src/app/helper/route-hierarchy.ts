@@ -31,6 +31,10 @@ const routeHierarchy: RouteHierarchy = {
     'activities/diapering/edit/*': {},
     'activities/pumping/edit/*': {},
     'activities/sleeping/edit/*': {},
+    'activities/weighing/edit/*': {},
+    'activities/measurements': {
+      'activities/measurements/weight': {},
+    },
   },
   'auth/register': {},
   'children/create-first': {},

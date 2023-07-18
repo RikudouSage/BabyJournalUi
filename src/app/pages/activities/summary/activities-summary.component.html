@@ -29,6 +29,25 @@
       </mat-card>
     </mat-tab>
     <mat-tab label="{{'By category' | translate}}">
+      <!-- Measurements -->
+      <mat-card *ngIf="hasAnyMeasurements">
+        <mat-card-header>
+          <mat-card-title>{{"Measurements" | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-divider></mat-divider>
+          <ng-container *ngIf="currentMeasurements.weight.value">
+            <p [innerText]="('{{childName}} weighs {{amount}}{{unit}}' | translate: {
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              amount: currentMeasurements.weight.value,
+              unit: 'g'
+             }) + (currentMeasurements.weight.date ? ' (' + (currentMeasurements.weight.date! | relativeDate | async) + ')' : '') + ('.')"
+            ></p>
+          </ng-container>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
       <!-- Feeding -->
       <mat-card>
         <mat-card-header>

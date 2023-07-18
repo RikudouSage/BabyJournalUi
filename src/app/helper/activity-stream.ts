@@ -35,9 +35,6 @@ export function toActivityStreamItem(
   if (result.endTime === undefined) {
     result.endTime = null;
   }
-  if (result.note === undefined) {
-    throw new Error('Note cannot be undefined');
-  }
 
   return <ActivityStreamItem>result;
 }

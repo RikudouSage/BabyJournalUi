@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {TitleService} from "../../../services/title.service";
 import {FormControl, FormGroup} from "@angular/forms";
-import {lastValueFrom, Observable, of} from "rxjs";
+import {Observable, of} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
 import {BottleContentType} from "../../../enum/bottle-content-type.enum";
@@ -18,8 +18,10 @@ import {
   BottleFeedingActivityStreamItem,
   BreastFeedingActivityStreamItem,
   DiaperingActivityStreamItem,
-  PumpingActivityStreamItem
+  PumpingActivityStreamItem,
+  WeighingActivityStreamItem
 } from "../../../services/activity-stream.service";
+import {toPromise} from "../../../helper/observables";
 
 interface CategorySummary {
   feeding: {
@@ -59,6 +61,15 @@ interface CategorySummary {
   sleeping: number;
 }
 
+interface MeasurementValue {
+  value: number;
+  date: Date | null;
+}
+
+interface CurrentMeasurements {
+  weight: MeasurementValue;
+}
+
 @Component({
   selector: 'app-summary',
   templateUrl: './activities-summary.component.html',
@@ -67,6 +78,13 @@ interface CategorySummary {
 export class ActivitiesSummaryComponent implements OnInit {
   public readonly bottleContentTypeToString = this.enumToString.bottleContentTypeToString;
   public readonly breastIndexToString = this.enumToString.breastIndexToString;
+
+  private readonly emptyMeasurements: CurrentMeasurements = {
+    weight: {
+      date: new Date(),
+      value: 0,
+    },
+  };
 
   private readonly emptyCategorySummary: CategorySummary = {
     feeding: {
@@ -102,10 +120,12 @@ export class ActivitiesSummaryComponent implements OnInit {
   })
   public activityStream: ActivityStream = [];
   public summary: CategorySummary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
+  public currentMeasurements: CurrentMeasurements = JSON.parse(JSON.stringify(this.emptyMeasurements));
   public loading = true;
   public childName: Observable<string> = this.translator.get('your child');
   public childBirthDate: Date | null = null;
   public isDateBeforeChildBirth: boolean | null = null;
+  public hasAnyMeasurements: boolean = false;
 
   isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -127,14 +147,23 @@ export class ActivitiesSummaryComponent implements OnInit {
   public async ngOnInit(): Promise<void> {
     this.titleService.title = this.translator.get('Activities summary');
     const user = await this.userManager.getCurrentUser();
-    const child = await lastValueFrom(user.relationships.selectedChild);
+    let child = await toPromise(user.relationships.selectedChild);
     if (child !== null) {
+      child = await this.encryptor.decryptEntity(child);
       if (child.attributes.name !== null) {
-        this.childName = of(await this.encryptor.decrypt(child.attributes.name.encrypted));
+        this.childName = of(child.attributes.name.decrypted);
       }
       if (child.attributes.birthDay !== null) {
-        this.childBirthDate = new Date(await this.encryptor.decrypt(child.attributes.birthDay.encrypted));
+        this.childBirthDate = new Date(child.attributes.birthDay.decrypted);
         this.isDateBeforeChildBirth = false;
+      }
+
+      if (child.attributes.birthWeight !== null) {
+        this.hasAnyMeasurements = true;
+        this.currentMeasurements.weight = {
+          value: Number(child.attributes.birthWeight.decrypted),
+          date: child.attributes.birthDay !== null ? new Date(child.attributes.birthDay.decrypted) : null,
+        }
       }
     }
     this.activityStreamService.getActivityStream().subscribe(async activityStream => {
@@ -166,6 +195,8 @@ export class ActivitiesSummaryComponent implements OnInit {
         && date.getDate() === activityDate.getDate();
     });
     this.summary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
+
+    let lastWeight: Date | null = null;
 
     for (const activity of this.activityStream) {
       if (activity.activityType === ActivityType.FeedingBottle) {
@@ -223,8 +254,20 @@ export class ActivitiesSummaryComponent implements OnInit {
       } else if (activity.activityType === ActivityType.Sleeping) {
         const seconds = dateDiff(new Date(activity.startTime), new Date(<string>activity.endTime));
         this.summary.sleeping += seconds;
+      } else if (activity.activityType === ActivityType.Weighing) {
+        const activityDate = new Date(activity.startTime);
+        if (lastWeight === null || activityDate.getTime() > lastWeight.getTime()) {
+          this.currentMeasurements.weight = {
+            date: activityDate,
+            value: Number((<WeighingActivityStreamItem>activity).weight),
+          };
+        }
+        lastWeight = activityDate;
+        this.hasAnyMeasurements = true;
       }
     }
+
+    console.log(this.currentMeasurements);
 
     if (this.childBirthDate !== null) {
       this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();

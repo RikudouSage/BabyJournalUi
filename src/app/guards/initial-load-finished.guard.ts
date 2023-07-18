@@ -1,11 +1,18 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  Router,
+  RouterStateSnapshot,
+  UrlTree
+} from '@angular/router';
 import {DatabaseService} from "../services/database.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class InitialLoadFinishedGuard implements CanActivate {
+export class InitialLoadFinishedGuard implements CanActivate, CanActivateChild {
 
   constructor(
     private readonly router: Router,
@@ -22,6 +29,13 @@ export class InitialLoadFinishedGuard implements CanActivate {
     }
 
     return true;
+  }
+
+  async canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<boolean | UrlTree> {
+    return await this.canActivate(route, state);
   }
 
 }

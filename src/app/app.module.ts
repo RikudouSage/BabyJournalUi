@@ -27,7 +27,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {SelectChildComponent} from './pages/children/select-child/select-child.component';
 import {PotentiallyEncryptedValuePipe} from './pipes/potentially-encrypted-value.pipe';
-import {ACTIVITY_CONFIGURATIONS} from "./dependency-injection/injection-tokens";
+import {ACTIVITY_CONFIGURATIONS, MEASUREMENTS_ACTIVITY_CONFIGURATIONS} from "./dependency-injection/injection-tokens";
 import {FeedingActivityConfiguration} from "./activity/main/feeding.activity-configuration";
 import {DiaperingActivityConfiguration} from "./activity/main/diapering.activity-configuration";
 import {FeedingActivityComponent} from './pages/activities/feeding/feeding-activity.component';
@@ -81,6 +81,14 @@ import {SleepingActivityComponent} from './pages/activities/sleeping/sleeping-ac
 import {EditSleepingComponent} from './pages/activities/edit-sleeping/edit-sleeping.component';
 import {ObjectKeysPipe} from './pipes/object-keys.pipe';
 import {ActivitySettingsComponent} from './pages/settings/activity/activity-settings.component';
+import {MeasurementsActivityConfiguration} from "./activity/main/measurements.activity-configuration";
+import {WeighingActivityConfiguration} from "./activity/measurements/weighing.activity-configuration";
+import {WeighingActivityComponent} from './pages/activities/measurements/weighing/weighing-activity.component';
+import {
+  MeasurementsActivityComponent
+} from './pages/activities/measurements/measurements/measurements-activity.component';
+import { LowercaseFirstPipe } from './pipes/lowercase-first.pipe';
+import { WeighingEditComponent } from './pages/activities/measurements/weighing-edit/weighing-edit.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -131,6 +139,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditSleepingComponent,
     ObjectKeysPipe,
     ActivitySettingsComponent,
+    WeighingActivityComponent,
+    MeasurementsActivityComponent,
+    LowercaseFirstPipe,
+    WeighingEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -186,9 +198,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: ACTIVITY_CONFIGURATIONS, useClass: DiaperingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: PumpingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: SleepingActivityConfiguration, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: MeasurementsActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: LeisureActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},
+    {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: WeighingActivityConfiguration, multi: true},
     {provide: MAT_DATE_LOCALE, useValue: getBrowserLanguages()},
   ],
   bootstrap: [AppComponent]

@@ -43,6 +43,10 @@ export interface PumpingActivityStreamItem extends ActivityStreamItem {
   parentName: string;
 }
 
+export interface WeighingActivityStreamItem extends ActivityStreamItem {
+  weight: string;
+}
+
 export type ActivityStream = ActivityStreamItem[];
 
 interface FullSyncProgress {

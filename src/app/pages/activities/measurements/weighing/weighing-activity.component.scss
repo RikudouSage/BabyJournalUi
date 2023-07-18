@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+
+.save-button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1vh;
+}
+
+.time-button {
+  @extend .save-button;
+  margin-top: -1vh;
+}
+
+mat-form-field {
+  width: 100%;
+}

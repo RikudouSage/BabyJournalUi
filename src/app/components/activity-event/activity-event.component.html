@@ -102,4 +102,14 @@
     </span>
     <a routerLink="/activities/sleeping/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
+  <span *ngIf="activity.activityType === ActivityType.Weighing">
+    <span
+      [innerText]="'{{childName}} was weighed, he/she weighs {{weight}}{{unit}}.' | translate:{
+        childName: activity.childName,
+        weight: activity['weight'],
+        unit: 'g'
+      }"
+    ></span>
+    <a routerLink="/activities/weighing/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
+  </span>
 </div>

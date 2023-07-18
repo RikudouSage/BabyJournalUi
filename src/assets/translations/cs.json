@@ -238,5 +238,10 @@
   "official forum": "oficiálním fóru",
   "Ate": "Snědl/a",
   "{{unit}} of food.": "{{unit}} jídla.",
-  "{{childName}} ate {{amount}} {{unit}} of solid food.": "{{childName}} snědl/a {{amount}} {{unit}} pevné stravy."
+  "{{childName}} ate {{amount}} {{unit}} of solid food.": "{{childName}} snědl/a {{amount}} {{unit}} pevné stravy.",
+  "Measurements": "Míry",
+  "Measurements - {{childName}}": "Míry - {{childName}}",
+  "Please choose a category of measurements you want to view.": "Prosím, zvolte si kategorii měření, která vás zajímá.",
+  "{{childName}} was weighed, he/she weighs {{weight}}{{unit}}.": "{{childName}} byl/a zvážen/a, váží {{weight}} {{unit}}.",
+  "{{childName}} weighs {{amount}}{{unit}}": "{{childName}} váží {{amount}} {{unit}}"
 }

@@ -31,6 +31,11 @@ import {EditPumpingComponent} from "./pages/activities/edit-pumping/edit-pumping
 import {SleepingActivityComponent} from "./pages/activities/sleeping/sleeping-activity.component";
 import {EditSleepingComponent} from "./pages/activities/edit-sleeping/edit-sleeping.component";
 import {ActivitySettingsComponent} from "./pages/settings/activity/activity-settings.component";
+import {
+  MeasurementsActivityComponent
+} from "./pages/activities/measurements/measurements/measurements-activity.component";
+import {WeighingActivityComponent} from "./pages/activities/measurements/weighing/weighing-activity.component";
+import {WeighingEditComponent} from "./pages/activities/measurements/weighing-edit/weighing-edit.component";
 
 const routes: Routes = [
   {
@@ -133,6 +138,16 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'activities/weighing/edit/:id',
+    component: WeighingEditComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
     path: 'activities/diapering',
     component: DiaperingActivityComponent,
     canActivate: [
@@ -147,6 +162,30 @@ const routes: Routes = [
     path: 'activities/pumping',
     component: PumpingActivityComponent,
     canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
+  },
+  {
+    path: 'activities/measurements',
+    component: MeasurementsActivityComponent,
+    children: [
+      {
+        path: 'weight',
+        component: WeighingActivityComponent,
+      }
+    ],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
+    canActivateChild: [
       BrowserSupportGuard,
       IsLoggedInGuard,
       HasChildrenGuard,
