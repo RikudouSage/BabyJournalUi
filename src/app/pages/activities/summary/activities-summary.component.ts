@@ -190,6 +190,10 @@ export class ActivitiesSummaryComponent implements OnInit {
     this.activityStream = this.fullActivityStream.filter(item => {
       const activityDate = new Date(item.startTime);
 
+      if (item.activityType === ActivityType.Weighing) {
+        return activityDate.getTime() <= new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999).getTime();
+      }
+
       return date.getFullYear() === activityDate.getFullYear()
         && date.getMonth() === activityDate.getMonth()
         && date.getDate() === activityDate.getDate();
