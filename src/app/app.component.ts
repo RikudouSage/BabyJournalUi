@@ -22,6 +22,7 @@ import {PumpingActivityRepository} from "./entity/pumping-activity.entity";
 import {SleepingActivityRepository} from "./entity/sleeping-activity.entity";
 import {SharedInProgressActivityRepository} from "./entity/shared-in-progress-activity.entity";
 import {WeighingActivityRepository} from "./entity/weighing-activity.entity";
+import {SwUpdate} from "@angular/service-worker";
 
 type AppMode = 'browser' | 'standalone' | 'android';
 
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit {
     private readonly iconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
     private readonly router: Router,
+    swUpdate: SwUpdate,
     database: DatabaseService,
   ) {
     translator.use(database.getEffectiveLanguage());
@@ -75,7 +77,22 @@ export class AppComponent implements OnInit {
           router.navigateByUrl(parent);
         }
       }
-    })
+    });
+
+    if (swUpdate.isEnabled) {
+      swUpdate.activated.subscribe((upd) => {
+        window.location.reload();
+      });
+      swUpdate.available.subscribe((upd) => {
+        swUpdate.activateUpdate();
+      }, (error) => {
+        console.error(error);
+      });
+      swUpdate.checkForUpdate().then(() => {
+      }).catch((error) => {
+        console.error('Could not check for app updates', error);
+      });
+    }
   }
 
   public async ngOnInit(): Promise<void> {
