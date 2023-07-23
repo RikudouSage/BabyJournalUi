@@ -37,6 +37,9 @@ export class AppComponent implements OnInit {
 
   public appMode: AppMode = 'browser';
 
+  private updateAvailable: boolean = false;
+  private updateChecked: boolean = false;
+
   isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -56,7 +59,7 @@ export class AppComponent implements OnInit {
     private readonly iconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
     private readonly router: Router,
-    swUpdate: SwUpdate,
+    private readonly updates: SwUpdate,
     database: DatabaseService,
   ) {
     translator.use(database.getEffectiveLanguage());
@@ -78,24 +81,24 @@ export class AppComponent implements OnInit {
         }
       }
     });
-
-    if (swUpdate.isEnabled) {
-      swUpdate.activated.subscribe((upd) => {
-        window.location.reload();
-      });
-      swUpdate.available.subscribe((upd) => {
-        swUpdate.activateUpdate();
-      }, (error) => {
-        console.error(error);
-      });
-      swUpdate.checkForUpdate().then(() => {
-      }).catch((error) => {
-        console.error('Could not check for app updates', error);
-      });
-    }
   }
 
   public async ngOnInit(): Promise<void> {
+    if (this.updates.isEnabled) {
+      this.updates.versionUpdates.subscribe(event => {
+        if (this.updateChecked) {
+          return;
+        }
+        if (event.type === 'VERSION_READY') {
+          this.updateAvailable = true;
+          window.location.reload();
+        }
+      });
+
+      await this.updates.checkForUpdate();
+      this.updateChecked = true;
+    }
+
     if (!navigator.onLine) {
       await this.onOffline();
     }
