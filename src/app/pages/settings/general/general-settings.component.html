@@ -31,15 +31,23 @@
     </mat-card-content>
   </mat-card>
   <!-- Units -->
-  <mat-card *ngIf="weightUnits !== null">
+  <mat-card>
     <mat-card-header>
       <mat-card-title>{{"Units" | translate}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field>
+      <mat-form-field *ngIf="weightUnits !== null">
         <mat-label>{{"Weight units" | translate}}</mat-label>
         <mat-select formControlName="weightUnit">
           <mat-option *ngFor="let option of weightUnits | keyvalue" [value]="option.key">
+            {{option.value.names.join(' ' + ('and' | translate) + ' ')}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="volumeUnits !== null">
+        <mat-label>{{"Volume units" | translate}}</mat-label>
+        <mat-select formControlName="volumeUnit">
+          <mat-option *ngFor="let option of volumeUnits | keyvalue" [value]="option.key">
             {{option.value.names.join(' ' + ('and' | translate) + ' ')}}
           </mat-option>
         </mat-select>

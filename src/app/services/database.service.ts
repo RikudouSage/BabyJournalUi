@@ -260,6 +260,14 @@ export class DatabaseService {
     localStorage.setItem('weight_unit', unit);
   }
 
+  public getVolumeUnit(): string {
+    return localStorage.getItem('volume_unit') ?? 'ml';
+  }
+
+  public setVolumeUnit(unit: string): void {
+    localStorage.setItem('volume_unit', unit);
+  }
+
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
       this.db = await openDB(this.databaseName, 3, {

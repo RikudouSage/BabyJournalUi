@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {DatabaseService} from "../database.service";
-import {WEIGHT_UNIT_CONVERTER} from "../../dependency-injection/injection-tokens";
+import {VOLUME_UNIT_CONVERTER, WEIGHT_UNIT_CONVERTER} from "../../dependency-injection/injection-tokens";
 import {UnitConverter} from "./unit-converter";
 import {UnitConverterType} from "../../enum/unit-converter-type.enum";
 
@@ -12,27 +12,38 @@ export class UnitConverterService {
     [type in UnitConverterType]: {[unit: string]: UnitConverter}
   } = {
     [UnitConverterType.Weight]: {},
+    [UnitConverterType.Volume]: {},
   };
 
   constructor(
     private readonly database: DatabaseService,
     @Inject(WEIGHT_UNIT_CONVERTER) private readonly weightUnitConverters: UnitConverter[],
+    @Inject(VOLUME_UNIT_CONVERTER) private readonly volumeUnitConverters: UnitConverter[],
   ) {
-    this.init([...weightUnitConverters]);
+    this.init([...weightUnitConverters, ...volumeUnitConverters]);
   }
 
   public convertWeight(defaultUnitAmount: number, unitName: string | null = null): number[] {
     unitName ??= this.database.getWeightUnit();
-    const converter = this.findConverterByUnit(unitName, UnitConverterType.Weight);
-
-    return converter.convertFromDefault(defaultUnitAmount);
+    return this.findConverterById(unitName, UnitConverterType.Weight).convertFromDefault(defaultUnitAmount);
   }
 
   public getWeightUnits(unitName: string | null = null): string[] {
-    return this.findConverterByUnit(unitName ?? this.database.getWeightUnit(), UnitConverterType.Weight).units;
+    unitName ??= this.database.getWeightUnit();
+    return this.findConverterById(unitName, UnitConverterType.Weight).units;
   }
 
-  private findConverterByUnit(unit: string, type: UnitConverterType): UnitConverter {
+  public convertVolume(defaultUnitAmount: number, unitName: string | null = null): number[] {
+    unitName ??= this.database.getVolumeUnit();
+    return this.findConverterById(unitName, UnitConverterType.Volume).convertFromDefault(defaultUnitAmount);
+  }
+
+  public getVolumeUnits(unitName: string | null = null): string[] {
+    unitName ??= this.database.getVolumeUnit();
+    return this.findConverterById(unitName, UnitConverterType.Volume).units;
+  }
+
+  private findConverterById(unit: string, type: UnitConverterType): UnitConverter {
     const converter = this.converters[type][unit];
     if (converter === undefined) {
       throw new Error(`Unsupported converter: ${unit}, type: ${type}`);
@@ -43,6 +54,7 @@ export class UnitConverterService {
 
   private init(unitConverters: UnitConverter[]): void {
     for (const converter of unitConverters) {
+      this.converters[converter.type][converter.id] = converter;
       for (const unit of converter.units) {
         this.converters[converter.type][unit] = converter;
       }

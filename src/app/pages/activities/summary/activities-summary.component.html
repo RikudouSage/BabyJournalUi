@@ -56,19 +56,17 @@
           <mat-divider></mat-divider>
           <ng-container *ngIf="summary.feeding.total.bottle else noBottle">
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} drank <strong>{{totalAmount}} {{unit}}</strong> from bottle.' | translate:{
+              [innerHTML]="'{{dateDescription}} {{childName}} drank <strong>{{totalAmount}}</strong> from bottle.' | translate:{
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
-              totalAmount: summary.feeding.total.bottle,
-              unit: 'ml',
+              totalAmount: summary.feeding.total.bottle | convertVolume | unitToString | async,
             }"
             ></p>
             <ng-container *ngFor="let type of summary.feeding.bottle | keyvalue">
               <p
                 *ngIf="type.value"
-                [innerHTML]="'<strong>{{amount}} {{unit}}</strong> of that was {{type}}.' | translate: {
-                amount: type.value,
-                unit: 'ml',
+                [innerHTML]="'<strong>{{amount}}</strong> of that was {{type}}.' | translate: {
+                amount: $any(type.value) | convertVolume | unitToString | async,
                 type: bottleContentTypeToString($any(type.key)) | async,
               }"
               ></p>
@@ -249,18 +247,16 @@
             </p>
             <p *ngIf="parentSummaryPair.value.total.amount">
               <span
-                [innerHTML]="'{{parentName}} pumped <strong>{{amount}} {{unit}}</strong> in total.' | translate: {
+                [innerHTML]="'{{parentName}} pumped <strong>{{amount}}</strong> in total.' | translate: {
                   parentName: parentSummaryPair.key,
-                  unit: 'ml',
-                  amount: parentSummaryPair.value.total.amount,
+                  amount: parentSummaryPair.value.total.amount | convertVolume | unitToString | async,
                 }"
               ></span>
               <ng-container *ngFor="let type of parentSummaryPair.value.amount | keyvalue">
                 <span
                   *ngIf="type.value"
-                  [innerHTML]="' ' + ('<strong>{{amount}} {{unit}}</strong> of that was from {{sideBreast}}.' | translate: {
-                    amount: type.value,
-                    unit: 'ml',
+                  [innerHTML]="' ' + ('<strong>{{amount}}</strong> of that was from {{sideBreast}}.' | translate: {
+                    amount: type.value | convertVolume | unitToString | async,
                     sideBreast: breastIndexToString(stringNumberToBreastIndex($any(type.key))) | async,
                   })"
                 ></span>

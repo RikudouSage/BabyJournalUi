@@ -2,10 +2,9 @@
   <strong>{{activity.startTime | timeOrNull}}: </strong>
   <span *ngIf="activity.activityType === ActivityType.FeedingBottle">
     <span
-      [innerText]="'{{childName}} drank {{amount}} {{unit}} of {{foodType}} from bottle.' | translate: {
+      [innerText]="'{{childName}} drank {{amount}} of {{foodType}} from bottle.' | translate: {
         childName: activity.childName,
-        amount: activity['amount'],
-        unit: 'ml',
+        amount: activity['amount']! | convertVolume | unitToString | async,
         foodType: bottleContentTypeToString($any(activity['bottleContentType'])) | async,
       }"
     ></span>
@@ -77,11 +76,10 @@
     ></span>
     <span
       *ngIf="activity['amount'] !== null"
-      [innerText]="'{{parentName}} pumped {{amount}} {{unit}} from {{sideBreast}}.' | translate: {
+      [innerText]="'{{parentName}} pumped {{amount}} from {{sideBreast}}.' | translate: {
         parentName: activity['parentName'],
         sideBreast: breastIndexToString(stringNumberToBreastIndex($any(activity['breast']))) | async,
-        amount: activity['amount'],
-        unit: 'ml',
+        amount: activity['amount']! | convertVolume | unitToString | async,
       }"
     ></span>
     <span *ngIf="activity.note !== null">

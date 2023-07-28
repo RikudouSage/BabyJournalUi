@@ -9,7 +9,7 @@ import {getPrimaryBrowserLanguage} from "../../../helper/language";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {toPromise} from "../../../helper/observables";
 import {UnitConverterService} from "../../../services/units/unit-converter.service";
-import {WEIGHT_UNIT_CONVERTER} from "../../../dependency-injection/injection-tokens";
+import {VOLUME_UNIT_CONVERTER, WEIGHT_UNIT_CONVERTER} from "../../../dependency-injection/injection-tokens";
 import {UnitConverter} from "../../../services/units/unit-converter";
 
 interface Unit {
@@ -26,11 +26,13 @@ export class GeneralSettingsComponent implements OnInit {
   public readonly AppLanguage = AppLanguage;
   public languageNames: {[key in AppLanguage]: string} | null = null;
   public weightUnits: {[key: string]: Unit} | null = null;
+  public volumeUnits: {[key: string]: Unit} | null = null;
   public saved: boolean = false;
 
   public settingsForm = new FormGroup({
     language: new FormControl<AppLanguage>(this.database.getLanguage(), [Validators.required]),
     weightUnit: new FormControl<string>(this.database.getWeightUnit(), [Validators.required]),
+    volumeUnit: new FormControl<string>(this.database.getVolumeUnit(), [Validators.required]),
   });
 
   constructor(
@@ -39,6 +41,7 @@ export class GeneralSettingsComponent implements OnInit {
     private readonly database: DatabaseService,
     private readonly snackBar: MatSnackBar,
     @Inject(WEIGHT_UNIT_CONVERTER) private readonly weightUnitConverters: UnitConverter[],
+    @Inject(VOLUME_UNIT_CONVERTER) private readonly volumeUnitConverters: UnitConverter[],
   ) {
   }
 
@@ -53,6 +56,13 @@ export class GeneralSettingsComponent implements OnInit {
     this.weightUnits = {};
     for (const converter of this.weightUnitConverters) {
       this.weightUnits[converter.id] = {
+        units: converter.units,
+        names: await Promise.all(converter.names.map(async item => await toPromise(this.translator.get(item)))),
+      }
+    }
+    this.volumeUnits = {};
+    for (const converter of this.volumeUnitConverters) {
+      this.volumeUnits[converter.id] = {
         units: converter.units,
         names: await Promise.all(converter.names.map(async item => await toPromise(this.translator.get(item)))),
       }
@@ -76,6 +86,7 @@ export class GeneralSettingsComponent implements OnInit {
 
     const language = this.settingsForm.controls.language.value!;
     const weightUnit = this.settingsForm.controls.weightUnit.value!;
+    const volumeUnit = this.settingsForm.controls.volumeUnit.value!;
 
     this.database.storeLanguage(language);
     if (language === AppLanguage.Default) {
@@ -84,6 +95,7 @@ export class GeneralSettingsComponent implements OnInit {
       this.translator.use(language);
     }
     this.database.setWeightUnit(weightUnit);
+    this.database.setVolumeUnit(volumeUnit);
 
     const timeout = 5_000;
     this.saved = true;
