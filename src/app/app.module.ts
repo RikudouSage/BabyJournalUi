@@ -108,6 +108,7 @@ import { ConvertVolumePipe } from './pipes/convert-volume.pipe';
 import {CelsiusConverter} from "./services/units/celsius.converter";
 import {FahrenheitConverter} from "./services/units/fahrenheit.converter";
 import { ConvertTemperaturePipe } from './pipes/convert-temperature.pipe';
+import { UnitAmountComponent } from './components/unit-amount/unit-amount.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -169,6 +170,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UnitToStringPipe,
     ConvertVolumePipe,
     ConvertTemperaturePipe,
+    UnitAmountComponent,
   ],
   imports: [
     BrowserModule,
