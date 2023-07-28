@@ -27,7 +27,11 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {SelectChildComponent} from './pages/children/select-child/select-child.component';
 import {PotentiallyEncryptedValuePipe} from './pipes/potentially-encrypted-value.pipe';
-import {ACTIVITY_CONFIGURATIONS, MEASUREMENTS_ACTIVITY_CONFIGURATIONS} from "./dependency-injection/injection-tokens";
+import {
+  ACTIVITY_CONFIGURATIONS,
+  MEASUREMENTS_ACTIVITY_CONFIGURATIONS,
+  MEDICAL_ACTIVITY_CONFIGURATIONS
+} from "./dependency-injection/injection-tokens";
 import {FeedingActivityConfiguration} from "./activity/main/feeding.activity-configuration";
 import {DiaperingActivityConfiguration} from "./activity/main/diapering.activity-configuration";
 import {FeedingActivityComponent} from './pages/activities/feeding/feeding-activity.component';
@@ -89,6 +93,11 @@ import {
 } from './pages/activities/measurements/measurements/measurements-activity.component';
 import { LowercaseFirstPipe } from './pipes/lowercase-first.pipe';
 import { WeighingEditComponent } from './pages/activities/measurements/weighing-edit/weighing-edit.component';
+import {TemperatureActivityConfiguration} from "./activity/medical/temperature.activity-configuration";
+import { TemperatureActivityComponent } from './pages/activities/medical/temperature/temperature-activity.component';
+import {MedicalActivityConfiguration} from "./activity/main/medical.activity-configuration";
+import { MedicalActivityComponent } from './pages/activities/medical/medical/medical-activity.component';
+import { TemperatureEditComponent } from './pages/activities/medical/temperature-edit/temperature-edit.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -143,6 +152,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MeasurementsActivityComponent,
     LowercaseFirstPipe,
     WeighingEditComponent,
+    TemperatureActivityComponent,
+    MedicalActivityComponent,
+    TemperatureEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -198,11 +210,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: ACTIVITY_CONFIGURATIONS, useClass: DiaperingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: PumpingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: SleepingActivityConfiguration, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: MeasurementsActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: LeisureActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},
     {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: WeighingActivityConfiguration, multi: true},
+    {provide: MEDICAL_ACTIVITY_CONFIGURATIONS, useClass: TemperatureActivityConfiguration, multi: true},
     {provide: MAT_DATE_LOCALE, useValue: getBrowserLanguages()},
   ],
   bootstrap: [AppComponent]

@@ -112,4 +112,14 @@
     ></span>
     <a routerLink="/activities/weighing/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
+  <span *ngIf="activity.activityType === ActivityType.Temperature">
+    <span
+      [innerText]="'{{childName}} had temperature taken, it was {{temperature}}{{unit}}.' | translate:{
+        childName: activity.childName,
+        temperature: activity['temperature'],
+        unit: '°C'
+      }"
+    ></span>
+    <a routerLink="/activities/temperature/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
+  </span>
 </div>

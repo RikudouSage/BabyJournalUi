@@ -36,6 +36,9 @@ import {
 } from "./pages/activities/measurements/measurements/measurements-activity.component";
 import {WeighingActivityComponent} from "./pages/activities/measurements/weighing/weighing-activity.component";
 import {WeighingEditComponent} from "./pages/activities/measurements/weighing-edit/weighing-edit.component";
+import {TemperatureActivityComponent} from "./pages/activities/medical/temperature/temperature-activity.component";
+import {MedicalActivityComponent} from "./pages/activities/medical/medical/medical-activity.component";
+import {TemperatureEditComponent} from "./pages/activities/medical/temperature-edit/temperature-edit.component";
 
 const routes: Routes = [
   {
@@ -148,6 +151,16 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'activities/temperature/edit/:id',
+    component: TemperatureEditComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
     path: 'activities/diapering',
     component: DiaperingActivityComponent,
     canActivate: [
@@ -176,7 +189,31 @@ const routes: Routes = [
       {
         path: 'weight',
         component: WeighingActivityComponent,
-      }
+      },
+    ],
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
+    canActivateChild: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
+  },
+  {
+    path: 'activities/health',
+    component: MedicalActivityComponent,
+    children: [
+      {
+        path: 'temperature',
+        component: TemperatureActivityComponent,
+      },
     ],
     canActivate: [
       BrowserSupportGuard,
