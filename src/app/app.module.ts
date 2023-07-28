@@ -30,7 +30,7 @@ import {PotentiallyEncryptedValuePipe} from './pipes/potentially-encrypted-value
 import {
   ACTIVITY_CONFIGURATIONS,
   MEASUREMENTS_ACTIVITY_CONFIGURATIONS,
-  MEDICAL_ACTIVITY_CONFIGURATIONS
+  MEDICAL_ACTIVITY_CONFIGURATIONS, WEIGHT_UNIT_CONVERTER
 } from "./dependency-injection/injection-tokens";
 import {FeedingActivityConfiguration} from "./activity/main/feeding.activity-configuration";
 import {DiaperingActivityConfiguration} from "./activity/main/diapering.activity-configuration";
@@ -98,6 +98,10 @@ import { TemperatureActivityComponent } from './pages/activities/medical/tempera
 import {MedicalActivityConfiguration} from "./activity/main/medical.activity-configuration";
 import { MedicalActivityComponent } from './pages/activities/medical/medical/medical-activity.component';
 import { TemperatureEditComponent } from './pages/activities/medical/temperature-edit/temperature-edit.component';
+import {GramUnitConverter} from "./services/units/gram.unit-converter";
+import {PoundUnitConverter} from "./services/units/pound.unit-converter";
+import { ConvertWeightPipe } from './pipes/convert-weight.pipe';
+import { UnitToStringPipe } from './pipes/unit-to-string.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -155,6 +159,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TemperatureActivityComponent,
     MedicalActivityComponent,
     TemperatureEditComponent,
+    ConvertWeightPipe,
+    UnitToStringPipe,
   ],
   imports: [
     BrowserModule,
@@ -217,6 +223,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},
     {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: WeighingActivityConfiguration, multi: true},
     {provide: MEDICAL_ACTIVITY_CONFIGURATIONS, useClass: TemperatureActivityConfiguration, multi: true},
+
+    {provide: WEIGHT_UNIT_CONVERTER, useClass: GramUnitConverter, multi: true},
+    {provide: WEIGHT_UNIT_CONVERTER, useClass: PoundUnitConverter, multi: true},
+
     {provide: MAT_DATE_LOCALE, useValue: getBrowserLanguages()},
   ],
   bootstrap: [AppComponent]

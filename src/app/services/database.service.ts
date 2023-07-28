@@ -252,6 +252,14 @@ export class DatabaseService {
     localStorage.setItem('fullActivityStreamLastFetched', date.toISOString());
   }
 
+  public getWeightUnit(): string {
+    return localStorage.getItem('weight_unit') ?? 'g';
+  }
+
+  public setWeightUnit(unit: string): void {
+    localStorage.setItem('weight_unit', unit);
+  }
+
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
       this.db = await openDB(this.databaseName, 3, {

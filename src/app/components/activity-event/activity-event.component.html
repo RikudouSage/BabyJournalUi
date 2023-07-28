@@ -34,10 +34,9 @@
       }"
     ></span>
     <span *ngIf="activity['amount']"
-      [innerText]="'{{childName}} ate {{amount}} {{unit}} of solid food.' | translate: {
+      [innerText]="'{{childName}} ate {{amount}} of solid food.' | translate: {
         childName: activity.childName,
-        unit: 'g',
-        amount: activity['amount'],
+        amount: activity['amount']! | convertWeight | unitToString | async,
       }"
     ></span>
     <span *ngIf="activity.note !== null">
@@ -104,10 +103,9 @@
   </span>
   <span *ngIf="activity.activityType === ActivityType.Weighing">
     <span
-      [innerText]="'{{childName}} was weighed, he/she weighs {{weight}}{{unit}}.' | translate:{
+      [innerText]="'{{childName}} was weighed, he/she weighs {{weight}}.' | translate:{
         childName: activity.childName,
-        weight: activity['weight'],
-        unit: 'g'
+        weight: activity['weight']! | convertWeight | unitToString | async
       }"
     ></span>
     <a routerLink="/activities/weighing/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>

@@ -37,11 +37,10 @@
         <mat-card-content>
           <mat-divider></mat-divider>
           <ng-container *ngIf="currentMeasurements.weight.value">
-            <p [innerText]="('{{childName}} weighs {{amount}}{{unit}}' | translate: {
+            <p [innerText]="('{{childName}} weighs {{amount}}' | translate: {
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
-              amount: currentMeasurements.weight.value,
-              unit: 'g'
+              amount: currentMeasurements.weight.value | convertWeight | unitToString | async,
              }) + (currentMeasurements.weight.date ? ' (' + (currentMeasurements.weight.date! | relativeDate | async) + ')' : '') + ('.')"
             ></p>
           </ng-container>
