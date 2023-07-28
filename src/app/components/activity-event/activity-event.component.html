@@ -110,10 +110,9 @@
   </span>
   <span *ngIf="activity.activityType === ActivityType.Temperature">
     <span
-      [innerText]="'{{childName}} had temperature taken, it was {{temperature}}{{unit}}.' | translate:{
+      [innerText]="'{{childName}} had temperature taken, it was {{temperature}}.' | translate:{
         childName: activity.childName,
-        temperature: activity['temperature'],
-        unit: '°C'
+        temperature: activity['temperature']! | convertTemperature | unitToString | async
       }"
     ></span>
     <a routerLink="/activities/temperature/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>

@@ -202,12 +202,11 @@
           ></p>
           <ng-template #temperatureSummary>
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}}{{unit}} and the highest was {{max}}{{unit}}.' | translate: {
+              [innerHTML]="'{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}} and the highest was {{max}}.' | translate: {
                 dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
                 childName: childName | async,
-                min: summary.temperature.min,
-                max: summary.temperature.max,
-                unit: '°C'
+                min: summary.temperature.min | convertTemperature | unitToString | async,
+                max: summary.temperature.max | convertTemperature | unitToString | async
               }"
             ></p>
           </ng-template>

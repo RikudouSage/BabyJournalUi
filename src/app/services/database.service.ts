@@ -268,6 +268,14 @@ export class DatabaseService {
     localStorage.setItem('volume_unit', unit);
   }
 
+  public getTemperatureUnit(): string {
+    return localStorage.getItem('temperature_unit') ?? '°C';
+  }
+
+  public setTemperatureUnit(unit: string): void {
+    localStorage.setItem('temperature_unit', unit);
+  }
+
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
       this.db = await openDB(this.databaseName, 3, {

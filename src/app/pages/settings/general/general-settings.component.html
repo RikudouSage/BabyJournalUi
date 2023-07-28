@@ -52,6 +52,14 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field *ngIf="temperatureUnits !== null">
+        <mat-label>{{"Temperature units" | translate}}</mat-label>
+        <mat-select formControlName="temperatureUnit">
+          <mat-option *ngFor="let option of temperatureUnits | keyvalue" [value]="option.key">
+            {{option.value.names.join(' ' + ('and' | translate) + ' ')}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </mat-card-content>
   </mat-card>
   <button class="right-corner-fab" mat-fab color="primary" [class.success]="saved">

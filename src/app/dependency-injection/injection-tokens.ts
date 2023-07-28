@@ -6,3 +6,4 @@ export const MEDICAL_ACTIVITY_CONFIGURATIONS = new InjectionToken('MedicalActivi
 
 export const WEIGHT_UNIT_CONVERTER = new InjectionToken('WeightUnitConverter');
 export const VOLUME_UNIT_CONVERTER = new InjectionToken('VolumeUnitConverter');
+export const TEMPERATURE_UNIT_CONVERTER = new InjectionToken('TemperatureUnitConverter');

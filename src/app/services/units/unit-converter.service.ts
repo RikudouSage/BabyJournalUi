@@ -1,6 +1,10 @@
 import {Inject, Injectable} from '@angular/core';
 import {DatabaseService} from "../database.service";
-import {VOLUME_UNIT_CONVERTER, WEIGHT_UNIT_CONVERTER} from "../../dependency-injection/injection-tokens";
+import {
+  TEMPERATURE_UNIT_CONVERTER,
+  VOLUME_UNIT_CONVERTER,
+  WEIGHT_UNIT_CONVERTER
+} from "../../dependency-injection/injection-tokens";
 import {UnitConverter} from "./unit-converter";
 import {UnitConverterType} from "../../enum/unit-converter-type.enum";
 
@@ -13,14 +17,16 @@ export class UnitConverterService {
   } = {
     [UnitConverterType.Weight]: {},
     [UnitConverterType.Volume]: {},
+    [UnitConverterType.Temperature]: {},
   };
 
   constructor(
     private readonly database: DatabaseService,
     @Inject(WEIGHT_UNIT_CONVERTER) private readonly weightUnitConverters: UnitConverter[],
     @Inject(VOLUME_UNIT_CONVERTER) private readonly volumeUnitConverters: UnitConverter[],
+    @Inject(TEMPERATURE_UNIT_CONVERTER) private readonly temperatureUnitConverters: UnitConverter[],
   ) {
-    this.init([...weightUnitConverters, ...volumeUnitConverters]);
+    this.init([...weightUnitConverters, ...volumeUnitConverters, ...temperatureUnitConverters]);
   }
 
   public convertWeight(defaultUnitAmount: number, unitName: string | null = null): number[] {
@@ -41,6 +47,16 @@ export class UnitConverterService {
   public getVolumeUnits(unitName: string | null = null): string[] {
     unitName ??= this.database.getVolumeUnit();
     return this.findConverterById(unitName, UnitConverterType.Volume).units;
+  }
+
+  public convertTemperature(defaultUnitAmount: number, unitName: string | null = null): number[] {
+    unitName ??= this.database.getTemperatureUnit();
+    return this.findConverterById(unitName, UnitConverterType.Temperature).convertFromDefault(defaultUnitAmount);
+  }
+
+  public getTemperatureUnits(unitName: string | null = null): string[] {
+    unitName ??= this.database.getTemperatureUnit();
+    return this.findConverterById(unitName, UnitConverterType.Temperature).units;
   }
 
   private findConverterById(unit: string, type: UnitConverterType): UnitConverter {
