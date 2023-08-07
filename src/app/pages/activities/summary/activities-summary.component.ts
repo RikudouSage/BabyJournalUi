@@ -271,8 +271,6 @@ export class ActivitiesSummaryComponent implements OnInit {
       }
     }
 
-    console.log(this.currentMeasurements);
-
     if (this.childBirthDate !== null) {
       this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();
     }

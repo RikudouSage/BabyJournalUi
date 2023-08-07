@@ -121,6 +121,7 @@ export class AppComponent implements OnInit {
 
     registry.registerRepository(this.injector.get(UserRepository));
     registry.registerRepository(this.injector.get(ChildRepository));
+    console.log('before registering parental unit');
     registry.registerRepository(this.injector.get(ParentalUnitRepository));
     registry.registerRepository(this.injector.get(FeedingActivityRepository));
     registry.registerRepository(this.injector.get(DiaperingActivityRepository));
