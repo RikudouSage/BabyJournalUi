@@ -82,6 +82,8 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    this.registerRepositories();
   }
 
   public async ngOnInit(): Promise<void> {
@@ -104,7 +106,6 @@ export class AppComponent implements OnInit {
       await this.onOffline();
     }
     this.registerCustomIcons();
-    this.registerRepositories();
 
     if (window.matchMedia('(display-mode: standalone)').matches) {
       this.appMode = 'standalone';
