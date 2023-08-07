@@ -23,6 +23,7 @@ import {SleepingActivityRepository} from "./entity/sleeping-activity.entity";
 import {SharedInProgressActivityRepository} from "./entity/shared-in-progress-activity.entity";
 import {WeighingActivityRepository} from "./entity/weighing-activity.entity";
 import {SwUpdate} from "@angular/service-worker";
+import {TemperatureMeasuringActivityRepository} from "./entity/temperature-measuring-activity.entity";
 
 type AppMode = 'browser' | 'standalone' | 'android';
 
@@ -129,6 +130,7 @@ export class AppComponent implements OnInit {
     registry.registerRepository(this.injector.get(SleepingActivityRepository));
     registry.registerRepository(this.injector.get(SharedInProgressActivityRepository));
     registry.registerRepository(this.injector.get(WeighingActivityRepository));
+    registry.registerRepository(this.injector.get(TemperatureMeasuringActivityRepository));
   }
 
   public async hideDrawer(drawer: MatSidenav) {

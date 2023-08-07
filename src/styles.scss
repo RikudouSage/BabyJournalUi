@@ -1,5 +1,6 @@
 @use '@ng-matero/extensions' as mtx;
 @import "node_modules/@ng-matero/extensions/core/theming/prebuilt/pink-bluegrey";
+@import "css/activity-tiles";
 
 @include mtx.all-component-themes($theme);
 

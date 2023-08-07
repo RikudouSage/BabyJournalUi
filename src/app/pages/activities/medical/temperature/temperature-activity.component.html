@@ -1,0 +1,30 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+
+<ng-template #content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{"Temperature" | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (submit)="onSubmit()">
+        <mat-error class="center" *ngIf="errorMessage | async; let message">
+          {{message}}
+        </mat-error>
+
+        <input type="hidden" formControlName="startTime" [mtxDatetimepicker]="datePicker"/>
+        <mtx-datetimepicker [touchUi]="isHandset | async" hidden startView="clock" #datePicker></mtx-datetimepicker>
+        <button type="button" class="time-button" mat-button color="accent" (click)="datePicker.open()">
+          {{"Time" | translate}}:
+          {{form.controls.startTime.value | timeOrNull:'Not selected' | translate}}
+        </button>
+
+        <mat-form-field class="notes">
+          <mat-label>{{"Temperature" | translate}} (°C)</mat-label>
+          <input matInput formControlName="temperature" type="number" [step]="0.1" />
+        </mat-form-field>
+
+        <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

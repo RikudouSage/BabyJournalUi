@@ -189,6 +189,34 @@
           <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
+      <!-- Medical -->
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{"Health" | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-divider></mat-divider>
+          <p
+            *ngIf="!summary.temperature.max else temperatureSummary"
+            [innerText]="'{{dateDescription}} {{childName}} doesn\'t have any health related activities.' | translate: {
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+            }"
+          ></p>
+          <ng-template #temperatureSummary>
+            <p
+              [innerHTML]="'{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}}{{unit}} and the highest was {{max}}{{unit}}.' | translate: {
+                dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+                childName: childName | async,
+                min: summary.temperature.min,
+                max: summary.temperature.max,
+                unit: '°C'
+              }"
+            ></p>
+          </ng-template>
+          <mat-divider></mat-divider>
+        </mat-card-content>
+      </mat-card>
       <!-- Pumping -->
       <mat-card>
         <mat-card-header>

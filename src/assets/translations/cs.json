@@ -243,5 +243,11 @@
   "Measurements - {{childName}}": "Míry - {{childName}}",
   "Please choose a category of measurements you want to view.": "Prosím, zvolte si kategorii měření, která vás zajímá.",
   "{{childName}} was weighed, he/she weighs {{weight}}{{unit}}.": "{{childName}} byl/a zvážen/a, váží {{weight}} {{unit}}.",
-  "{{childName}} weighs {{amount}}{{unit}}": "{{childName}} váží {{amount}} {{unit}}"
+  "{{childName}} weighs {{amount}}{{unit}}": "{{childName}} váží {{amount}} {{unit}}",
+  "Temperature": "Teplota",
+  "{{childName}} had temperature taken, it was {{temperature}}{{unit}}.": "{{childName}} měl/a změřenu teplotu, bylo to {{temperature}} {{unit}}.",
+  "Health": "Zdraví",
+  "Please choose a category you want to view.": "Prosím zvolte kategorii, kterou chcete zobrazit.",
+  "Health - {{childName}}": "Zdraví - {{childName}}",
+  "{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}}{{unit}} and the highest was {{max}}{{unit}}.": "{{dateDescription}} měl/a {{childName}} změřenu teplotu, nejnižší byla {{min}} {{unit}} a nejvyšší byla {{max}} {{unit}}."
 }

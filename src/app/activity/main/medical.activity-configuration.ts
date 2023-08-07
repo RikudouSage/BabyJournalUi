@@ -8,8 +8,8 @@ import {Observable, of} from "rxjs";
 })
 export class MedicalActivityConfiguration implements ActivityConfiguration {
   readonly color = '#d32f2f';
-  readonly displayName = this.translator.get('Medical');
-  readonly link = '';
+  readonly displayName = this.translator.get('Health');
+  readonly link = '/activities/health';
   readonly isRunning = of(false);
   readonly lastActivityAt: Observable<Date | null> = of(null);
 

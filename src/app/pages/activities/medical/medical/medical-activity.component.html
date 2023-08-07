@@ -1,0 +1,26 @@
+<mat-grid-list [cols]="(columnsCount | async) ?? 1" gutterSize="10">
+  <a [routerLink]="activity.link" *ngFor="let activity of activities" class="activity-tile">
+    <mat-grid-tile [style.--bg-color]="activity.color">
+      {{activity.displayName | async}}
+      <mat-grid-tile-footer *ngIf="(activity.isRunning | async) || (activity.lastActivityAt | async | dateDiff)">
+          <span>
+            <ng-container *ngIf="activity.lastActivityAt | async | dateDiff; let dateDiff">
+              {{dateDiff | secondsToDurationString:'short' | async}}
+            </ng-container>
+          </span>
+        <mat-icon color="accent" *ngIf="activity.isRunning | async">hourglass_top</mat-icon>
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+  </a>
+</mat-grid-list>
+
+<mat-card *ngIf="defaultContent">
+  <mat-card-header>
+    <mat-card-title>{{"Health" | translate}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{"Please choose a category you want to view." | translate}}</p>
+  </mat-card-content>
+</mat-card>
+
+<router-outlet (activate)="defaultContent = false" (deactivate)="defaultContent = true"></router-outlet>

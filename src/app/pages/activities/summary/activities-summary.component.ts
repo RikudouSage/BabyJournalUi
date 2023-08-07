@@ -18,7 +18,7 @@ import {
   BottleFeedingActivityStreamItem,
   BreastFeedingActivityStreamItem,
   DiaperingActivityStreamItem,
-  PumpingActivityStreamItem,
+  PumpingActivityStreamItem, TemperatureActivityStreamItem,
   WeighingActivityStreamItem
 } from "../../../services/activity-stream.service";
 import {toPromise} from "../../../helper/observables";
@@ -59,6 +59,10 @@ interface CategorySummary {
     };
   };
   sleeping: number;
+  temperature: {
+    max: number;
+    min: number;
+  }
 }
 
 interface MeasurementValue {
@@ -112,6 +116,10 @@ export class ActivitiesSummaryComponent implements OnInit {
     },
     pumping: {},
     sleeping: 0,
+    temperature: {
+      max: -1,
+      min: -1,
+    },
   };
   private fullActivityStream: ActivityStream | null = null;
 
@@ -268,6 +276,14 @@ export class ActivitiesSummaryComponent implements OnInit {
         }
         lastWeight = activityDate;
         this.hasAnyMeasurements = true;
+      } else if (activity.activityType === ActivityType.Temperature) {
+        const temperature = Number((<TemperatureActivityStreamItem>activity).temperature);
+        if (temperature < this.summary.temperature.min || this.summary.temperature.min < 0) {
+          this.summary.temperature.min = temperature;
+        }
+        if (temperature > this.summary.temperature.max || this.summary.temperature.max < 0) {
+          this.summary.temperature.max = temperature;
+        }
       }
     }
 
