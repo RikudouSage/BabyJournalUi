@@ -8,6 +8,7 @@ import {EncryptedValue} from "../dto/encrypted-value";
   providedIn: 'root'
 })
 export class EncryptorService {
+  private key: CryptoKeyPair | null = null;
 
   constructor(
     private readonly database: DatabaseService,
@@ -22,25 +23,27 @@ export class EncryptorService {
       hash: 'SHA-512'
     }, true, ['encrypt', 'decrypt']);
     await this.database.storeCryptoKey(key);
+    this.key = key;
   }
 
   public async encrypt(value: string): Promise<string> {
-    const key = await this.database.getCryptoKey();
+    this.key ??= await this.database.getCryptoKey();
+
     const encoder = new TextEncoder();
     const result = await window.crypto.subtle.encrypt({
       name: 'RSA-OAEP',
-    }, key.publicKey, encoder.encode(value));
+    }, this.key.publicKey, encoder.encode(value));
 
     return fromByteArray(new Uint8Array(result));
   }
 
   public async decrypt(value: string): Promise<string> {
-    const key = await this.database.getCryptoKey();
+    this.key ??= await this.database.getCryptoKey();
     const decoder = new TextDecoder();
 
     const result = await window.crypto.subtle.decrypt({
       name: 'RSA-OAEP',
-    }, key.privateKey, toByteArray(value));
+    }, this.key.privateKey, toByteArray(value));
 
     return decoder.decode(result);
   }
