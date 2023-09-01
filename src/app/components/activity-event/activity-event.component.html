@@ -2,10 +2,9 @@
   <strong>{{activity.startTime | timeOrNull}}: </strong>
   <span *ngIf="activity.activityType === ActivityType.FeedingBottle">
     <span
-      [innerText]="'{{childName}} drank {{amount}} {{unit}} of {{foodType}} from bottle.' | translate: {
+      [innerText]="'{{childName}} drank {{amount}} of {{foodType}} from bottle.' | translate: {
         childName: activity.childName,
-        amount: activity['amount'],
-        unit: 'ml',
+        amount: activity['amount']! | convertVolume | unitToString | async,
         foodType: bottleContentTypeToString($any(activity['bottleContentType'])) | async,
       }"
     ></span>
@@ -34,10 +33,9 @@
       }"
     ></span>
     <span *ngIf="activity['amount']"
-      [innerText]="'{{childName}} ate {{amount}} {{unit}} of solid food.' | translate: {
+      [innerText]="'{{childName}} ate {{amount}} of solid food.' | translate: {
         childName: activity.childName,
-        unit: 'g',
-        amount: activity['amount'],
+        amount: activity['amount']! | convertWeight | unitToString | async,
       }"
     ></span>
     <span *ngIf="activity.note !== null">
@@ -78,11 +76,10 @@
     ></span>
     <span
       *ngIf="activity['amount'] !== null"
-      [innerText]="'{{parentName}} pumped {{amount}} {{unit}} from {{sideBreast}}.' | translate: {
+      [innerText]="'{{parentName}} pumped {{amount}} from {{sideBreast}}.' | translate: {
         parentName: activity['parentName'],
         sideBreast: breastIndexToString(stringNumberToBreastIndex($any(activity['breast']))) | async,
-        amount: activity['amount'],
-        unit: 'ml',
+        amount: activity['amount']! | convertVolume | unitToString | async,
       }"
     ></span>
     <span *ngIf="activity.note !== null">
@@ -104,20 +101,18 @@
   </span>
   <span *ngIf="activity.activityType === ActivityType.Weighing">
     <span
-      [innerText]="'{{childName}} was weighed, he/she weighs {{weight}}{{unit}}.' | translate:{
+      [innerText]="'{{childName}} was weighed, he/she weighs {{weight}}.' | translate:{
         childName: activity.childName,
-        weight: activity['weight'],
-        unit: 'g'
+        weight: activity['weight']! | convertWeight | unitToString | async
       }"
     ></span>
     <a routerLink="/activities/weighing/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
   <span *ngIf="activity.activityType === ActivityType.Temperature">
     <span
-      [innerText]="'{{childName}} had temperature taken, it was {{temperature}}{{unit}}.' | translate:{
+      [innerText]="'{{childName}} had temperature taken, it was {{temperature}}.' | translate:{
         childName: activity.childName,
-        temperature: activity['temperature'],
-        unit: '°C'
+        temperature: activity['temperature']! | convertTemperature | unitToString | async
       }"
     ></span>
     <a routerLink="/activities/temperature/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
