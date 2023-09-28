@@ -249,5 +249,10 @@
   "Health": "Zdraví",
   "Please choose a category you want to view.": "Prosím zvolte kategorii, kterou chcete zobrazit.",
   "Health - {{childName}}": "Zdraví - {{childName}}",
-  "{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}}{{unit}} and the highest was {{max}}{{unit}}.": "{{dateDescription}} měl/a {{childName}} změřenu teplotu, nejnižší byla {{min}} {{unit}} a nejvyšší byla {{max}} {{unit}}."
+  "{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}}{{unit}} and the highest was {{max}}{{unit}}.": "{{dateDescription}} měl/a {{childName}} změřenu teplotu, nejnižší byla {{min}} {{unit}} a nejvyšší byla {{max}} {{unit}}.",
+  "Synchronization": "Synchronizace",
+  "You can choose how many records do you want to download.": "Můžete si zvolit, kolik záznamů chcete stáhnout.",
+  "Note that it doesn't have to mean the newest records (for example if you've added records retroactively) and due to the encrypted nature of your data, the server can't search for the date and time.": "Mějte na paměti, že to nutně nemusí znamenat nejnovější záznamy (např. pokud jste zadávali data zpětně) a jelikož jsou data zašifrována, server nemůže vyhledávat podle data a času.",
+  "Everything": "Všechno",
+  "Last {{amount}} items": "Posledních {{amount}} položek"
 }

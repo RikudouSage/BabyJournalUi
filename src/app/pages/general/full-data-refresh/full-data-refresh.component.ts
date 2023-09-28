@@ -13,13 +13,19 @@ import {WakeLockService} from "../../../services/wake-lock.service";
   styleUrls: ['./full-data-refresh.component.scss']
 })
 export class FullDataRefreshComponent implements OnInit {
+  private readonly perPage = 500; // todo fetch from api
+
   public displayInfoMessage = false;
+
+  public started: boolean = false;
 
   public running: boolean = false;
   public total: number = 0;
   public processed: number = 0;
   public processing: number = 0;
   public downloaded: number = 0;
+
+  public max: number | null = null;
 
   public readonly wakeLockSupported: boolean = this.wakeLockService.isSupported();
 
@@ -32,11 +38,9 @@ export class FullDataRefreshComponent implements OnInit {
     private readonly wakeLockService: WakeLockService,
   ) {
   }
-  public async ngOnInit(): Promise<void> {
-    this.titleService.title = this.translator.get('Loading data');
-    timer(2_000).subscribe(() => this.displayInfoMessage = true);
-    await this.wakeLockService.requestWakeLock();
 
+  public async ngOnInit(): Promise<void> {
+    this.titleService.title = this.translator.get('Synchronization');
     this.activityStreamService.onFullSyncProgress.subscribe(progress => {
       this.running = progress.running;
       this.total = progress.total;
@@ -44,9 +48,24 @@ export class FullDataRefreshComponent implements OnInit {
       this.processing = progress.currentInProgress;
       this.downloaded = progress.downloaded;
     });
-    this.activityStreamService.getFullActivityStream().subscribe(async () => {
+  }
+
+  public async start(pages: number | null): Promise<void> {
+    await this.wakeLockService.requestWakeLock();
+
+    this.started = true;
+    this.displayInfoMessage = true;
+    this.titleService.title = this.translator.get('Loading data');
+
+    if (pages !== null) {
+      this.max = pages * this.perPage;
+    }
+
+    this.activityStreamService.getFullActivityStream(pages).subscribe(async () => {
       await this.database.setInitialActivityStreamLoadFinished();
       await this.router.navigateByUrl('/');
     });
+
+    await this.wakeLockService.release();
   }
 }
