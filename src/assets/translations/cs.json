@@ -254,5 +254,6 @@
   "You can choose how many records do you want to download.": "Můžete si zvolit, kolik záznamů chcete stáhnout.",
   "Note that it doesn't have to mean the newest records (for example if you've added records retroactively) and due to the encrypted nature of your data, the server can't search for the date and time.": "Mějte na paměti, že to nutně nemusí znamenat nejnovější záznamy (např. pokud jste zadávali data zpětně) a jelikož jsou data zašifrována, server nemůže vyhledávat podle data a času.",
   "Everything": "Všechno",
-  "Last {{amount}} items": "Posledních {{amount}} položek"
+  "Last {{amount}} items": "Posledních {{amount}} položek",
+  "{{dateDescription}} {{childName}} doesn't have any health related activities.": "{{dateDescription}} {{childName}} neměl/a žádné aktivity související se zdravím."
 }

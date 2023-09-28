@@ -197,7 +197,7 @@
         <mat-card-content>
           <mat-divider></mat-divider>
           <p
-            *ngIf="!summary.temperature.max else temperatureSummary"
+            *ngIf="summary.temperature.max <= 0 else temperatureSummary"
             [innerText]="'{{dateDescription}} {{childName}} doesn\'t have any health related activities.' | translate: {
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
