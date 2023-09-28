@@ -131,7 +131,7 @@ export class ActivityStreamService {
     );
   }
 
-  public getFullActivityStream(): Observable<ActivityStream> {
+  public getFullActivityStream(maxPages : number | null = null): Observable<ActivityStream> {
     return this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities`, {
       observe: "response",
     }).pipe(
@@ -143,6 +143,11 @@ export class ActivityStreamService {
         }
       }),
       map (async stream => {
+        let pages = Math.ceil(stream.total / stream.perPage);
+        if (maxPages !== null && pages > maxPages) {
+          pages = maxPages;
+          stream.total = pages * stream.perPage;
+        }
         this._fullSyncProgress.next({
           total: stream.total,
           running: true,
@@ -151,7 +156,7 @@ export class ActivityStreamService {
           currentInProgress: 0,
           downloaded: stream.stream.length,
         });
-        const pages = Math.ceil(stream.total / stream.perPage);
+
         const partialStreams = [];
         for (let page = 2; page <= pages; ++page) {
           partialStreams.push(await toPromise(this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities?page=${page}`)));

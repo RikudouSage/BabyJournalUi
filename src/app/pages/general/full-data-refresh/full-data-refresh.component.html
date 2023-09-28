@@ -1,12 +1,28 @@
-<ng-container *ngIf="displayInfoMessage && running">
-  <p>
-    {{"The app is currently downloading all your data, this might take a while depending on the amount of data you have stored." | translate}}
-  </p>
-  <p *ngIf="total" [innerText]="'Downloaded: {{downloaded}} of {{total}} items.' | translate:{downloaded: downloaded, total: total}"></p>
-  <p *ngIf="total" [innerText]="'Decrypting: {{processing}} of {{total}} items ({{finished}} finished).' | translate:{processing: processing, total: total, finished: processed}"></p>
+<ng-container *ngIf="started else chooseSettings">
+  <ng-container *ngIf="displayInfoMessage && running">
+    <p>
+      {{"The app is currently downloading all your data, this might take a while depending on the amount of data you have stored." | translate}}
+    </p>
+    <p *ngIf="total" [innerText]="'Downloaded: {{downloaded}} of {{total}} items.' | translate:{downloaded: downloaded, total: total}"></p>
+    <p *ngIf="total" [innerText]="'Decrypting: {{processing}} of {{total}} items ({{finished}} finished).' | translate:{processing: processing, total: total, finished: processed}"></p>
+  </ng-container>
+  <mat-error *ngIf="displayInfoMessage && running && !wakeLockSupported">
+    {{"Your device doesn't support keeping the screen awake, your screen might lock." | translate}}
+    {{"Please make sure your screen doesn't lock during the refresh as the data might not be downloaded correctly." | translate}}
+  </mat-error>
+  <mat-spinner class="global"></mat-spinner>
 </ng-container>
-<mat-error *ngIf="displayInfoMessage && running && !wakeLockSupported">
-  {{"Your device doesn't support keeping the screen awake, your screen might lock." | translate}}
-  {{"Please make sure your screen doesn't lock during the refresh as the data might not be downloaded correctly." | translate}}
-</mat-error>
-<mat-spinner class="global"></mat-spinner>
+
+<ng-template #chooseSettings>
+  <p>{{"You can choose how many records do you want to download." | translate}}</p>
+  <p>{{"Note that it doesn't have to mean the newest records (for example if you've added records retroactively) and due to the encrypted nature of your data, the server can't search for the date and time." | translate}}</p>
+
+  <div class="buttons">
+    <button mat-raised-button color="primary" [innerText]="'Everything' | translate" (click)="start(null)"></button>
+    <button mat-raised-button color="primary" [innerText]="'Last {{amount}} items' | translate:{amount: 500}" (click)="start(1)"></button>
+    <button mat-raised-button color="primary" [innerText]="'Last {{amount}} items' | translate:{amount: 1000}" (click)="start(2)"></button>
+    <button mat-raised-button color="primary" [innerText]="'Last {{amount}} items' | translate:{amount: 1500}" (click)="start(3)"></button>
+    <button mat-raised-button color="primary" [innerText]="'Last {{amount}} items' | translate:{amount: 2000}" (click)="start(4)"></button>
+  </div>
+</ng-template>
+
