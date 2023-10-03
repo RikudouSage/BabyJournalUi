@@ -36,6 +36,7 @@ export class GeneralSettingsComponent implements OnInit {
       [AppLanguage.Default]: await lastValueFrom(this.translator.get('Automatic detection')),
       [AppLanguage.English]: this.getLanguageName(AppLanguage.English),
       [AppLanguage.Czech]: this.getLanguageName(AppLanguage.Czech),
+      [AppLanguage.Italian]: this.getLanguageName(AppLanguage.Italian),
     };
 
     this.settingsForm.controls.language.valueChanges.subscribe(async language => {
