@@ -252,9 +252,11 @@
   "{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}}{{unit}} and the highest was {{max}}{{unit}}.": "{{dateDescription}} È stata misurata la temperatura di {{childName}}, la più bassa era {{min}} {{unit}} e la più alta era {{max}} {{unit}}.",
   "Synchronization": "Sincronizzazione",
   "You can choose how many records do you want to download.": "Ora puoi segliere quante registrazioni vuoi scaricare.",
-  "Note that it doesn't have to mean the newest records (for example if you've added records retroactively) and due to the encrypted nature of your data, the server can't search for the date and time.":
-"Nota che non deve indicare le registrazioni più recenti (per esempio se hai aggiunto delle registrazioni retroattivamente) ed a causa della natura criptata delle informazioni, il server non può cercare né per data né per tempo.",
+  "Note that it doesn't have to mean the newest records (for example if you've added records retroactively) and due to the encrypted nature of your data, the server can't search for the date and time.": "Nota che non deve indicare le registrazioni più recenti (per esempio se hai aggiunto delle registrazioni retroattivamente) ed a causa della natura criptata delle informazioni, il server non può cercare né per data né per tempo.",
   "Everything": "Tutto",
   "Last {{amount}} items": "Ultimi {{amount}} elementi",
-  "{{dateDescription}} {{childName}} doesn't have any health related activities.": "{{dateDescription}} {{childName}} non ha alcune attività legate alla salute."
+  "{{dateDescription}} {{childName}} doesn't have any health related activities.": "{{dateDescription}} {{childName}} non ha alcune attività legate alla salute.",
+  "{{childName}}'s length was measured, he/she is {{length}}{{unit}}.": "È stata misurata la lunghezza di {{childName}} ed è {{length}} {{unit}}.",
+  "{{childName}}'s length is {{amount}}{{unit}}": "La lunghezza di {{childName}} è {{amount}} {{unit}}",
+  "Translations": "Traduzioni"
 }
