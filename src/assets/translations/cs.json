@@ -291,5 +291,6 @@
   "Finally, the moment we've all been waiting for - {{childName}} is standing! Who knew that two tiny feet could bring such a big change?": "Chvíle, na kterou jsme všichni čekali, je konečně tady - {{childName}} stojí! Kdo by to byl čekal, že takové malé nožky dokáží přinést tak velké změny?",
   "That's one small step for man, one giant leap for {{childName}}! {{childName}} can now walk without supports!": "Je to malý krok pro člověka, obrovský krok pro vaše děťátko! {{childName}} už umí chodit bez opírání!",
   "Walking is easy for {{childName}}... With appropriate support, of course.": "{{childName}} už zvládá chodit úplně v klidu... S patřičnou oporou, samozřejmě.",
-  "{{childName}} has reached a milestone: {{milestoneName}}. Congratulations!": "{{childName}} dosáhl/a úspěchu: {{milestoneName}}. Gratulujeme!"
+  "{{childName}} has reached a milestone: {{milestoneName}}. Congratulations!": "{{childName}} dosáhl/a úspěchu: {{milestoneName}}. Gratulujeme!",
+  "No milestones have been tracked yet. But don't worry, they'll be coming soon!": "Zatím jste nedosáhli žádných milníků. Ale nebojte, už to přijde každou chvíli!"
 }
