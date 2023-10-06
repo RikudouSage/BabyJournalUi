@@ -277,6 +277,8 @@
   "Standing": "Stání",
   "Walking without support": "Chození s opíráním",
   "Walking with support": "Chození bez opírání",
+  "Feet grasping": "Chytání nožiček",
+  "Rolling onto stomach": "Přetáčení na bříško",
   "Custom milestone": "Vlastní milník",
   "What's {{childName}} saying? No one knows, but it surely is a lot! {{childName}} started babbling.": "Copak si to {{childName}} povídá? To nikdo netuší, ale je toho hodně! {{childName}} se naučil/a žvatlat.",
   "Is the refrigerator broken? Oh no, that's just {{childName}} cooing!": "Rozbila se nám lednička? Ale ne, to nám tu jen hýká {{childName}}!",
@@ -292,5 +294,8 @@
   "That's one small step for man, one giant leap for {{childName}}! {{childName}} can now walk without supports!": "Je to malý krok pro člověka, obrovský krok pro vaše děťátko! {{childName}} už umí chodit bez opírání!",
   "Walking is easy for {{childName}}... With appropriate support, of course.": "{{childName}} už zvládá chodit úplně v klidu... S patřičnou oporou, samozřejmě.",
   "{{childName}} has reached a milestone: {{milestoneName}}. Congratulations!": "{{childName}} dosáhl/a úspěchu: {{milestoneName}}. Gratulujeme!",
-  "No milestones have been tracked yet. But don't worry, they'll be coming soon!": "Zatím jste nedosáhli žádných milníků. Ale nebojte, už to přijde každou chvíli!"
+  "No milestones have been tracked yet. But don't worry, they'll be coming soon!": "Zatím jste nedosáhli žádných milníků. Ale nebojte, už to přijde každou chvíli!",
+  "Prepare for a whirl! {{childName}} has mastered the art of rolling onto their stomach. Let the tummy times roll!": "Připravte se na otočku! {{childName}} se nyní otáčí na bříško jako profík. Nechť započne bříškování!",
+  "Breaking news: Mysterious objects sighted beneath {{childName}}! Upon investigation, these 'feet' things turn out to be attached and remarkably grabbable. We suspect they've always been there, but this is a major discovery for our little explorer!": "Mimořádná zpráva: {{childName}} pod sebou objevila záhadné objekty. Při bližím prozkoumání se ukázalo, že tyto 'nohy' jsou připojeny ke zbytku těla a velmi dobře se chytají. Rodiče mají podezření, že tam byly celou dobu, ale pro našeho malého průzkumníka je to velký objev!",
+  "Remember those remarkably grabbable objects called feet {{childName}} discovered recently? Well, turns out they're also very tasty!": "Pamatujete na ty záhadné objekty jménem nohy, jako stvořené k chytání, které {{childName}} nedávno objevil/a? Ukázalo se, že jsou taky velmi chutné!"
 }

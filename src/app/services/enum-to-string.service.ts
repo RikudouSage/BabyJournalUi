@@ -88,8 +88,17 @@ export class EnumToStringService {
       case NamedMilestone.WalkingWithSupport:
         stringToTranslate = 'Walking with support';
         break;
+      case NamedMilestone.RollingOntoStomach:
+        stringToTranslate = 'Rolling onto stomach';
+        break;
+      case NamedMilestone.FeetGrasping:
+        stringToTranslate = 'Feet grasping';
+        break;
       case NamedMilestone.Custom:
         stringToTranslate = 'Custom milestone';
+        break;
+      case NamedMilestone.FeetInMouth:
+        stringToTranslate = 'Putting feet in mouth';
         break;
     }
 
@@ -126,6 +135,9 @@ export class EnumToStringService {
       case NamedMilestone.RollingFromStomachToBack:
         stringToTranslate = `I'm on my back! And now I'm on my stomach! {{childName}} can roll between the stomach and the back easily!`;
         break;
+      case NamedMilestone.RollingOntoStomach:
+        stringToTranslate = 'Prepare for a whirl! {{childName}} has mastered the art of rolling onto their stomach. Let the tummy times roll!';
+        break;
       case NamedMilestone.Smiling:
         stringToTranslate = `Ah, that sweet {{childName}}'s first smile... What a magical moment!`;
         break;
@@ -138,8 +150,14 @@ export class EnumToStringService {
       case NamedMilestone.WalkingWithSupport:
         stringToTranslate = 'Walking is easy for {{childName}}... With appropriate support, of course.';
         break;
+      case NamedMilestone.FeetGrasping:
+        stringToTranslate = `Breaking news: Mysterious objects sighted beneath {{childName}}! Upon investigation, these 'feet' things turn out to be attached and remarkably grabbable. We suspect they've always been there, but this is a major discovery for our little explorer!!`;
+        break;
       case NamedMilestone.Custom:
         stringToTranslate = '{{childName}} has reached a milestone: {{milestoneName}}. Congratulations!';
+        break;
+      case NamedMilestone.FeetInMouth:
+        stringToTranslate = `Remember those remarkably grabbable objects called feet {{childName}} discovered recently? Well, turns out they're also very tasty!`;
         break;
     }
 
