@@ -122,4 +122,14 @@
     ></span>
     <a routerLink="/activities/temperature/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
   </span>
+  <span *ngIf="activity.activityType === ActivityType.Length">
+    <span
+      [innerText]="'{{childName}}\'s length was measured, he/she is {{length}}{{unit}}.' | translate:{
+        childName: activity.childName,
+        length: activity['length'],
+        unit: 'cm'
+      }"
+    ></span>
+    <a routerLink="/activities/length/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>
+  </span>
 </div>

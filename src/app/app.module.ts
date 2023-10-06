@@ -98,6 +98,9 @@ import { TemperatureActivityComponent } from './pages/activities/medical/tempera
 import {MedicalActivityConfiguration} from "./activity/main/medical.activity-configuration";
 import { MedicalActivityComponent } from './pages/activities/medical/medical/medical-activity.component';
 import { TemperatureEditComponent } from './pages/activities/medical/temperature-edit/temperature-edit.component';
+import {LengthActivityConfiguration} from "./activity/measurements/length-activity.configuration";
+import { LengthActivityComponent } from './pages/activities/measurements/length/length-activity.component';
+import { LengthEditComponent } from './pages/activities/measurements/length-edit/length-edit.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -155,6 +158,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TemperatureActivityComponent,
     MedicalActivityComponent,
     TemperatureEditComponent,
+    LengthActivityComponent,
+    LengthEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -216,6 +221,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},
     {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: WeighingActivityConfiguration, multi: true},
+    {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: LengthActivityConfiguration, multi: true},
     {provide: MEDICAL_ACTIVITY_CONFIGURATIONS, useClass: TemperatureActivityConfiguration, multi: true},
     {provide: MAT_DATE_LOCALE, useValue: getBrowserLanguages()},
   ],
