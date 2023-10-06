@@ -151,7 +151,7 @@ export class EnumToStringService {
         stringToTranslate = 'Walking is easy for {{childName}}... With appropriate support, of course.';
         break;
       case NamedMilestone.FeetGrasping:
-        stringToTranslate = `Breaking news: Mysterious objects sighted beneath {{childName}}! Upon investigation, these 'feet' things turn out to be attached and remarkably grabbable. We suspect they've always been there, but this is a major discovery for our little explorer!!`;
+        stringToTranslate = `Breaking news: Mysterious objects sighted beneath {{childName}}! Upon investigation, these 'feet' things turn out to be attached and remarkably grabbable. We suspect they've always been there, but this is a major discovery for our little explorer!`;
         break;
       case NamedMilestone.Custom:
         stringToTranslate = '{{childName}} has reached a milestone: {{milestoneName}}. Congratulations!';
