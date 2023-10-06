@@ -8,7 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class WeighingActivityConfiguration implements ActivityConfiguration {
   color: string = '#7c4dff';
-  displayName: Observable<boolean> = this.translator.get('Weight');
+  displayName: Observable<string> = this.translator.get('Weight');
   isRunning: Observable<boolean> = of(false);
   lastActivityAt: Observable<null> = of(null);
   link: string = '/activities/measurements/weight';

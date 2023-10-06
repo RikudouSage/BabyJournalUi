@@ -41,6 +41,8 @@ import {MedicalActivityComponent} from "./pages/activities/medical/medical/medic
 import {TemperatureEditComponent} from "./pages/activities/medical/temperature-edit/temperature-edit.component";
 import {LengthActivityComponent} from "./pages/activities/measurements/length/length-activity.component";
 import {LengthEditComponent} from "./pages/activities/measurements/length-edit/length-edit.component";
+import {MilestonesActivityComponent} from "./pages/activities/milestones/milestones-activity.component";
+import {EditMilestoneComponent} from "./pages/activities/edit-milestone/edit-milestone.component";
 
 const routes: Routes = [
   {
@@ -173,6 +175,16 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'activities/milestone/edit/:id',
+    component: EditMilestoneComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
     path: 'activities/diapering',
     component: DiaperingActivityComponent,
     canActivate: [
@@ -239,6 +251,17 @@ const routes: Routes = [
       InitialLoadFinishedGuard,
     ],
     canActivateChild: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
+  },
+  {
+    path: 'activities/milestones',
+    component: MilestonesActivityComponent,
+    canActivate: [
       BrowserSupportGuard,
       IsLoggedInGuard,
       HasChildrenGuard,

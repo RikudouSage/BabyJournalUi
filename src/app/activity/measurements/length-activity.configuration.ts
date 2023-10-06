@@ -8,7 +8,7 @@ import {Injectable} from "@angular/core";
 })
 export class LengthActivityConfiguration implements ActivityConfiguration {
   color: string = '#7c4dff';
-  displayName: Observable<boolean> = this.translator.get('Length');
+  displayName: Observable<string> = this.translator.get('Length');
   isRunning: Observable<boolean> = of(false);
   lastActivityAt: Observable<null> = of(null);
   link: string = '/activities/measurements/length';

@@ -102,6 +102,11 @@ import {LengthActivityConfiguration} from "./activity/measurements/length-activi
 import { LengthActivityComponent } from './pages/activities/measurements/length/length-activity.component';
 import { LengthEditComponent } from './pages/activities/measurements/length-edit/length-edit.component';
 import { LanguageNamePipe } from './pipes/language-name.pipe';
+import {MilestonesActivityConfiguration} from "./activity/main/milestones.activity-configuration";
+import { MilestonesActivityComponent } from './pages/activities/milestones/milestones-activity.component';
+import { EnumToStringPipe } from './pipes/enum-to-string.pipe';
+import { DatetimeOrNullPipe } from './pipes/datetime-or-null.pipe';
+import { EditMilestoneComponent } from './pages/activities/edit-milestone/edit-milestone.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -162,6 +167,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     LengthActivityComponent,
     LengthEditComponent,
     LanguageNamePipe,
+    MilestonesActivityComponent,
+    EnumToStringPipe,
+    DatetimeOrNullPipe,
+    EditMilestoneComponent,
   ],
   imports: [
     BrowserModule,
@@ -219,6 +228,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: ACTIVITY_CONFIGURATIONS, useClass: SleepingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: MeasurementsActivityConfiguration, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: MilestonesActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: LeisureActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},

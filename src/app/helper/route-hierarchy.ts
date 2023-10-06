@@ -41,6 +41,9 @@ const routeHierarchy: RouteHierarchy = {
     'activities/health': {
       'activities/health/temperature': {},
     },
+    'activities/milestones': {
+      'activities/milestone/edit/*': {},
+    },
   },
   'auth/register': {},
   'children/create-first': {},
