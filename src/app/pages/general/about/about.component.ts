@@ -8,6 +8,14 @@ import {TranslateService} from "@ngx-translate/core";
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
+  public translators: {[language: string]: string} = {
+    en: 'Dominik Chrástecký',
+    cs: 'Dominik Chrástecký',
+    it: 'Dario Mastromattei',
+  };
+
+  public currentLanguage: string = this.translator.currentLang;
+
   constructor(
     private readonly titleService: TitleService,
     private readonly translator: TranslateService,

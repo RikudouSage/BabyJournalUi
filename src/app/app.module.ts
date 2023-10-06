@@ -101,6 +101,7 @@ import { TemperatureEditComponent } from './pages/activities/medical/temperature
 import {LengthActivityConfiguration} from "./activity/measurements/length-activity.configuration";
 import { LengthActivityComponent } from './pages/activities/measurements/length/length-activity.component';
 import { LengthEditComponent } from './pages/activities/measurements/length-edit/length-edit.component';
+import { LanguageNamePipe } from './pipes/language-name.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -160,6 +161,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TemperatureEditComponent,
     LengthActivityComponent,
     LengthEditComponent,
+    LanguageNamePipe,
   ],
   imports: [
     BrowserModule,
