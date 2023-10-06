@@ -46,6 +46,16 @@
             ></p>
           </ng-container>
           <mat-divider></mat-divider>
+          <ng-container *ngIf="currentMeasurements.length.value">
+            <p [innerText]="('{{childName}}\'s length is {{amount}}{{unit}}' | translate: {
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              amount: currentMeasurements.length.value,
+              unit: 'cm'
+             }) + (currentMeasurements.length.date ? ' (' + (currentMeasurements.length.date! | relativeDate | async) + ')' : '') + ('.')"
+            ></p>
+          </ng-container>
+          <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
       <!-- Feeding -->
