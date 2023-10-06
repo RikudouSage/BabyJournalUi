@@ -39,6 +39,8 @@ import {WeighingEditComponent} from "./pages/activities/measurements/weighing-ed
 import {TemperatureActivityComponent} from "./pages/activities/medical/temperature/temperature-activity.component";
 import {MedicalActivityComponent} from "./pages/activities/medical/medical/medical-activity.component";
 import {TemperatureEditComponent} from "./pages/activities/medical/temperature-edit/temperature-edit.component";
+import {LengthActivityComponent} from "./pages/activities/measurements/length/length-activity.component";
+import {LengthEditComponent} from "./pages/activities/measurements/length-edit/length-edit.component";
 
 const routes: Routes = [
   {
@@ -151,6 +153,16 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'activities/length/edit/:id',
+    component: LengthEditComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
     path: 'activities/temperature/edit/:id',
     component: TemperatureEditComponent,
     canActivate: [
@@ -189,6 +201,10 @@ const routes: Routes = [
       {
         path: 'weight',
         component: WeighingActivityComponent,
+      },
+      {
+        path: 'length',
+        component: LengthActivityComponent,
       },
     ],
     canActivate: [

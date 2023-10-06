@@ -47,6 +47,10 @@ export interface WeighingActivityStreamItem extends ActivityStreamItem {
   weight: string;
 }
 
+export interface LengthActivityStreamItem extends ActivityStreamItem {
+  length: string;
+}
+
 export interface TemperatureActivityStreamItem extends ActivityStreamItem {
   temperature: string;
 }

@@ -255,5 +255,7 @@
   "Note that it doesn't have to mean the newest records (for example if you've added records retroactively) and due to the encrypted nature of your data, the server can't search for the date and time.": "Mějte na paměti, že to nutně nemusí znamenat nejnovější záznamy (např. pokud jste zadávali data zpětně) a jelikož jsou data zašifrována, server nemůže vyhledávat podle data a času.",
   "Everything": "Všechno",
   "Last {{amount}} items": "Posledních {{amount}} položek",
-  "{{dateDescription}} {{childName}} doesn't have any health related activities.": "{{dateDescription}} {{childName}} neměl/a žádné aktivity související se zdravím."
+  "{{dateDescription}} {{childName}} doesn't have any health related activities.": "{{dateDescription}} {{childName}} neměl/a žádné aktivity související se zdravím.",
+  "{{childName}}'s length was measured, he/she is {{length}}{{unit}}.": "{{childName}} byl/a změřen/a, měří {{length}} {{unit}}.",
+  "{{childName}}'s length is {{amount}}{{unit}}": "{{childName}} měří {{amount}} {{unit}}"
 }

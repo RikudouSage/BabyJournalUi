@@ -17,8 +17,9 @@ import {
   ActivityStreamService,
   BottleFeedingActivityStreamItem,
   BreastFeedingActivityStreamItem,
-  DiaperingActivityStreamItem,
-  PumpingActivityStreamItem, TemperatureActivityStreamItem,
+  DiaperingActivityStreamItem, LengthActivityStreamItem,
+  PumpingActivityStreamItem,
+  TemperatureActivityStreamItem,
   WeighingActivityStreamItem
 } from "../../../services/activity-stream.service";
 import {toPromise} from "../../../helper/observables";
@@ -72,6 +73,7 @@ interface MeasurementValue {
 
 interface CurrentMeasurements {
   weight: MeasurementValue;
+  length: MeasurementValue;
 }
 
 @Component({
@@ -85,6 +87,10 @@ export class ActivitiesSummaryComponent implements OnInit {
 
   private readonly emptyMeasurements: CurrentMeasurements = {
     weight: {
+      date: new Date(),
+      value: 0,
+    },
+    length: {
       date: new Date(),
       value: 0,
     },
@@ -173,6 +179,13 @@ export class ActivitiesSummaryComponent implements OnInit {
           date: child.attributes.birthDay !== null ? new Date(child.attributes.birthDay.decrypted) : null,
         }
       }
+      if (child.attributes.birthHeight !== null) {
+        this.hasAnyMeasurements = true;
+        this.currentMeasurements.length = {
+          value: Number(child.attributes.birthHeight.decrypted),
+          date: child.attributes.birthHeight !== null ? new Date(child.attributes.birthHeight.decrypted) : null,
+        };
+      }
     }
     this.activityStreamService.getActivityStream().subscribe(async activityStream => {
       this.fullActivityStream = activityStream;
@@ -209,6 +222,7 @@ export class ActivitiesSummaryComponent implements OnInit {
     this.summary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
 
     let lastWeight: Date | null = null;
+    let lastLength: Date | null = null;
 
     for (const activity of this.activityStream) {
       if (activity.activityType === ActivityType.FeedingBottle) {
@@ -275,6 +289,16 @@ export class ActivitiesSummaryComponent implements OnInit {
           };
         }
         lastWeight = activityDate;
+        this.hasAnyMeasurements = true;
+      } else if (activity.activityType === ActivityType.Length) {
+        const activityDate = new Date(activity.startTime);
+        if (lastLength === null || activityDate.getTime() > lastLength.getTime()) {
+          this.currentMeasurements.length = {
+            date: activityDate,
+            value: Number((<LengthActivityStreamItem>activity).length),
+          };
+        }
+        lastLength = activityDate;
         this.hasAnyMeasurements = true;
       } else if (activity.activityType === ActivityType.Temperature) {
         const temperature = Number((<TemperatureActivityStreamItem>activity).temperature);
