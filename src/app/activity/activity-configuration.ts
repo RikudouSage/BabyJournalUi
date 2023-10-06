@@ -4,6 +4,7 @@ import {map} from "rxjs/operators";
 import {ActivityStreamItem, ActivityStreamService} from "../services/activity-stream.service";
 import {dateDiff} from "../helper/date";
 import {InProgressManager} from "../services/in-progress-manager.service";
+import {AsyncValue} from "../types/async-value";
 
 export function getDefaultIsRunning(
   inProgressManager: InProgressManager,
@@ -121,11 +122,11 @@ export function getDefaultLastActivityAt(
 }
 
 export interface ActivityConfiguration {
-  isRunning: Observable<boolean> | Promise<boolean>;
-  displayName: Observable<boolean> | Promise<boolean>;
+  isRunning: AsyncValue<boolean>;
+  displayName: AsyncValue<string>;
   color: string;
   link: string;
-  lastActivityAt: Observable<Date | null>;
+  lastActivityAt: AsyncValue<Date | null>;
 
   // reloadStatus(): void;
 }

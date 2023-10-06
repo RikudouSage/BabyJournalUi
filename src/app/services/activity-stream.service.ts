@@ -8,6 +8,7 @@ import {EncryptorService} from "./encryptor.service";
 import {ActivityType} from "../enum/activity-type.enum";
 import {FeedingType} from "../types/feeding-type.type";
 import {toObservable, toPromise} from "../helper/observables";
+import {NamedMilestone} from "../enum/named-milestone.enum";
 
 
 export interface ActivityStreamItem {
@@ -53,6 +54,11 @@ export interface LengthActivityStreamItem extends ActivityStreamItem {
 
 export interface TemperatureActivityStreamItem extends ActivityStreamItem {
   temperature: string;
+}
+
+export interface MilestoneActivityStreamItem extends ActivityStreamItem {
+  milestoneName: string | null;
+  predefinedMilestone: NamedMilestone | null;
 }
 
 export type ActivityStream = ActivityStreamItem[];

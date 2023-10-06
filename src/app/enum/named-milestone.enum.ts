@@ -1,0 +1,16 @@
+export enum NamedMilestone {
+  Custom = 'custom',
+  Smiling = 'smiling',
+  ObjectTracking = 'object-tracking',
+  Cooing = 'cooing',
+  Laughing = 'laughing',
+  RollingFromStomachToBack = 'rolling-stomach-to-back',
+  ObjectGrasping = 'object-grasping',
+  Babbling = 'babbling',
+  Crawling = 'crawling',
+  FirstWords = 'first-words',
+  Standing = 'standing',
+  WalkingWithSupport = 'walking-with-support',
+  Pointing = 'pointing',
+  Walking = 'walking',
+}

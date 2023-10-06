@@ -8,7 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class MeasurementsActivityConfiguration implements ActivityConfiguration {
   color: string = '#7c4dff';
-  displayName: Observable<boolean> = this.translator.get('Measurements');
+  displayName: Observable<string> = this.translator.get('Measurements');
   isRunning: Observable<boolean> = of(false);
   lastActivityAt: Observable<null> = of(null);
   link: string = '/activities/measurements';

@@ -8,4 +8,5 @@ export enum ActivityType {
   Weighing = 'weighing',
   Temperature = 'temperature',
   Length = 'length',
+  Milestone = 'milestone',
 }
