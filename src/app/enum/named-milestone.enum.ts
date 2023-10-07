@@ -13,7 +13,7 @@ export enum NamedMilestone {
   FeetInMouth = 'feet-in-mouth',
   FirstWords = 'first-words',
   Standing = 'standing',
-  WalkingWithSupport = 'walking-with-support',
   Pointing = 'pointing',
+  WalkingWithSupport = 'walking-with-support',
   Walking = 'walking',
 }
