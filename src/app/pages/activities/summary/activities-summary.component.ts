@@ -133,6 +133,7 @@ export class ActivitiesSummaryComponent implements OnInit {
     date: <FormControl<Date>>new FormControl(new Date()),
   })
   public activityStream: ActivityStream = [];
+  public filteredActivityStream: ActivityStream = [];
   public summary: CategorySummary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
   public currentMeasurements: CurrentMeasurements = JSON.parse(JSON.stringify(this.emptyMeasurements));
   public loading = true;
@@ -212,6 +213,9 @@ export class ActivitiesSummaryComponent implements OnInit {
       const activityDate = new Date(item.startTime);
 
       if (item.activityType === ActivityType.Weighing) {
+        return activityDate.getTime() <= new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999).getTime();
+      }
+      if (item.activityType === ActivityType.Length) {
         return activityDate.getTime() <= new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999).getTime();
       }
 
@@ -310,6 +314,14 @@ export class ActivitiesSummaryComponent implements OnInit {
         }
       }
     }
+
+    this.filteredActivityStream = this.activityStream.filter(item => {
+      const activityDate = new Date(item.startTime);
+
+      return date.getFullYear() === activityDate.getFullYear()
+        && date.getMonth() === activityDate.getMonth()
+        && date.getDate() === activityDate.getDate();
+    });
 
     if (this.childBirthDate !== null) {
       this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();

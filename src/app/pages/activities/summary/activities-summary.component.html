@@ -16,8 +16,8 @@
           <mat-card-title>{{changeDateForm.controls.date.value | relativeDate | async | uppercaseFirst}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <ng-container *ngIf="activityStream.length else noActivities">
-            <ng-container *ngFor="let activity of activityStream; let last = last">
+          <ng-container *ngIf="filteredActivityStream.length else noActivities">
+            <ng-container *ngFor="let activity of filteredActivityStream; let last = last">
               <app-activity-event [activity]="activity"></app-activity-event>
               <mat-divider *ngIf="!last"></mat-divider>
             </ng-container>
