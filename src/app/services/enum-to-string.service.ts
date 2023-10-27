@@ -100,6 +100,9 @@ export class EnumToStringService {
       case NamedMilestone.FeetInMouth:
         stringToTranslate = 'Putting feet in mouth';
         break;
+      case NamedMilestone.FirstTooth:
+        stringToTranslate = 'First tooth';
+        break;
     }
 
     return this.translator.get(stringToTranslate);
@@ -159,6 +162,8 @@ export class EnumToStringService {
       case NamedMilestone.FeetInMouth:
         stringToTranslate = `Remember those remarkably grabbable objects called feet {{childName}} discovered recently? Well, turns out they're also very tasty!`;
         break;
+      case NamedMilestone.FirstTooth:
+        stringToTranslate = 'Alert the tooth fairy! {{childName}} has just sprouted some pearly whites! Brace yourself, the teeth era is coming...';
     }
 
     return this.translator.get(stringToTranslate, {
