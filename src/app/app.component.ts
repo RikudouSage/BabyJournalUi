@@ -166,9 +166,4 @@ export class AppComponent implements OnInit {
       this.iconRegistry.addSvgIcon(icon, this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/svg/${icon}.svg`));
     }
   }
-
-  public async openDonationsLink(event: MouseEvent) {
-    event.preventDefault();
-    window.open(this.donationsLink, '_blank');
-  }
 }
