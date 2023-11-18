@@ -24,6 +24,7 @@ import {SharedInProgressActivityRepository} from "./entity/shared-in-progress-ac
 import {WeighingActivityRepository} from "./entity/weighing-activity.entity";
 import {SwUpdate} from "@angular/service-worker";
 import {TemperatureMeasuringActivityRepository} from "./entity/temperature-measuring-activity.entity";
+import {environment} from "../environments/environment";
 
 type AppMode = 'browser' | 'standalone' | 'android';
 
@@ -33,6 +34,8 @@ type AppMode = 'browser' | 'standalone' | 'android';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  public readonly donationsLink = environment.donationsLink;
+
   private offlineSnackBar: MatSnackBarRef<TextOnlySnackBar>;
   public appLikeNavigation: boolean = true;
 
@@ -162,5 +165,10 @@ export class AppComponent implements OnInit {
     for (const icon of icons) {
       this.iconRegistry.addSvgIcon(icon, this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/svg/${icon}.svg`));
     }
+  }
+
+  public async openDonationsLink(event: MouseEvent) {
+    event.preventDefault();
+    window.open(this.donationsLink, '_blank');
   }
 }
