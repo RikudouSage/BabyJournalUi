@@ -76,6 +76,10 @@
         <input matInput formControlName="apiUrl" />
       </mat-form-field>
 
+      <div>
+        <mat-checkbox formControlName="offlineMode">{{"Forbid the app from connecting to the server (offline mode)" | translate}}</mat-checkbox>
+      </div>
+
       <button mat-raised-button (click)="step = null">{{"Cancel" | translate}}</button>
       <button mat-raised-button color="primary">{{"Save" | translate}}</button>
     </form>

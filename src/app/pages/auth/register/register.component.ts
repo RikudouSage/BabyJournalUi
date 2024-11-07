@@ -11,6 +11,7 @@ import {UserManagerService} from "../../../services/user-manager.service";
 import {DatabaseService} from "../../../services/database.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../../../environments/environment";
+import {GlobalOfflineModeService} from "../../../services/global-offline-mode.service";
 
 type Step = 'create' | 'invitationCode' | 'advanced' | 'restore';
 
@@ -31,6 +32,7 @@ export class RegisterComponent implements OnInit {
   });
   public advancedForm = new FormGroup({
     apiUrl: new FormControl(this.api.apiUrl),
+    offlineMode: new FormControl<boolean>(this.offlineMode.isOffline()),
   });
 
   public loading = false;
@@ -45,6 +47,7 @@ export class RegisterComponent implements OnInit {
     private readonly userManager: UserManagerService,
     private readonly database: DatabaseService,
     private readonly snackBar: MatSnackBar,
+    private readonly offlineMode: GlobalOfflineModeService,
   ) {
   }
 
@@ -122,10 +125,11 @@ export class RegisterComponent implements OnInit {
 
   public async saveAdvancedSettings() {
     this.api.apiUrl = this.advancedForm.controls.apiUrl.value || null;
+    this.offlineMode.setOfflineMode(this.advancedForm.value.offlineMode ?? false);
     this.step = null;
 
     this.snackBar.open(
-      await lastValueFrom(this.translator.get('Custom api URL has been set')),
+      await lastValueFrom(this.translator.get('Custom api URL and offline mode preference has been set')),
       await lastValueFrom(this.translator.get('Dismiss')),
       {
         duration: 10_000,

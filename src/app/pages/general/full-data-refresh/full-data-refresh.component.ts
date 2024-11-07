@@ -6,6 +6,7 @@ import {ActivityStreamService} from "../../../services/activity-stream.service";
 import {DatabaseService} from "../../../services/database.service";
 import {Router} from "@angular/router";
 import {WakeLockService} from "../../../services/wake-lock.service";
+import {GlobalOfflineModeService} from "../../../services/global-offline-mode.service";
 
 @Component({
   selector: 'app-initial-loading',
@@ -36,11 +37,19 @@ export class FullDataRefreshComponent implements OnInit {
     private readonly database: DatabaseService,
     private readonly router: Router,
     private readonly wakeLockService: WakeLockService,
+    private readonly offlineMode: GlobalOfflineModeService,
   ) {
   }
 
   public async ngOnInit(): Promise<void> {
     this.titleService.title = this.translator.get('Synchronization');
+
+    if (this.offlineMode.isOffline()) {
+      await this.database.setInitialActivityStreamLoadFinished();
+      await this.router.navigateByUrl('/');
+      return;
+    }
+
     this.activityStreamService.onFullSyncProgress.subscribe(progress => {
       this.running = progress.running;
       this.total = progress.total;
