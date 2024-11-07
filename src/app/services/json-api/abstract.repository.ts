@@ -1,12 +1,13 @@
 import {AbstractEntity} from './abstract.entity';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {from, Observable, of, tap} from 'rxjs';
-import {Injectable} from '@angular/core';
+import {effect, Injectable, Signal} from '@angular/core';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {JsonApiRegistry} from './json-api-registry';
 import {DocumentCollection} from './document-collection';
 import {EncryptedValue} from "../../dto/encrypted-value";
 import {ApiUrlService} from "../api-url.service";
+import {GlobalOfflineModeService} from "../global-offline-mode.service";
 
 type Seconds = number;
 
@@ -31,6 +32,7 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
   abstract resource: typeof AbstractEntity;
   abstract type: string;
 
+  protected isOffline: Signal<boolean>;
   protected useCache = false;
   protected cacheValidity: Seconds = 10;
 
@@ -40,7 +42,9 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
     private httpClient: HttpClient,
     private registry: JsonApiRegistry,
     private apiUrlService: ApiUrlService,
+    offlineMode: GlobalOfflineModeService,
   ) {
+    this.isOffline = offlineMode.isOffline;
   }
 
   private getUrl(id: string | number | null = null, config: FetchConfig = {}) {
@@ -158,6 +162,10 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
   }
 
   public create(entity: T, wholeTree: boolean = true): Observable<T> {
+    if (this.isOffline()) {
+      return of(entity);
+    }
+
     return from(entity.serialize(wholeTree)).pipe(
       switchMap(serialized => {
         return this.httpClient.post(this.getUrl(), serialized, {
@@ -174,6 +182,10 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
   }
 
   public update(entity: T, wholeTree: boolean = true): Observable<T> {
+    if (this.isOffline()) {
+      return of(entity);
+    }
+
     return from(entity.serialize(wholeTree)).pipe(
       switchMap(serialized => {
         return this.httpClient.patch(this.getUrl(entity.id), serialized, {
@@ -189,6 +201,10 @@ export abstract class AbstractRepository<T extends AbstractEntity> {
   }
 
   public delete(entity: T): Observable<boolean> {
+    if (this.isOffline()) {
+      return of(true);
+    }
+
     return this
       .httpClient
       .delete(

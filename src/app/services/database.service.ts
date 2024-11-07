@@ -252,6 +252,14 @@ export class DatabaseService {
     localStorage.setItem('fullActivityStreamLastFetched', date.toISOString());
   }
 
+  public get offlineMode(): boolean {
+    return localStorage.getItem("offlineMode") === "true";
+  }
+
+  public set offlineMode(value: boolean) {
+    localStorage.setItem("offlineMode", String(value));
+  }
+
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
       this.db = await openDB(this.databaseName, 3, {

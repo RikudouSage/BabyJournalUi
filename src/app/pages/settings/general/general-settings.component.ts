@@ -8,6 +8,7 @@ import {lastValueFrom} from "rxjs";
 import {getPrimaryBrowserLanguage} from "../../../helper/language";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {toPromise} from "../../../helper/observables";
+import {GlobalOfflineModeService} from "../../../services/global-offline-mode.service";
 
 @Component({
   selector: 'app-general',
@@ -20,6 +21,7 @@ export class GeneralSettingsComponent implements OnInit {
 
   public settingsForm = new FormGroup({
     language: <FormControl<AppLanguage>>new FormControl(this.database.getLanguage()),
+    offlineMode: new FormControl(this.offlineMode.isOffline()),
   });
 
   constructor(
@@ -27,6 +29,7 @@ export class GeneralSettingsComponent implements OnInit {
     private readonly titleService: TitleService,
     private readonly database: DatabaseService,
     private readonly snackBar: MatSnackBar,
+    private readonly offlineMode: GlobalOfflineModeService,
   ) {
   }
 
@@ -49,6 +52,16 @@ export class GeneralSettingsComponent implements OnInit {
 
       this.snackBar.open(
         await toPromise(this.translator.get('Successfully saved! App restart might be needed.')),
+        await toPromise(this.translator.get('Dismiss')),
+        {
+          duration: 10_000,
+        },
+      );
+    });
+    this.settingsForm.controls.offlineMode.valueChanges.subscribe(async offline => {
+      this.offlineMode.setOfflineMode(offline ?? false);
+      this.snackBar.open(
+        await toPromise(this.translator.get('Successfully saved!')),
         await toPromise(this.translator.get('Dismiss')),
         {
           duration: 10_000,

@@ -9,6 +9,7 @@ import {ActivityType} from "../enum/activity-type.enum";
 import {FeedingType} from "../types/feeding-type.type";
 import {toObservable, toPromise} from "../helper/observables";
 import {NamedMilestone} from "../enum/named-milestone.enum";
+import {GlobalOfflineModeService} from "./global-offline-mode.service";
 
 
 export interface ActivityStreamItem {
@@ -99,6 +100,7 @@ export class ActivityStreamService {
     private readonly database: DatabaseService,
     private readonly httpClient: HttpClient,
     private readonly encryptor: EncryptorService,
+    private readonly offlineMode: GlobalOfflineModeService,
   ) {
   }
 
@@ -236,6 +238,10 @@ export class ActivityStreamService {
   }
 
   private getChangedActivityStream(): Observable<ActivityStream> {
+    if (this.offlineMode.isOffline()) {
+      return of([]);
+    }
+
     return this.httpClient.get<ActivityStream>(`${this.api.apiUrl}/activities/changes`).pipe(
       map (async stream => {
         return await Promise.all(stream.map(async item => {

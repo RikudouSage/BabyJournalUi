@@ -1,4 +1,4 @@
-import {Component, HostListener, Injector, OnInit} from '@angular/core';
+import {Component, HostListener, Injector, OnInit, Signal} from '@angular/core';
 import {lastValueFrom, Observable, tap} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
@@ -25,6 +25,7 @@ import {WeighingActivityRepository} from "./entity/weighing-activity.entity";
 import {SwUpdate} from "@angular/service-worker";
 import {TemperatureMeasuringActivityRepository} from "./entity/temperature-measuring-activity.entity";
 import {environment} from "../environments/environment";
+import {GlobalOfflineModeService} from "./services/global-offline-mode.service";
 
 type AppMode = 'browser' | 'standalone' | 'android';
 
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
   public appLikeNavigation: boolean = true;
 
   public appMode: AppMode = 'browser';
+  public readonly isOffline: Signal<boolean>;
 
   private updateAvailable: boolean = false;
   private updateChecked: boolean = false;
@@ -65,7 +67,10 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly updates: SwUpdate,
     database: DatabaseService,
+    offlineMode: GlobalOfflineModeService,
   ) {
+    this.isOffline = offlineMode.isOffline;
+
     translator.use(database.getEffectiveLanguage());
     router.events.subscribe(event => {
       if (!this.appLikeNavigation) {
