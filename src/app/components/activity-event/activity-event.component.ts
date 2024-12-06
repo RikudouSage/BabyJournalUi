@@ -4,6 +4,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {EnumToStringService} from "../../services/enum-to-string.service";
 import {BreastIndex} from "../../enum/breast-index.enum";
 import {ActivityStreamItem} from "../../services/activity-stream.service";
+import {NamedMilestone} from "../../enum/named-milestone.enum";
 
 @Component({
   selector: 'app-activity-event',
@@ -12,10 +13,14 @@ import {ActivityStreamItem} from "../../services/activity-stream.service";
 })
 export class ActivityEventComponent {
   @Input() activity: ActivityStreamItem;
+  @Input() fullDateTime: boolean = false;
 
   protected readonly ActivityType = ActivityType;
+  protected readonly NamedMilestone = NamedMilestone;
+
   public readonly bottleContentTypeToString = this.enumToString.bottleContentTypeToString;
   public readonly breastIndexToString = this.enumToString.breastIndexToString;
+  public readonly milestoneToDescription = this.enumToString.milestoneDescription;
 
   constructor(
     private readonly translator: TranslateService,

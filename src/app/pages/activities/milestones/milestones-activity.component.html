@@ -1,0 +1,57 @@
+<mat-spinner class="global" *ngIf="loading else content"></mat-spinner>
+
+<ng-template #content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{"Add a milestone" | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (submit)="onSubmit()">
+        <mat-error class="center" *ngIf="errorMessage | async; let message">
+          {{message}}
+        </mat-error>
+
+        <input type="hidden" formControlName="startTime" [mtxDatetimepicker]="datePicker"/>
+        <mtx-datetimepicker [touchUi]="isHandset | async" hidden startView="clock" #datePicker></mtx-datetimepicker>
+        <button type="button" class="time-button" mat-button color="accent" (click)="datePicker.open()">
+          {{"Time" | translate}}:
+          {{form.controls.startTime.value | timeOrNull:'Not selected' | translate}}
+        </button>
+        <mat-form-field>
+          <mat-label>{{'Milestone' | translate}}</mat-label>
+          <mat-select formControlName="namedMilestone">
+            <ng-container *ngFor="let key of NamedMilestone | objectKeys">
+              <mat-option *ngIf="!achievedNamedMilestones.includes(NamedMilestone[key])" [value]="NamedMilestone[key]">
+                {{NamedMilestone[key] | enumToString:translatableNamedMilestoneName | async }}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="form.controls.namedMilestone.value === NamedMilestone.Custom">
+          <mat-label>{{'Milestone name' | translate}}</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{"Notes" | translate}}</mat-label>
+          <input matInput formControlName="note" />
+        </mat-form-field>
+
+        <button class="save-button" mat-raised-button color="primary" type="submit">{{"Save" | translate}}</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{"Milestones" | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="activityStream && activityStream.length; else noActivities">
+        <app-activity-event [fullDateTime]="true" *ngFor="let activity of activityStream" [activity]="activity" />
+      </ng-container>
+      <ng-template #noActivities>
+        <p class="center">{{"No milestones have been tracked yet. But don't worry, they'll be coming soon!" | translate}}</p>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

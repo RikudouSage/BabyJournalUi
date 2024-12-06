@@ -39,6 +39,10 @@ import {WeighingEditComponent} from "./pages/activities/measurements/weighing-ed
 import {TemperatureActivityComponent} from "./pages/activities/medical/temperature/temperature-activity.component";
 import {MedicalActivityComponent} from "./pages/activities/medical/medical/medical-activity.component";
 import {TemperatureEditComponent} from "./pages/activities/medical/temperature-edit/temperature-edit.component";
+import {LengthActivityComponent} from "./pages/activities/measurements/length/length-activity.component";
+import {LengthEditComponent} from "./pages/activities/measurements/length-edit/length-edit.component";
+import {MilestonesActivityComponent} from "./pages/activities/milestones/milestones-activity.component";
+import {EditMilestoneComponent} from "./pages/activities/edit-milestone/edit-milestone.component";
 
 const routes: Routes = [
   {
@@ -151,8 +155,28 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'activities/length/edit/:id',
+    component: LengthEditComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
     path: 'activities/temperature/edit/:id',
     component: TemperatureEditComponent,
+    canActivate: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+    ],
+  },
+  {
+    path: 'activities/milestone/edit/:id',
+    component: EditMilestoneComponent,
     canActivate: [
       BrowserSupportGuard,
       IsLoggedInGuard,
@@ -190,6 +214,10 @@ const routes: Routes = [
         path: 'weight',
         component: WeighingActivityComponent,
       },
+      {
+        path: 'length',
+        component: LengthActivityComponent,
+      },
     ],
     canActivate: [
       BrowserSupportGuard,
@@ -223,6 +251,17 @@ const routes: Routes = [
       InitialLoadFinishedGuard,
     ],
     canActivateChild: [
+      BrowserSupportGuard,
+      IsLoggedInGuard,
+      HasChildrenGuard,
+      ChildIsSelectedGuard,
+      InitialLoadFinishedGuard,
+    ],
+  },
+  {
+    path: 'activities/milestones',
+    component: MilestonesActivityComponent,
+    canActivate: [
       BrowserSupportGuard,
       IsLoggedInGuard,
       HasChildrenGuard,

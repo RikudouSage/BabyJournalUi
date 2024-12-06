@@ -1,0 +1,41 @@
+<mat-spinner class="global" *ngIf="loading; else content"></mat-spinner>
+
+<ng-template #content>
+  <form [formGroup]="form" (submit)="save()">
+    <mat-card>
+      <mat-card-content>
+        <mat-error class="center" *ngIf="errorMessage | async; let message">
+          {{message}}
+        </mat-error>
+        <mat-form-field>
+          <mat-label>{{'Start' | translate}}</mat-label>
+          <input matInput formControlName="startTime" [mtxDatetimepicker]="startTime" required/>
+          <mtx-datetimepicker-toggle matIconSuffix [for]="startTime"></mtx-datetimepicker-toggle>
+          <mtx-datetimepicker #startTime [touchUi]="isHandset | async" startView="clock"></mtx-datetimepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'Milestone' | translate}}</mat-label>
+          <mat-select formControlName="namedMilestone">
+              <mat-option *ngFor="let key of NamedMilestone | objectKeys" [value]="NamedMilestone[key]">
+                {{NamedMilestone[key] | enumToString:translatableNamedMilestoneName | async }}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="form.controls.namedMilestone.value === NamedMilestone.Custom">
+          <mat-label>{{'Milestone name' | translate}}</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{"Notes" | translate}}</mat-label>
+          <input matInput formControlName="note" />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <button class="left-corner-fab" mat-fab color="warn" type="button" (click)="confirmDelete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button class="right-corner-fab" mat-fab color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </form>
+</ng-template>

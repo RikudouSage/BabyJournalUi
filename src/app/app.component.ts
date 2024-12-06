@@ -24,6 +24,7 @@ import {SharedInProgressActivityRepository} from "./entity/shared-in-progress-ac
 import {WeighingActivityRepository} from "./entity/weighing-activity.entity";
 import {SwUpdate} from "@angular/service-worker";
 import {TemperatureMeasuringActivityRepository} from "./entity/temperature-measuring-activity.entity";
+import {environment} from "../environments/environment";
 
 type AppMode = 'browser' | 'standalone' | 'android';
 
@@ -33,6 +34,8 @@ type AppMode = 'browser' | 'standalone' | 'android';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  public readonly donationsLink = environment.donationsLink;
+
   private offlineSnackBar: MatSnackBarRef<TextOnlySnackBar>;
   public appLikeNavigation: boolean = true;
 
@@ -82,6 +85,8 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    this.registerRepositories();
   }
 
   public async ngOnInit(): Promise<void> {
@@ -104,7 +109,6 @@ export class AppComponent implements OnInit {
       await this.onOffline();
     }
     this.registerCustomIcons();
-    this.registerRepositories();
 
     if (window.matchMedia('(display-mode: standalone)').matches) {
       this.appMode = 'standalone';

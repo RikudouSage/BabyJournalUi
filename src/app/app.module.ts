@@ -109,6 +109,15 @@ import {CelsiusConverter} from "./services/units/celsius.converter";
 import {FahrenheitConverter} from "./services/units/fahrenheit.converter";
 import { ConvertTemperaturePipe } from './pipes/convert-temperature.pipe';
 import { UnitAmountComponent } from './components/unit-amount/unit-amount.component';
+import {LengthActivityConfiguration} from "./activity/measurements/length-activity.configuration";
+import { LengthActivityComponent } from './pages/activities/measurements/length/length-activity.component';
+import { LengthEditComponent } from './pages/activities/measurements/length-edit/length-edit.component';
+import { LanguageNamePipe } from './pipes/language-name.pipe';
+import {MilestonesActivityConfiguration} from "./activity/main/milestones.activity-configuration";
+import { MilestonesActivityComponent } from './pages/activities/milestones/milestones-activity.component';
+import { EnumToStringPipe } from './pipes/enum-to-string.pipe';
+import { DatetimeOrNullPipe } from './pipes/datetime-or-null.pipe';
+import { EditMilestoneComponent } from './pages/activities/edit-milestone/edit-milestone.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -171,6 +180,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConvertVolumePipe,
     ConvertTemperaturePipe,
     UnitAmountComponent,
+    LengthActivityComponent,
+    LengthEditComponent,
+    LanguageNamePipe,
+    MilestonesActivityComponent,
+    EnumToStringPipe,
+    DatetimeOrNullPipe,
+    EditMilestoneComponent,
   ],
   imports: [
     BrowserModule,
@@ -228,10 +244,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: ACTIVITY_CONFIGURATIONS, useClass: SleepingActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     {provide: ACTIVITY_CONFIGURATIONS, useClass: MeasurementsActivityConfiguration, multi: true},
+    {provide: ACTIVITY_CONFIGURATIONS, useClass: MilestonesActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: LeisureActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: MedicalActivityConfiguration, multi: true},
     // {provide: ACTIVITY_CONFIGURATIONS, useClass: OtherActivityConfiguration, multi: true},
     {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: WeighingActivityConfiguration, multi: true},
+    {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: LengthActivityConfiguration, multi: true},
     {provide: MEDICAL_ACTIVITY_CONFIGURATIONS, useClass: TemperatureActivityConfiguration, multi: true},
 
     {provide: WEIGHT_UNIT_CONVERTER, useClass: GramUnitConverter, multi: true},

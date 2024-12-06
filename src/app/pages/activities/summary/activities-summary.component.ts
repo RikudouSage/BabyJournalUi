@@ -17,8 +17,9 @@ import {
   ActivityStreamService,
   BottleFeedingActivityStreamItem,
   BreastFeedingActivityStreamItem,
-  DiaperingActivityStreamItem,
-  PumpingActivityStreamItem, TemperatureActivityStreamItem,
+  DiaperingActivityStreamItem, LengthActivityStreamItem,
+  PumpingActivityStreamItem,
+  TemperatureActivityStreamItem,
   WeighingActivityStreamItem
 } from "../../../services/activity-stream.service";
 import {toPromise} from "../../../helper/observables";
@@ -72,6 +73,7 @@ interface MeasurementValue {
 
 interface CurrentMeasurements {
   weight: MeasurementValue;
+  length: MeasurementValue;
 }
 
 @Component({
@@ -85,6 +87,10 @@ export class ActivitiesSummaryComponent implements OnInit {
 
   private readonly emptyMeasurements: CurrentMeasurements = {
     weight: {
+      date: new Date(),
+      value: 0,
+    },
+    length: {
       date: new Date(),
       value: 0,
     },
@@ -127,6 +133,7 @@ export class ActivitiesSummaryComponent implements OnInit {
     date: <FormControl<Date>>new FormControl(new Date()),
   })
   public activityStream: ActivityStream = [];
+  public filteredActivityStream: ActivityStream = [];
   public summary: CategorySummary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
   public currentMeasurements: CurrentMeasurements = JSON.parse(JSON.stringify(this.emptyMeasurements));
   public loading = true;
@@ -173,6 +180,13 @@ export class ActivitiesSummaryComponent implements OnInit {
           date: child.attributes.birthDay !== null ? new Date(child.attributes.birthDay.decrypted) : null,
         }
       }
+      if (child.attributes.birthHeight !== null) {
+        this.hasAnyMeasurements = true;
+        this.currentMeasurements.length = {
+          value: Number(child.attributes.birthHeight.decrypted),
+          date: child.attributes.birthHeight !== null ? new Date(child.attributes.birthHeight.decrypted) : null,
+        };
+      }
     }
     this.activityStreamService.getActivityStream().subscribe(async activityStream => {
       this.fullActivityStream = activityStream;
@@ -201,6 +215,9 @@ export class ActivitiesSummaryComponent implements OnInit {
       if (item.activityType === ActivityType.Weighing) {
         return activityDate.getTime() <= new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999).getTime();
       }
+      if (item.activityType === ActivityType.Length) {
+        return activityDate.getTime() <= new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999).getTime();
+      }
 
       return date.getFullYear() === activityDate.getFullYear()
         && date.getMonth() === activityDate.getMonth()
@@ -211,6 +228,7 @@ export class ActivitiesSummaryComponent implements OnInit {
     this.hasAnyMeasurements = false;
 
     let lastWeight: Date | null = null;
+    let lastLength: Date | null = null;
 
     for (const activity of this.activityStream) {
       if (activity.activityType === ActivityType.FeedingBottle) {
@@ -278,6 +296,16 @@ export class ActivitiesSummaryComponent implements OnInit {
         }
         lastWeight = activityDate;
         this.hasAnyMeasurements = true;
+      } else if (activity.activityType === ActivityType.Length) {
+        const activityDate = new Date(activity.startTime);
+        if (lastLength === null || activityDate.getTime() > lastLength.getTime()) {
+          this.currentMeasurements.length = {
+            date: activityDate,
+            value: Number((<LengthActivityStreamItem>activity).length),
+          };
+        }
+        lastLength = activityDate;
+        this.hasAnyMeasurements = true;
       } else if (activity.activityType === ActivityType.Temperature) {
         const temperature = Number((<TemperatureActivityStreamItem>activity).temperature);
         if (temperature < this.summary.temperature.min || this.summary.temperature.min < 0) {
@@ -288,6 +316,14 @@ export class ActivitiesSummaryComponent implements OnInit {
         }
       }
     }
+
+    this.filteredActivityStream = this.activityStream.filter(item => {
+      const activityDate = new Date(item.startTime);
+
+      return date.getFullYear() === activityDate.getFullYear()
+        && date.getMonth() === activityDate.getMonth()
+        && date.getDate() === activityDate.getDate();
+    });
 
     if (this.childBirthDate !== null) {
       this.isDateBeforeChildBirth = date.getTime() < this.childBirthDate.getTime();

@@ -62,6 +62,8 @@ export class RegisterComponent implements OnInit {
 
     if (this.createForm.controls.parentalUnitId.value) {
       await this.api.refreshShareCode();
+    } else {
+      await this.database.setInitialActivityStreamLoadFinished(true);
     }
 
     await this.router.navigateByUrl('/');

@@ -9,6 +9,7 @@
         <a mat-list-item routerLink="/" (click)="hideDrawer(drawer)">{{"Home" | translate}}</a>
         <a mat-list-item routerLink="/privacy" (click)="hideDrawer(drawer)">{{"Privacy" | translate}}</a>
         <a mat-list-item routerLink="/about" (click)="hideDrawer(drawer)">{{"About" | translate}}</a>
+        <a mat-list-item *ngIf="donationsLink" [href]="donationsLink" (click)="hideDrawer(drawer);" target="_blank">{{"Donate" | translate}}</a>
       </ng-container>
       <ng-template #menu>
         <a mat-list-item routerLink="/" (click)="hideDrawer(drawer)">{{"Home" | translate}}</a>
@@ -18,7 +19,7 @@
         <a mat-list-item routerLink="/privacy" (click)="hideDrawer(drawer)">{{"Privacy" | translate}}</a>
         <a mat-list-item routerLink="/full-data-refresh" (click)="hideDrawer(drawer)">{{"Synchronize" | translate}}</a>
         <a mat-list-item routerLink="/auth/logout" (click)="hideDrawer(drawer)">{{"Logout" | translate}}</a>
-        <a mat-list-item routerLink="/about" (click)="hideDrawer(drawer)">{{"About" | translate}}</a>
+        <a mat-list-item *ngIf="donationsLink" [href]="donationsLink" (click)="hideDrawer(drawer);" target="_blank">{{"Donate" | translate}}</a>
       </ng-template>
     </mat-nav-list>
   </mat-sidenav>

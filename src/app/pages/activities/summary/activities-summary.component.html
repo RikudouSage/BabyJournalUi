@@ -16,8 +16,8 @@
           <mat-card-title>{{changeDateForm.controls.date.value | relativeDate | async | uppercaseFirst}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <ng-container *ngIf="activityStream.length else noActivities">
-            <ng-container *ngFor="let activity of activityStream; let last = last">
+          <ng-container *ngIf="filteredActivityStream.length else noActivities">
+            <ng-container *ngFor="let activity of filteredActivityStream; let last = last">
               <app-activity-event [activity]="activity"></app-activity-event>
               <mat-divider *ngIf="!last"></mat-divider>
             </ng-container>
@@ -43,8 +43,18 @@
               amount: currentMeasurements.weight.value | convertWeight | unitToString | async,
              }) + (currentMeasurements.weight.date ? ' (' + (currentMeasurements.weight.date! | relativeDate | async) + ')' : '') + ('.')"
             ></p>
+            <mat-divider></mat-divider>
           </ng-container>
-          <mat-divider></mat-divider>
+          <ng-container *ngIf="currentMeasurements.length.value">
+            <p [innerText]="('{{childName}}\'s length is {{amount}}{{unit}}' | translate: {
+              dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
+              childName: childName | async,
+              amount: currentMeasurements.length.value,
+              unit: 'cm'
+             }) + (currentMeasurements.length.date ? ' (' + (currentMeasurements.length.date! | relativeDate | async) + ')' : '') + ('.')"
+            ></p>
+            <mat-divider></mat-divider>
+          </ng-container>
         </mat-card-content>
       </mat-card>
       <!-- Feeding -->
@@ -194,7 +204,7 @@
         <mat-card-content>
           <mat-divider></mat-divider>
           <p
-            *ngIf="!summary.temperature.max else temperatureSummary"
+            *ngIf="summary.temperature.max <= 0 else temperatureSummary"
             [innerText]="'{{dateDescription}} {{childName}} doesn\'t have any health related activities.' | translate: {
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,

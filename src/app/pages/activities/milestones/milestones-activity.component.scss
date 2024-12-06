@@ -1,0 +1,31 @@
+mat-card {
+  margin-top: 1vh;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.save-button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1vh;
+}
+
+.time-button {
+  @extend .save-button;
+  margin-bottom: 1vh;
+}
+
+.center {
+  text-align: center;
+}
+
+app-activity-event {
+  display: block;
+  margin-bottom: 1vh;
+  &:first-of-type {
+    margin-top: 1vh;
+  }
+}

@@ -15,7 +15,7 @@ import {InProgressManager} from "../../services/in-progress-manager.service";
 })
 export class PumpingActivityConfiguration implements ActivityConfiguration {
   color: string = '#00897b';
-  displayName: Observable<boolean> = this.translator.get('Pumping');
+  displayName: Observable<string> = this.translator.get('Pumping');
   isRunning: Observable<boolean> = getDefaultIsRunning(this.inProgressManager, [ActivityType.Pumping]);
   link: string = 'activities/pumping';
   lastActivityAt = toObservable(this.api.getSettings())

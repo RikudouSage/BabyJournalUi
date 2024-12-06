@@ -11,3 +11,11 @@
 <p>
   {{"App icon by" | translate }} <a href="https://vverner.carrd.co/" target="_blank">Werner Fismer</a>.
 </p>
+<hr>
+<br>
+<p>{{'Translations' | translate}}:</p>
+<ul>
+  <li *ngFor="let pair of translators | keyvalue">
+    {{pair.key | languageName:pair.key}} ({{pair.key | languageName:currentLanguage}}) - <strong>{{pair.value}}</strong>
+  </li>
+</ul>

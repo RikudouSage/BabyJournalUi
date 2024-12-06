@@ -80,10 +80,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "BabyTrackerUi:build:production"
+              "buildTarget": "BabyTrackerUi:build:production"
             },
             "development": {
-              "browserTarget": "BabyTrackerUi:build:development"
+              "buildTarget": "BabyTrackerUi:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -91,7 +91,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "BabyTrackerUi:build"
+            "buildTarget": "BabyTrackerUi:build"
           }
         },
         "test": {
