@@ -1,4 +1,4 @@
 export interface ConvertPipeResult {
-  amounts: number[];
+  amounts: Array<string|number>;
   units: string[];
 }

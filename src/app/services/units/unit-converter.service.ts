@@ -29,7 +29,7 @@ export class UnitConverterService {
     this.init([...weightUnitConverters, ...volumeUnitConverters, ...temperatureUnitConverters]);
   }
 
-  public convertWeight(defaultUnitAmount: number, unitName: string | null = null): number[] {
+  public convertWeight(defaultUnitAmount: number, unitName: string | null = null): Array<string|number> {
     unitName ??= this.database.getWeightUnit();
     return this.findConverterById(unitName, UnitConverterType.Weight).convertFromDefault(defaultUnitAmount);
   }
@@ -39,7 +39,7 @@ export class UnitConverterService {
     return this.findConverterById(unitName, UnitConverterType.Weight).units;
   }
 
-  public convertVolume(defaultUnitAmount: number, unitName: string | null = null): number[] {
+  public convertVolume(defaultUnitAmount: number, unitName: string | null = null): Array<string|number> {
     unitName ??= this.database.getVolumeUnit();
     return this.findConverterById(unitName, UnitConverterType.Volume).convertFromDefault(defaultUnitAmount);
   }
@@ -49,7 +49,7 @@ export class UnitConverterService {
     return this.findConverterById(unitName, UnitConverterType.Volume).units;
   }
 
-  public convertTemperature(defaultUnitAmount: number, unitName: string | null = null): number[] {
+  public convertTemperature(defaultUnitAmount: number, unitName: string | null = null): Array<string|number> {
     unitName ??= this.database.getTemperatureUnit();
     return this.findConverterById(unitName, UnitConverterType.Temperature).convertFromDefault(defaultUnitAmount);
   }

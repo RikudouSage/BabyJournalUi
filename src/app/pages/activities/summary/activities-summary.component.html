@@ -66,7 +66,7 @@
           <mat-divider></mat-divider>
           <ng-container *ngIf="summary.feeding.total.bottle else noBottle">
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} drank <strong>{{totalAmount}}</strong> from bottle.' | translate:{
+              [innerHTML]="'{{dateDescription}} {{childName}} drank <strong>{{totalAmount}}</strong> from a bottle.' | translate:{
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
               totalAmount: summary.feeding.total.bottle | convertVolume | unitToString | async,
@@ -84,7 +84,7 @@
           </ng-container>
           <ng-template #noBottle>
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} didn\'t drink anything from bottle.' | translate:{
+              [innerHTML]="'{{dateDescription}} {{childName}} didn\'t drink anything from a bottle.' | translate:{
                 dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
                 childName: childName | async,
               }"

@@ -5,6 +5,6 @@ export interface UnitConverter {
   get units(): string[];
   get type(): UnitConverterType;
   get id(): string;
-  convertFromDefault(defaultUnitAmount: number): number[];
+  convertFromDefault(defaultUnitAmount: number): Array<string|number>;
   convertToDefault(currentUnitAmount: number[]): number;
 }
