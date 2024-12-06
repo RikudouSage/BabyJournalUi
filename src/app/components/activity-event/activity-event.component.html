@@ -102,7 +102,7 @@
   </span>
   <span *ngIf="activity.activityType === ActivityType.Weighing">
     <span
-      [innerText]="'{{childName}} was weighed, he/she weighs {{weight}}.' | translate:{
+      [innerText]="'{{childName}} was weighed and now weighs {{weight}}.' | translate:{
         childName: activity.childName,
         weight: activity['weight']! | convertWeight | unitToString | async
       }"
@@ -111,7 +111,7 @@
   </span>
   <span *ngIf="activity.activityType === ActivityType.Temperature">
     <span
-      [innerText]="'{{childName}} had temperature taken, it was {{temperature}}.' | translate:{
+      [innerText]="'{{childName}} had a temperature taken; it was {{temperature}}.' | translate:{
         childName: activity.childName,
         temperature: activity['temperature']! | convertTemperature | unitToString | async
       }"
