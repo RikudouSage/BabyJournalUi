@@ -37,21 +37,19 @@
         <mat-card-content>
           <mat-divider></mat-divider>
           <ng-container *ngIf="currentMeasurements.weight.value">
-            <p [innerText]="('{{childName}} weighs {{amount}}{{unit}}' | translate: {
+            <p [innerText]="('{{childName}} weighs {{amount}}' | translate: {
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
-              amount: currentMeasurements.weight.value,
-              unit: 'g'
+              amount: currentMeasurements.weight.value | convertWeight | unitToString | async,
              }) + (currentMeasurements.weight.date ? ' (' + (currentMeasurements.weight.date! | relativeDate | async) + ')' : '') + ('.')"
             ></p>
             <mat-divider></mat-divider>
           </ng-container>
           <ng-container *ngIf="currentMeasurements.length.value">
-            <p [innerText]="('{{childName}}\'s length is {{amount}}{{unit}}' | translate: {
+            <p [innerText]="('{{childName}} is {{amount}} tall' | translate: {
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
-              amount: currentMeasurements.length.value,
-              unit: 'cm'
+              amount: currentMeasurements.length.value | convertLength | unitToString | async,
              }) + (currentMeasurements.length.date ? ' (' + (currentMeasurements.length.date! | relativeDate | async) + ')' : '') + ('.')"
             ></p>
             <mat-divider></mat-divider>
@@ -67,19 +65,17 @@
           <mat-divider></mat-divider>
           <ng-container *ngIf="summary.feeding.total.bottle else noBottle">
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} drank <strong>{{totalAmount}} {{unit}}</strong> from bottle.' | translate:{
+              [innerHTML]="'{{dateDescription}} {{childName}} drank <strong>{{totalAmount}}</strong> from a bottle.' | translate:{
               dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
               childName: childName | async,
-              totalAmount: summary.feeding.total.bottle,
-              unit: 'ml',
+              totalAmount: summary.feeding.total.bottle | convertVolume | unitToString | async,
             }"
             ></p>
             <ng-container *ngFor="let type of summary.feeding.bottle | keyvalue">
               <p
                 *ngIf="type.value"
-                [innerHTML]="'<strong>{{amount}} {{unit}}</strong> of that was {{type}}.' | translate: {
-                amount: type.value,
-                unit: 'ml',
+                [innerHTML]="'<strong>{{amount}}</strong> of that was {{type}}.' | translate: {
+                amount: $any(type.value) | convertVolume | unitToString | async,
                 type: bottleContentTypeToString($any(type.key)) | async,
               }"
               ></p>
@@ -87,7 +83,7 @@
           </ng-container>
           <ng-template #noBottle>
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} didn\'t drink anything from bottle.' | translate:{
+              [innerHTML]="'{{dateDescription}} {{childName}} didn\'t drink anything from a bottle.' | translate:{
                 dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
                 childName: childName | async,
               }"
@@ -215,12 +211,11 @@
           ></p>
           <ng-template #temperatureSummary>
             <p
-              [innerHTML]="'{{dateDescription}} {{childName}} has had temperature taken, the lowest was {{min}}{{unit}} and the highest was {{max}}{{unit}}.' | translate: {
+              [innerHTML]="'{{dateDescription}} {{childName}} has had a temperature taken, the lowest was {{min}} and the highest was {{max}}.' | translate: {
                 dateDescription: changeDateForm.controls.date.value | relativeDate:true | async,
                 childName: childName | async,
-                min: summary.temperature.min,
-                max: summary.temperature.max,
-                unit: '°C'
+                min: summary.temperature.min | convertTemperature | unitToString | async,
+                max: summary.temperature.max | convertTemperature | unitToString | async
               }"
             ></p>
           </ng-template>
@@ -260,18 +255,16 @@
             </p>
             <p *ngIf="parentSummaryPair.value.total.amount">
               <span
-                [innerHTML]="'{{parentName}} pumped <strong>{{amount}} {{unit}}</strong> in total.' | translate: {
+                [innerHTML]="'{{parentName}} pumped <strong>{{amount}}</strong> in total.' | translate: {
                   parentName: parentSummaryPair.key,
-                  unit: 'ml',
-                  amount: parentSummaryPair.value.total.amount,
+                  amount: parentSummaryPair.value.total.amount | convertVolume | unitToString | async,
                 }"
               ></span>
               <ng-container *ngFor="let type of parentSummaryPair.value.amount | keyvalue">
                 <span
                   *ngIf="type.value"
-                  [innerHTML]="' ' + ('<strong>{{amount}} {{unit}}</strong> of that was from {{sideBreast}}.' | translate: {
-                    amount: type.value,
-                    unit: 'ml',
+                  [innerHTML]="' ' + ('<strong>{{amount}}</strong> of that was from {{sideBreast}}.' | translate: {
+                    amount: type.value | convertVolume | unitToString | async,
                     sideBreast: breastIndexToString(stringNumberToBreastIndex($any(type.key))) | async,
                   })"
                 ></span>

@@ -1,1 +1,6 @@
-{}
+{
+  "unit-converter": {
+    "unit-separator": " "
+  },
+  "{{amount}}{{unit}}": "{{amount}} {{unit}}"
+}

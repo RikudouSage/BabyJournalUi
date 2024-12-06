@@ -28,9 +28,9 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {SelectChildComponent} from './pages/children/select-child/select-child.component';
 import {PotentiallyEncryptedValuePipe} from './pipes/potentially-encrypted-value.pipe';
 import {
-  ACTIVITY_CONFIGURATIONS,
+  ACTIVITY_CONFIGURATIONS, LENGTH_UNIT_CONVERTER,
   MEASUREMENTS_ACTIVITY_CONFIGURATIONS,
-  MEDICAL_ACTIVITY_CONFIGURATIONS
+  MEDICAL_ACTIVITY_CONFIGURATIONS, TEMPERATURE_UNIT_CONVERTER, VOLUME_UNIT_CONVERTER, WEIGHT_UNIT_CONVERTER
 } from "./dependency-injection/injection-tokens";
 import {FeedingActivityConfiguration} from "./activity/main/feeding.activity-configuration";
 import {DiaperingActivityConfiguration} from "./activity/main/diapering.activity-configuration";
@@ -98,6 +98,17 @@ import { TemperatureActivityComponent } from './pages/activities/medical/tempera
 import {MedicalActivityConfiguration} from "./activity/main/medical.activity-configuration";
 import { MedicalActivityComponent } from './pages/activities/medical/medical/medical-activity.component';
 import { TemperatureEditComponent } from './pages/activities/medical/temperature-edit/temperature-edit.component';
+import {GramUnitConverter} from "./services/units/gram.unit-converter";
+import {PoundUnitConverter} from "./services/units/pound.unit-converter";
+import { ConvertWeightPipe } from './pipes/convert-weight.pipe';
+import { UnitToStringPipe } from './pipes/unit-to-string.pipe';
+import {MilliliterUnitConverter} from "./services/units/milliliter-unit.converter";
+import {FluidOunceUnitConverter} from "./services/units/fluid-ounce-unit.converter";
+import { ConvertVolumePipe } from './pipes/convert-volume.pipe';
+import {CelsiusConverter} from "./services/units/celsius.converter";
+import {FahrenheitConverter} from "./services/units/fahrenheit.converter";
+import { ConvertTemperaturePipe } from './pipes/convert-temperature.pipe';
+import { UnitAmountComponent } from './components/unit-amount/unit-amount.component';
 import {LengthActivityConfiguration} from "./activity/measurements/length-activity.configuration";
 import { LengthActivityComponent } from './pages/activities/measurements/length/length-activity.component';
 import { LengthEditComponent } from './pages/activities/measurements/length-edit/length-edit.component';
@@ -107,6 +118,9 @@ import { MilestonesActivityComponent } from './pages/activities/milestones/miles
 import { EnumToStringPipe } from './pipes/enum-to-string.pipe';
 import { DatetimeOrNullPipe } from './pipes/datetime-or-null.pipe';
 import { EditMilestoneComponent } from './pages/activities/edit-milestone/edit-milestone.component';
+import {CentimeterUnitConverter} from "./services/units/centimeter.converter";
+import {FeetUnitConverter} from "./services/units/feet.converter";
+import {ConvertLengthPipe} from "./pipes/convert-length.pipe";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -164,6 +178,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     TemperatureActivityComponent,
     MedicalActivityComponent,
     TemperatureEditComponent,
+    ConvertWeightPipe,
+    UnitToStringPipe,
+    ConvertVolumePipe,
+    ConvertTemperaturePipe,
+    UnitAmountComponent,
     LengthActivityComponent,
     LengthEditComponent,
     LanguageNamePipe,
@@ -219,6 +238,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     MatButtonToggleModule,
     MatCheckboxModule,
+    ConvertLengthPipe,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -235,6 +255,19 @@ export function HttpLoaderFactory(http: HttpClient) {
     {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: WeighingActivityConfiguration, multi: true},
     {provide: MEASUREMENTS_ACTIVITY_CONFIGURATIONS, useClass: LengthActivityConfiguration, multi: true},
     {provide: MEDICAL_ACTIVITY_CONFIGURATIONS, useClass: TemperatureActivityConfiguration, multi: true},
+
+    {provide: WEIGHT_UNIT_CONVERTER, useClass: GramUnitConverter, multi: true},
+    {provide: WEIGHT_UNIT_CONVERTER, useClass: PoundUnitConverter, multi: true},
+
+    {provide: VOLUME_UNIT_CONVERTER, useClass: MilliliterUnitConverter, multi: true},
+    {provide: VOLUME_UNIT_CONVERTER, useClass: FluidOunceUnitConverter, multi: true},
+
+    {provide: TEMPERATURE_UNIT_CONVERTER, useClass: CelsiusConverter, multi: true},
+    {provide: TEMPERATURE_UNIT_CONVERTER, useClass: FahrenheitConverter, multi: true},
+
+    {provide: LENGTH_UNIT_CONVERTER, useClass: CentimeterUnitConverter, multi: true},
+    {provide: LENGTH_UNIT_CONVERTER, useClass: FeetUnitConverter, multi: true},
+
     {provide: MAT_DATE_LOCALE, useValue: getBrowserLanguages()},
   ],
   bootstrap: [AppComponent]

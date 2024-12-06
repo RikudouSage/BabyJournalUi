@@ -224,6 +224,8 @@ export class ActivitiesSummaryComponent implements OnInit {
         && date.getDate() === activityDate.getDate();
     });
     this.summary = JSON.parse(JSON.stringify(this.emptyCategorySummary));
+    this.currentMeasurements = JSON.parse(JSON.stringify(this.emptyMeasurements));
+    this.hasAnyMeasurements = false;
 
     let lastWeight: Date | null = null;
     let lastLength: Date | null = null;

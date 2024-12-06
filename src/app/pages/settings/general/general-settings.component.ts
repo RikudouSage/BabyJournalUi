@@ -1,13 +1,26 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {TitleService} from "../../../services/title.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DatabaseService} from "../../../services/database.service";
 import {AppLanguage} from "../../../types/app-language";
-import {lastValueFrom} from "rxjs";
+import {lastValueFrom, timer} from "rxjs";
 import {getPrimaryBrowserLanguage} from "../../../helper/language";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {toPromise} from "../../../helper/observables";
+import {UnitConverterService} from "../../../services/units/unit-converter.service";
+import {
+  LENGTH_UNIT_CONVERTER,
+  TEMPERATURE_UNIT_CONVERTER,
+  VOLUME_UNIT_CONVERTER,
+  WEIGHT_UNIT_CONVERTER
+} from "../../../dependency-injection/injection-tokens";
+import {UnitConverter} from "../../../services/units/unit-converter";
+
+interface Unit {
+  units: string[];
+  names: string[];
+}
 
 @Component({
   selector: 'app-general',
@@ -17,9 +30,18 @@ import {toPromise} from "../../../helper/observables";
 export class GeneralSettingsComponent implements OnInit {
   public readonly AppLanguage = AppLanguage;
   public languageNames: {[key in AppLanguage]: string} | null = null;
+  public weightUnits: {[key: string]: Unit} | null = null;
+  public volumeUnits: {[key: string]: Unit} | null = null;
+  public temperatureUnits: {[key: string]: Unit} | null = null;
+  public lengthUnits: {[key: string]: Unit} | null = null;
+  public saved: boolean = false;
 
   public settingsForm = new FormGroup({
-    language: <FormControl<AppLanguage>>new FormControl(this.database.getLanguage()),
+    language: new FormControl<AppLanguage>(this.database.getLanguage(), [Validators.required]),
+    weightUnit: new FormControl<string>(this.database.getWeightUnit(), [Validators.required]),
+    volumeUnit: new FormControl<string>(this.database.getVolumeUnit(), [Validators.required]),
+    temperatureUnit: new FormControl<string>(this.database.getTemperatureUnit(), [Validators.required]),
+    lengthUnit: new FormControl<string>(this.database.getLengthUnit(), [Validators.required]),
   });
 
   constructor(
@@ -27,6 +49,10 @@ export class GeneralSettingsComponent implements OnInit {
     private readonly titleService: TitleService,
     private readonly database: DatabaseService,
     private readonly snackBar: MatSnackBar,
+    @Inject(WEIGHT_UNIT_CONVERTER) private readonly weightUnitConverters: UnitConverter[],
+    @Inject(VOLUME_UNIT_CONVERTER) private readonly volumeUnitConverters: UnitConverter[],
+    @Inject(TEMPERATURE_UNIT_CONVERTER) private readonly temperatureUnitConverters: UnitConverter[],
+    @Inject(LENGTH_UNIT_CONVERTER) private readonly lengthUnitConverters: UnitConverter[],
   ) {
   }
 
@@ -39,22 +65,34 @@ export class GeneralSettingsComponent implements OnInit {
       [AppLanguage.Italian]: this.getLanguageName(AppLanguage.Italian),
     };
 
-    this.settingsForm.controls.language.valueChanges.subscribe(async language => {
-      this.database.storeLanguage(language);
-      if (language === AppLanguage.Default) {
-        this.translator.use(getPrimaryBrowserLanguage());
-      } else {
-        this.translator.use(language);
+    this.weightUnits = {};
+    for (const converter of this.weightUnitConverters) {
+      this.weightUnits[converter.id] = {
+        units: converter.units,
+        names: await Promise.all(converter.names.map(async item => await toPromise(this.translator.get(item)))),
       }
-
-      this.snackBar.open(
-        await toPromise(this.translator.get('Successfully saved! App restart might be needed.')),
-        await toPromise(this.translator.get('Dismiss')),
-        {
-          duration: 10_000,
-        },
-      );
-    });
+    }
+    this.volumeUnits = {};
+    for (const converter of this.volumeUnitConverters) {
+      this.volumeUnits[converter.id] = {
+        units: converter.units,
+        names: await Promise.all(converter.names.map(async item => await toPromise(this.translator.get(item)))),
+      }
+    }
+    this.temperatureUnits = {};
+    for (const converter of this.temperatureUnitConverters) {
+      this.temperatureUnits[converter.id] = {
+        units: converter.units,
+        names: await Promise.all(converter.names.map(async item => await toPromise(this.translator.get(item)))),
+      }
+    }
+    this.lengthUnits = {};
+    for (const converter of this.lengthUnitConverters) {
+      this.lengthUnits[converter.id] = {
+        units: converter.units,
+        names: await Promise.all(converter.names.map(async item => await toPromise(this.translator.get(item)))),
+      };
+    }
   }
 
   private getLanguageName(language: AppLanguage): string {
@@ -66,4 +104,38 @@ export class GeneralSettingsComponent implements OnInit {
     return intl.of(language) ?? language;
   }
 
+  public async save(): Promise<void> {
+    if (!this.settingsForm.valid) {
+      // todo handle errors
+      return;
+    }
+
+    const language = this.settingsForm.controls.language.value!;
+    const weightUnit = this.settingsForm.controls.weightUnit.value!;
+    const volumeUnit = this.settingsForm.controls.volumeUnit.value!;
+    const temperatureUnit = this.settingsForm.controls.temperatureUnit.value!;
+    const lengthUnit = this.settingsForm.value.lengthUnit!;
+
+    this.database.storeLanguage(language);
+    if (language === AppLanguage.Default) {
+      this.translator.use(getPrimaryBrowserLanguage());
+    } else {
+      this.translator.use(language);
+    }
+    this.database.setWeightUnit(weightUnit);
+    this.database.setVolumeUnit(volumeUnit);
+    this.database.setTemperatureUnit(temperatureUnit);
+    this.database.setLengthUnit(lengthUnit);
+
+    const timeout = 5_000;
+    this.saved = true;
+    timer(timeout).subscribe(() => this.saved = false);
+    this.snackBar.open(
+      await toPromise(this.translator.get('Successfully saved! App restart might be needed.')),
+      await toPromise(this.translator.get('Dismiss')),
+      {
+        duration: timeout,
+      },
+    );
+  }
 }

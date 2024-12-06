@@ -252,6 +252,38 @@ export class DatabaseService {
     localStorage.setItem('fullActivityStreamLastFetched', date.toISOString());
   }
 
+  public getWeightUnit(): string {
+    return localStorage.getItem('weight_unit') ?? 'g';
+  }
+
+  public setWeightUnit(unit: string): void {
+    localStorage.setItem('weight_unit', unit);
+  }
+
+  public getLengthUnit(): string {
+    return localStorage.getItem('length_unit') ?? 'cm';
+  }
+
+  public setLengthUnit(unit: string): void {
+    localStorage.setItem('length_unit', unit);
+  }
+
+  public getVolumeUnit(): string {
+    return localStorage.getItem('volume_unit') ?? 'ml';
+  }
+
+  public setVolumeUnit(unit: string): void {
+    localStorage.setItem('volume_unit', unit);
+  }
+
+  public getTemperatureUnit(): string {
+    return localStorage.getItem('temperature_unit') ?? '°C';
+  }
+
+  public setTemperatureUnit(unit: string): void {
+    localStorage.setItem('temperature_unit', unit);
+  }
+
   private async open(): Promise<IDBPDatabase> {
     if (this.db === null) {
       this.db = await openDB(this.databaseName, 3, {
