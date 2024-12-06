@@ -1,6 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {DatabaseService} from "../database.service";
 import {
+  LENGTH_UNIT_CONVERTER,
   TEMPERATURE_UNIT_CONVERTER,
   VOLUME_UNIT_CONVERTER,
   WEIGHT_UNIT_CONVERTER
@@ -23,11 +24,12 @@ export class UnitConverterService {
 
   constructor(
     private readonly database: DatabaseService,
-    @Inject(WEIGHT_UNIT_CONVERTER) private readonly weightUnitConverters: UnitConverter[],
-    @Inject(VOLUME_UNIT_CONVERTER) private readonly volumeUnitConverters: UnitConverter[],
-    @Inject(TEMPERATURE_UNIT_CONVERTER) private readonly temperatureUnitConverters: UnitConverter[],
+    @Inject(WEIGHT_UNIT_CONVERTER) weightUnitConverters: UnitConverter[],
+    @Inject(VOLUME_UNIT_CONVERTER) volumeUnitConverters: UnitConverter[],
+    @Inject(TEMPERATURE_UNIT_CONVERTER) temperatureUnitConverters: UnitConverter[],
+    @Inject(LENGTH_UNIT_CONVERTER) lengthUnitConverters: UnitConverter[],
   ) {
-    this.init([...weightUnitConverters, ...volumeUnitConverters, ...temperatureUnitConverters]);
+    this.init([...weightUnitConverters, ...volumeUnitConverters, ...temperatureUnitConverters, ...lengthUnitConverters]);
   }
 
   public convertWeight(defaultUnitAmount: number, unitName: string | null = null): Array<string|number> {

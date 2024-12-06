@@ -120,10 +120,9 @@
   </span>
   <span *ngIf="activity.activityType === ActivityType.Length">
     <span
-      [innerText]="'{{childName}}\'s length was measured, he/she is {{length}}{{unit}}.' | translate:{
+      [innerText]="'{{childName}}\'s length was measured as {{length}}.' | translate:{
         childName: activity.childName,
-        length: activity['length'],
-        unit: 'cm'
+        length: activity['length']! | convertLength | unitToString | async
       }"
     ></span>
     <a routerLink="/activities/length/edit/{{activity.id}}"><mat-icon class="small block ml-1">edit</mat-icon></a>

@@ -13,6 +13,7 @@ export class ConvertLengthPipe implements PipeTransform {
   }
 
   public transform(value: number | string, unitName: string | null = null): ConvertPipeResult {
+    console.log(value, unitName)
     return {
       amounts: this.unitConverter.convertLength(Number(value), unitName),
       units: this.unitConverter.getLengthUnits(unitName),

@@ -120,6 +120,7 @@ import { DatetimeOrNullPipe } from './pipes/datetime-or-null.pipe';
 import { EditMilestoneComponent } from './pages/activities/edit-milestone/edit-milestone.component';
 import {CentimeterUnitConverter} from "./services/units/centimeter.converter";
 import {FeetUnitConverter} from "./services/units/feet.converter";
+import {ConvertLengthPipe} from "./pipes/convert-length.pipe";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -237,6 +238,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     MatButtonToggleModule,
     MatCheckboxModule,
+    ConvertLengthPipe,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
