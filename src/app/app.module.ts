@@ -28,7 +28,7 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {SelectChildComponent} from './pages/children/select-child/select-child.component';
 import {PotentiallyEncryptedValuePipe} from './pipes/potentially-encrypted-value.pipe';
 import {
-  ACTIVITY_CONFIGURATIONS,
+  ACTIVITY_CONFIGURATIONS, LENGTH_UNIT_CONVERTER,
   MEASUREMENTS_ACTIVITY_CONFIGURATIONS,
   MEDICAL_ACTIVITY_CONFIGURATIONS, TEMPERATURE_UNIT_CONVERTER, VOLUME_UNIT_CONVERTER, WEIGHT_UNIT_CONVERTER
 } from "./dependency-injection/injection-tokens";
@@ -118,6 +118,8 @@ import { MilestonesActivityComponent } from './pages/activities/milestones/miles
 import { EnumToStringPipe } from './pipes/enum-to-string.pipe';
 import { DatetimeOrNullPipe } from './pipes/datetime-or-null.pipe';
 import { EditMilestoneComponent } from './pages/activities/edit-milestone/edit-milestone.component';
+import {CentimeterUnitConverter} from "./services/units/centimeter.converter";
+import {FeetUnitConverter} from "./services/units/feet.converter";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `./assets/translations/`, '.json');
@@ -260,6 +262,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     {provide: TEMPERATURE_UNIT_CONVERTER, useClass: CelsiusConverter, multi: true},
     {provide: TEMPERATURE_UNIT_CONVERTER, useClass: FahrenheitConverter, multi: true},
+
+    {provide: LENGTH_UNIT_CONVERTER, useClass: CentimeterUnitConverter, multi: true},
+    {provide: LENGTH_UNIT_CONVERTER, useClass: FeetUnitConverter, multi: true},
 
     {provide: MAT_DATE_LOCALE, useValue: getBrowserLanguages()},
   ],

@@ -260,6 +260,14 @@ export class DatabaseService {
     localStorage.setItem('weight_unit', unit);
   }
 
+  public getLengthUnit(): string {
+    return localStorage.getItem('length_unit') ?? 'cm';
+  }
+
+  public setLengthUnit(unit: string): void {
+    localStorage.setItem('length_unit', unit);
+  }
+
   public getVolumeUnit(): string {
     return localStorage.getItem('volume_unit') ?? 'ml';
   }

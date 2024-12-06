@@ -314,5 +314,8 @@
   "Remember those remarkably grabbable objects called feet {{childName}} discovered recently? Well, turns out they're also very tasty!": "Pamatujete na ty záhadné objekty jménem nohy, jako stvořené k chytání, které {{childName}} nedávno objevil/a? Ukázalo se, že jsou taky velmi chutné!",
   "First tooth": "První zoubek",
   "Alert the tooth fairy! {{childName}} has just sprouted some pearly whites! Brace yourself, the teeth era is coming...": "Upozorněte zoubkovou vílu! {{childName}} má v puse první perličku! Připravte se, éra zubů nastává...",
-  "Donate": "Finanční dary"
+  "Donate": "Finanční dary",
+  "centimeters": "centimetry",
+  "feet": "stopy",
+  "inches": "palce"
 }

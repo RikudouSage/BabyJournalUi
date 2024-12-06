@@ -18,6 +18,7 @@ export class UnitConverterService {
     [UnitConverterType.Weight]: {},
     [UnitConverterType.Volume]: {},
     [UnitConverterType.Temperature]: {},
+    [UnitConverterType.Length]: {},
   };
 
   constructor(
@@ -37,6 +38,16 @@ export class UnitConverterService {
   public getWeightUnits(unitName: string | null = null): string[] {
     unitName ??= this.database.getWeightUnit();
     return this.findConverterById(unitName, UnitConverterType.Weight).units;
+  }
+
+  public convertLength(defaultUnitAmount: number, unitName: string | null = null): Array<string|number> {
+    unitName ??= this.database.getLengthUnit();
+    return this.findConverterById(unitName, UnitConverterType.Length).convertFromDefault(defaultUnitAmount);
+  }
+
+  public getLengthUnits(unitName: string | null = null): string[] {
+    unitName ??= this.database.getLengthUnit();
+    return this.findConverterById(unitName, UnitConverterType.Length).units;
   }
 
   public convertVolume(defaultUnitAmount: number, unitName: string | null = null): Array<string|number> {

@@ -60,6 +60,18 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      @if (lengthUnits !== null) {
+        <mat-form-field>
+          <mat-label>{{"Length units" | translate}}</mat-label>
+          <mat-select formControlName="lengthUnit">
+            @for (option of lengthUnits | keyvalue; track option.key) {
+              <mat-option [value]="option.key">
+                {{option.value.names.join(' ' + ('and' | translate) + ' ')}}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
     </mat-card-content>
   </mat-card>
   <button class="right-corner-fab" mat-fab color="primary" [class.success]="saved">
