@@ -270,7 +270,7 @@
   "Last {{amount}} items": "Posledních {{amount}} položek",
   "{{dateDescription}} {{childName}} doesn't have any health related activities.": "{{dateDescription}} {{childName}} neměl/a žádné aktivity související se zdravím.",
   "{{childName}}'s length was measured as {{length}}.": "{{childName}} byl/a změřen/a, měří {{length}}.",
-  "{{childName}}'s length is {{amount}}{{unit}}": "{{childName}} měří {{amount}} {{unit}}",
+  "{{childName}} is {{amount}} tall": "{{childName}} měří {{amount}}",
   "Translations": "Překlady",
   "Milestones": "Milníky",
   "Milestone": "Milník",
