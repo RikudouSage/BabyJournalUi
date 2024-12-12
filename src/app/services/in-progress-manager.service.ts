@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Signal} from '@angular/core';
 import {ApiService} from "./api.service";
 import {DatabaseService} from "./database.service";
 import {ActivityType} from "../enum/activity-type.enum";
@@ -11,17 +11,23 @@ import {
 import {toPromise} from "../helper/observables";
 import {EncryptorService} from "./encryptor.service";
 import {EncryptedValue} from "../dto/encrypted-value";
+import {GlobalOfflineModeService} from "./global-offline-mode.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InProgressManager {
+  private readonly isOffline: Signal<boolean>;
+
   constructor(
     private readonly api: ApiService,
     private readonly database: DatabaseService,
     private readonly repository: SharedInProgressActivityRepository,
     private readonly encryptor: EncryptorService,
-  ) {}
+    offlineMode: GlobalOfflineModeService,
+  ) {
+    this.isOffline = offlineMode.isOffline;
+  }
 
   public async getInProgress(type: ActivityType): Promise<ActivityInProgress | null> {
     if (await this.useShared()) {
@@ -74,6 +80,10 @@ export class InProgressManager {
   }
 
   private async useShared(): Promise<boolean> {
+    if (this.isOffline()) {
+      return false;
+    }
+
     return <boolean>(await this.api.getSettings())[ParentalUnitSetting.UseSharedInProgress];
   }
 }
